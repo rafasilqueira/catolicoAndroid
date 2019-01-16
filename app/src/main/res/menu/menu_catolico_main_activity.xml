@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ic_share"
+        android:icon="@drawable/ic_share_white"
+        android:title="@string/compartilhe"
+        android:visible="false"
+        app:showAsAction="always"
+        android:orderInCategory="1"/>
+    <item
+        android:id="@+id/ic_favorite_oracao"
+        android:icon="@drawable/ic_like_not_filled"
+        android:title="@string/favorite"
+        android:visible="false"
+        app:showAsAction="always"
+        android:orderInCategory="2"/>
+
+    <item
+        android:id="@+id/ic_options_filter"
+        android:icon="@drawable/ic_filter_white"
+        android:title="@string/filtro"
+        android:visible="false"
+        app:showAsAction="always"
+        android:orderInCategory="3">
+        <menu>
+            <item
+                android:id="@+id/ic_order_by_alfabetical"
+                android:title="A - Z" />
+
+            <item
+                android:id="@+id/ic_order_by_category"
+                android:title="@string/categoria" />
+
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/ic_search"
+        android:icon="@drawable/ic_search_white"
+        android:title="@string/buscar"
+        android:visible="false"
+        app:showAsAction="always"
+        android:orderInCategory="4"/>
+</menu>

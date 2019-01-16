@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">Católico de Fé</string>
+    <string name="support_email">Email: appcatolico@gmail.com</string>
+    <string name="facebook_app_id">168300373762233</string>
+    <string name="fb_login_protocol_scheme">fb168300373762233</string>
+    <string name="facebook_app_id_dev">1479080705526265</string>
+    <string name="fb_login_protocol_scheme_dev">fb1479080705526265</string>
+    <string name="oracao_exemplo">Oracão exemplo</string>
+    <string name="letra_categoria_exemplo">Letra ou Categoria exemplo</string>
+    <string name="categoria_oracao">categoria oracão</string>
+    <string name="titulo_oracao_exemplo">Título oração exemplo</string>
+    <string name="lorem_ipsum_dolor">Lorem ipsum dolor sit amet, consectetur adipiscing
+ elit. Etiam eget ligula eu lectus lobortis condimentum.
+Aliquam nonummy auctor massa. Pellentesque hab
+itant morbi tristique senectus et netus et males
+uada fames ac turpis egestas. Nulla at risus. Quis
+que purus magna, auctor et, sagittis ac, posuere eu,
+lectus. Nam mattis, felis ut adipiscing."</string>
+    <string name="dia_exemplo">00</string>
+    <string name="mes_exemplo">DEZ</string>
+    <string name="dia_mes_exemplo">Domingo</string>
+    <string name="santo_nome">Santo nome</string>
+    <string name="liturgia_exemplo">liturgia exemplo</string>
+    <string name="data_with_day_of_week_example">00/00/0000 DOM</string>
+    <string name="leitura_salmo_ou_evangelho">Leitura Salmo ou Evangelho (passagem biblica)</string>
+    <string name="user_example">usuario exemplo</string>
+    <string name="user_email_example">example@example.com.br</string>
+    <string name="password_tip">senha</string>
+    <string name="email_tip">Email</string>
+    <string name="nenhuma_favorita">Nenhuma oração favorita!</string>
+    <string name="volte_mais_tarde">Volte aqui mais tarde</string>
+    <string name="IOracao_needed">A activity deve implementar IOração</string>
+    <string name="ISanto_needed">A activity deve implementar ISanto</string>
+    <string name="ILiturgia_needed">A activity deve implementar ILiturgia</string>
+    <string name="IUsuario_needed">A activity deve implementar IUsuario</string>
+    <string name="iuho_needed">A activity deve implementar IUhO</string>
+    <string name="general_error">Ocorreu um erro, tente novamente!</string>
+    <string name="cancelado">Cancelado</string>
+    <string name="error_server_connection">Erro de conexão com o servidor!</string>
+    <string name="santo_dia">Santo do dia</string>
+    <string name="liturgia_dia">Liturgia</string>
+    <string name="oracoes">Orações</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="minhas_oracoes">Minhas orações</string>
+    <string name="delete_account_text">Tem certeza que deseja excluir a sua conta ? (Não pode ser desfeito)</string>
+    <string name="delete_account_sucess">Conta excluida com sucesso!</string>
+    <string name="delete_account_error">Ocorreu um erro ao excluir a conta, tente novamente!</string>
+    <string name="sugerir_oracao">Sugerir oração</string>
+    <string name="compartilhe">Compartilhe</string>
+    <string name="avalie_nos">Avalie-nos</string>
+    <string name="about">Sobre</string>
+    <string name="entrar">Entrar</string>
+    <string name="sair">Sair</string>
+    <string name="facebook_register_sucess">usuario facebook cadastrado com sucesso</string>
+    <string name="usuario_facebook_already_register">usuario facebook já cadastrado</string>
+    <string name="user">usuario</string>
+    <string name="user_not_found">Usuário não encontrado!</string>
+    <string name="inscreva_se">Inscreva-se</string>
+    <string name="user_register_sucess">Usuário cadastrado com sucesso!</string>
+    <string name="user_update_sucess">Usuário atualizado com sucesso!</string>
+    <string name="user_register_error">Não foi possivel cadastrar o usuário</string>
+    <string name="user_update_error">Não foi possivel atualizar o usuário</string>
+    <string name="dialog_wait_pt_br">Por favor aguarde ...</string>
+    <string name="wait_pt_br">Aguarde</string>
+    <string name="user_already_exists">Esse email já está cadastrado, tente novamente!</string>
+    <string name="favorite">Favoritar</string>
+    <string name="add_oracao_sucess">Oração Adcionada com sucesso!</string>
+    <string name="add_oracao_error">Ocorreu um erro ao adicionar a oração, tente novamente!</string>
+    <string name="remove_oracao_sucess">Oração removida com sucesso!</string>
+    <string name="remove_oracao_error">Ocorreu um erro ao remover a oração, tente novamente!</string>
+    <string name="selecione">Selecione</string>
+    <string name="todas_as_categorias">Expandir todas as categorias</string>
+    <string name="ocultar_todas_categorias">Agrupar todas as categorias</string>
+    <string name="exemplo_qtde">00 orações</string>
+    <string name="filtro">Filtro</string>
+    <string name="categoria">Categoria</string>
+    <string name="buscar">Buscar</string>
+    <string name="pesquisar">Pesquisar</string>
+    <string name="aguarde">Aguarde</string>
+    <string name="nenhum_resultado">Nenhum resultado!</string>
+    <string name="data_exemplo">00/00/0000</string>
+    <string name="hoje">hoje</string>
+    <string name="versao">Versão</string>
+    <string name="desenvolvido_por">Desenvolvido por:</string>
+    <string name="rz_solucoes">RZ Soluções</string>
+    <string name="catolico_link_app_store">https://play.google.com/store/apps/details?id=rz.com.catolico</string>
+    <string name="conheca_app">Conheça o aplicativo.</string>
+    <string name="nenhum_programa_capaz">Nenhuma programa capaz de abrir este conteudo. Por favor instale um navegador de internet.</string>
+    <string name="certeza_deletar_oracao">Tem certeza que deseja excluir a oração </string>
+    <string name="meus_dados">Meus dados</string>
+    <string name="cheack_user_info">Verifique aqui as suas informações</string>
+    <string name="delete_user_account">Clique aqui para excuir a sua conta</string>
+    <string name="excluir_conta">Excuir conta</string>
+    <string name="senha">Senha</string>
+    <string name="change_user_password">Altere sua senha aqui</string>
+    <string name="change_password_sucess">Senha alterada com sucesso!</string>
+    <string name="change_password_error">Ocorreu um erro ao alterar a senha, tente novamente!</string>
+    <string name="esqueceu_a_senha">Esqueceu a senha ?</string>
+    <string name="reset_password_orientation">Para resetar a sua senha , insira seu email no campo abaixo e pressione o botão resetar.</string>
+    <string name="follow_rules">Siga as instruções enviadas ao seu e-mail.</string>
+    <string name="email_receive_confirmation">Confirme se recebeu o email de reset de senha, em caso de não recebimento verifique a pasta SPAM</string>
+    <string name="reset_password_error">Ocorreu um erro ao resetar a senha, tente novamente!</string>
+    <string name="reset_password_sucess">Senha resetada com sucesso!</string>
+    <string name="facebook_account_reset_instructions">Se você criou uma conta conectando-se através do Facebook, não foi necessário criar uma senha.Você pode continuar a acessar sua conta usando o Botão Facebook.</string>
+    <string name="login_needed_favorite_oracao">É necessário login, para adicionar uma oração favorita.</string>
+</resources>

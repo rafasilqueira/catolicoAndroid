@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/meus_dados">
+    <PreferenceCategory
+        android:key="settings_user"
+        android:title="@string/meus_dados">
+        <Preference
+            android:key="user_informations"
+            android:summary="@string/cheack_user_info"
+            android:title="@string/meus_dados">
+            <!--<intent-->
+                <!--android:action="android.intent.action.VIEW"-->
+                <!--android:targetClass="rz.com.catolico.Activity.InsertEditUserActivity"-->
+                <!--android:targetPackage="rz.com.catolico" />-->
+        </Preference>
+        <Preference
+            android:key="user_password"
+            android:summary="@string/change_user_password"
+            android:title="@string/senha">
+            <!--<intent-->
+                <!--android:action="android.intent.action.VIEW"-->
+                <!--android:targetClass="rz.com.catolico.Activity.InsertEditUserActivity"-->
+                <!--android:targetPackage="rz.com.catolico" />-->
+        </Preference>
+        <Preference
+            android:key="user_delete"
+            android:summary="@string/delete_user_account"
+            android:title="@string/excluir_conta">
+
+        </Preference>
+
+    </PreferenceCategory>
+</PreferenceScreen>
