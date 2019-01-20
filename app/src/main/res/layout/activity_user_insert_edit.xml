@@ -30,7 +30,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_finalizar"
+            android:id="@+id/btnFinalizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Finalizar"
@@ -61,7 +61,7 @@
                     android:layout_marginTop="10dp">
 
                     <android.support.design.widget.TextInputEditText
-                        android:id="@+id/edt_nome"
+                        android:id="@+id/edtNome"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nome de exibição"
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edt_email"
+                    android:id="@+id/edtEmail"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="E-mail"
@@ -88,12 +88,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_old_password"
+                android:id="@+id/textInputLayoutOldPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edt_old_password"
+                    android:id="@+id/edtOldPassword"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Senha antiga"
@@ -104,12 +104,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_password"
+                android:id="@+id/textInputLayoutPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edt_new_password"
+                    android:id="@+id/edtPassword"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
@@ -120,12 +120,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/text_input_confirm_password"
+                android:id="@+id/textInputLayoutConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/edt_password_confirmation"
+                    android:id="@+id/edtPasswordConfirm"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:hint="Confirmar senha"

@@ -26,8 +26,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activiy.CatolicoMainActivity"></activity>
-        <activity android:name=".activiy.LoginScreenActivity"></activity>
+        <activity android:name=".activiy.CatolicoMainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.LoginScreenActivity" android:screenOrientation="portrait"></activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id_dev"/>
 
@@ -45,7 +45,8 @@
                 <data android:scheme="@string/fb_login_protocol_scheme_dev" />
             </intent-filter>
         </activity>
-        <activity android:name=".activiy.InsertEditUserActivity"></activity>
+        <activity android:name=".activiy.InsertEditUserActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.Settings" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

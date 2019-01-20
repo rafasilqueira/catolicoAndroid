@@ -100,6 +100,11 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         when (item.itemId) {
 
             R.id.menu_item_user_profile -> {
+                startActivityForResult(
+                        Intent(
+                                this,
+                                Settings::class.java).putExtra(USER_KEY, usuario),
+                        Activity.ACTIVITY_SETTINGS.code)
             }
 
             R.id.menu_item_oracoes_favoritas -> {
