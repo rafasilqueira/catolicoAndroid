@@ -7,7 +7,8 @@ import rz.com.catolico.R
 class ToastMisc {
 
     companion object {
-        fun generalError(context : Context) = Toast.makeText(context, R.string.general_error,Toast.LENGTH_SHORT).show()
-        fun userNotFound(context :Context) = Toast.makeText(context, R.string.user_not_found, Toast.LENGTH_SHORT).show()
+        fun generalError(context: Context) = Toast.makeText(context, R.string.general_error, Toast.LENGTH_SHORT).show()
+        fun userNotFound(context: Context) = Toast.makeText(context, R.string.user_not_found, Toast.LENGTH_SHORT).show()
+        fun sucess(context: Context) = Toast.makeText(context, R.string.sucess, Toast.LENGTH_SHORT).show()
     }
 }

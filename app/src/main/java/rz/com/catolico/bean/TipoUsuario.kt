@@ -4,7 +4,7 @@ import java.io.Serializable
 
 class TipoUsuario() : Serializable {
 
-    var id: Int = 0
+    var id: Int = 1
     var descricao: String = ""
     var usuarios : List<Usuario> = emptyList()
 

@@ -42,13 +42,13 @@ public class Encrypts {
         //return StringUtils.trim(Base64.encodeBase64String(criptografado));
     }
 
-//    public static String descriptografar(String mensagem, String chave) throws Exception {
-//
-//        final Cipher cipher = getCipher(Cipher.DECRYPT_MODE, chave);
-//        
-//        final byte[] descriptografado = cipher.doFinal(Base64.decodeBase64(mensagem))
-//        return new String(descriptografado, "UTF-8");
-//    }
+    public static String descriptografar(String mensagem, String chave) throws Exception {
+
+        final Cipher cipher = getCipher(Cipher.DECRYPT_MODE, chave);
+
+        final byte[] descriptografado = cipher.doFinal(Base64.decode(mensagem));
+        return new String(descriptografado, "UTF-8");
+    }
 
     private static Cipher getCipher(final int encryptMode, final String chave) throws Exception {
 

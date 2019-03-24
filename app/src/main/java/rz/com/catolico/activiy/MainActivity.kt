@@ -6,6 +6,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.facebook.login.LoginManager
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.orhanobut.hawk.Hawk
 import retrofit2.Call
@@ -39,6 +40,7 @@ class MainActivity : AppCompatActivity(), Login {
             usuario = Hawk.get<Any>(USER_KEY) as Usuario?
             println(usuario)
             if (usuario != null) {
+                println(Gson().toJson(usuario))
                 LoginTask(this, usuario!!, false).execute()
             } else {
                 Hawk.delete(USER_KEY)

@@ -16,14 +16,20 @@ import com.facebook.login.LoginResult
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
+import retrofit2.Call
+import retrofit2.Response
 import rz.com.catolico.AsincTasks.UsuarioTask.LoginTask
 import rz.com.catolico.Exception.CatolicoException
 import rz.com.catolico.R
+import rz.com.catolico.bean.CallBackDialog
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
+import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.Encrypts
-import rz.com.catolico.utils.ValidaCampos
+import rz.com.catolico.utils.ToastMisc
+import rz.com.catolico.utils.ValidaCampos.Companion.isValidEmailAddress
+import rz.com.catolico.utils.ValidaCampos.Companion.isValidPassword
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -33,16 +39,17 @@ class LoginScreenActivity : AppCompatActivity(), Login {
     private var usuario: Usuario? = null
 
 
+    private var callBackManager: CallbackManager? = null;
+
+
+    private var TAG = " LOGIN SCREEN "
+    //private var validador = ValidaCampos();
+
     override fun doLoginSucess(usuario: Usuario) {
         Hawk.put<Any>(USER_KEY, this.usuario)
         setResult(Activity.RESULT_OK, Intent().putExtra(USER_KEY, usuario))
         finish()
     }
-
-
-    private var callBackManager: CallbackManager? = null;
-    private var TAG = " LOGIN SCREEN "
-    private var validador = ValidaCampos();
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -90,14 +97,10 @@ class LoginScreenActivity : AppCompatActivity(), Login {
 
         btn_login_user.setOnClickListener {
             usuario = Usuario();
-            if (validador.isValidEmailAddress(edt_user_email) && validador.isValidPassword(edt_password)) {
+            if (isValidEmailAddress(edt_user_email) && isValidPassword(edt_password)) {
                 usuario?.email = edt_user_email.text.toString()
                 usuario?.password = Encrypts.criptografar(edt_password.text.toString(), Encrypts.CHAVE)
-                try {
-                   LoginTask(this@LoginScreenActivity, usuario!!, true).execute()
-                } catch (exception: CatolicoException) {
-                    exception.printStackTrace()
-                }
+                doLogin(usuario!!)
             }
         }
 
@@ -113,7 +116,7 @@ class LoginScreenActivity : AppCompatActivity(), Login {
                         usuario?.email = `object`.getString("email")
                         usuario?.nome = `object`.getString("name")
                         usuario?.idFacebook = `object`.getString("id")
-                        LoginTask(this@LoginScreenActivity, usuario!!, true).execute()
+                        doLogin(usuario!!)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -138,6 +141,37 @@ class LoginScreenActivity : AppCompatActivity(), Login {
         txt_novo_usuario.setOnClickListener {
             startActivity(Intent(this, InsertEditUserActivity::class.java))
         }
+    }
+
+
+    private fun doLogin(usuario: Usuario) {
+
+        val call: Call<Usuario> = if (usuario.idFacebook != null)
+            RetrofitConfig().usuarioService().getUserFacebook(usuario)
+        else
+            RetrofitConfig().usuarioService().getUser(usuario)
+
+
+        call.enqueue(object : CallBackDialog<Usuario>(this@LoginScreenActivity) {
+
+            override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
+                super.onResponse(call, response)
+                if(response?.body()!=null)
+                    doLoginSucess(response.body()!!)
+                else
+                    ToastMisc.userNotFound(this@LoginScreenActivity)
+
+                println(response?.body())
+
+            }
+
+            override fun onFailure(call: Call<Usuario>, t: Throwable) {
+                super.onFailure(call, t)
+                t.printStackTrace()
+                ToastMisc.generalError(this@LoginScreenActivity)
+            }
+
+        })
 
     }
 
