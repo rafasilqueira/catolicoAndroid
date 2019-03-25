@@ -104,7 +104,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
                         Intent(
                                 this,
                                 Settings::class.java).putExtra(USER_KEY, usuario),
-                        CatolicoActivities.INSERT_EDIT_USER.code)
+                        CatolicoActivities.SETTINGS.code)
             }
 
             R.id.menu_item_oracoes_favoritas -> {
@@ -160,6 +160,10 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
+    fun getIntentUser(data: Intent?):Usuario{
+        return (data?.getSerializableExtra(USER_KEY) as Usuario)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
@@ -167,10 +171,15 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
                 when (requestCode) {
                     CatolicoActivities.LOGIN_SCREEN.code -> {
                         if (data?.getSerializableExtra(USER_KEY) != null) {
-                            usuario = (data?.getSerializableExtra(USER_KEY) as Usuario)
+                            usuario = getIntentUser(data)
                             drawer_layout.openDrawer(GravityCompat.START)
                             setupMenuItemDV()
                         }
+                    }
+
+                    CatolicoActivities.SETTINGS.code ->{
+                        this.usuario = getIntentUser(data)
+                        setupMenuItemDV()
                     }
                 }
             }
@@ -183,7 +192,6 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         setContentView(R.layout.activity_catolico_main)
         Hawk.init(applicationContext).build()
         usuario = intent.getSerializableExtra(USER_KEY) as? Usuario
-        println(usuario)
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()

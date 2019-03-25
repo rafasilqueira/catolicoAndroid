@@ -3,6 +3,7 @@
 package rz.com.catolico.activiy
 
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -25,10 +26,20 @@ class ConfigFragmet : PreferenceFragment(), SharedPreferences.OnSharedPreference
     private var userDeletePreference: Preference? = null
     private var dialogDelete: UserDeleteDialog? = null
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        usuario
         super.onActivityResult(requestCode, resultCode, data)
-        println("aqui")
+        when(resultCode){
+            RESULT_OK ->{
+                this.usuario = (data?.getSerializableExtra(USER_KEY) as Usuario)
+                updateUser(usuario!!)
+            }
+        }
+    }
+
+    fun updateUser(usuario: Usuario){
+        getParent(userDataPreference!!)?.title = usuario?.nome
+        (myActivity as Settings).setUsuario(usuario!!)
     }
 
 
@@ -78,7 +89,8 @@ class ConfigFragmet : PreferenceFragment(), SharedPreferences.OnSharedPreference
                     Intent(
                             activity,
                             InsertEditUserActivity::class.java).putExtra(USER_KEY, usuario),
-                    CatolicoActivities.INSERT_EDIT_USER.code)
+                    CatolicoActivities.INSERT_EDIT_USER.code
+            )
             true
         }
 
@@ -101,7 +113,7 @@ class ConfigFragmet : PreferenceFragment(), SharedPreferences.OnSharedPreference
         }
 
         if (usuario != null) {
-            getParent(userDataPreference!!)?.title = usuario?.nome
+            updateUser(usuario!!)
         }
         val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
         prefs.registerOnSharedPreferenceChangeListener(this)

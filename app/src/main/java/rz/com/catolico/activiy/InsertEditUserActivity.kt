@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.InputFilter
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import com.google.gson.GsonBuilder
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_user_insert_edit.*
@@ -104,6 +105,7 @@ class InsertEditUserActivity : AppCompatActivity() {
         Hawk.init(applicationContext).build()
         usuario = (intent.getSerializableExtra(USER_KEY) as? Usuario)
         changePassword = intent.getBooleanExtra("passwordChange", false)
+        TextView(this@InsertEditUserActivity)
         setupToolbar()
         setFilters()
         setupUserStatus()
