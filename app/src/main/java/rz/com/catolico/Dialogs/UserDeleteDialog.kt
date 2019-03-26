@@ -1,6 +1,5 @@
 package rz.com.catolico.Dialogs
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
@@ -12,7 +11,7 @@ import com.orhanobut.hawk.Hawk
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.MainActivity
+import rz.com.catolico.activiy.SplashScreenActivity
 import rz.com.catolico.activiy.Settings
 import rz.com.catolico.bean.CallBackDialog
 import rz.com.catolico.bean.Usuario
@@ -84,7 +83,7 @@ class UserDeleteDialog : DialogFragment() {
         }
         Hawk.init(mContext!!).build()
         Hawk.delete(USER_KEY)
-        (mContext as Settings).startActivity(Intent((mContext as Settings), MainActivity::class.java)
+        (mContext as Settings).startActivity(Intent((mContext as Settings), SplashScreenActivity::class.java)
                 .putExtra("finish", true)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         )

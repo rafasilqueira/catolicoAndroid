@@ -1,4 +1,4 @@
-package rz.com.catolico.Exception
+package rz.com.catolico.exception
 
 class CatolicoException(message: String?) : RuntimeException(message) {
 
