@@ -104,4 +104,5 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="reset_password_sucess">Senha resetada com sucesso!</string>
     <string name="facebook_account_reset_instructions">Se você criou uma conta conectando-se através do Facebook, não foi necessário criar uma senha.Você pode continuar a acessar sua conta usando o Botão Facebook.</string>
     <string name="login_needed_favorite_oracao">É necessário login, para adicionar uma oração favorita.</string>
+    <string name="sucess">Sucesso.</string>
 </resources>

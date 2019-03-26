@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.enumeration.Activity
+import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
 
@@ -104,7 +104,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
                         Intent(
                                 this,
                                 Settings::class.java).putExtra(USER_KEY, usuario),
-                        Activity.ACTIVITY_SETTINGS.code)
+                        CatolicoActivities.SETTINGS.code)
             }
 
             R.id.menu_item_oracoes_favoritas -> {
@@ -123,7 +123,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
                 if (usuario != null) {
                     endSession()
                 } else {
-                    startActivityForResult(Intent(this, LoginScreenActivity::class.java), Activity.LOGIN_SCREEN.code)
+                    startActivityForResult(Intent(this, LoginScreenActivity::class.java), CatolicoActivities.LOGIN_SCREEN.code)
                 }
             }
         }
@@ -160,17 +160,26 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
+    fun getIntentUser(data: Intent?):Usuario{
+        return (data?.getSerializableExtra(USER_KEY) as Usuario)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
             android.app.Activity.RESULT_OK -> {
                 when (requestCode) {
-                    Activity.LOGIN_SCREEN.code -> {
+                    CatolicoActivities.LOGIN_SCREEN.code -> {
                         if (data?.getSerializableExtra(USER_KEY) != null) {
-                            usuario = (data?.getSerializableExtra(USER_KEY) as Usuario)
+                            usuario = getIntentUser(data)
                             drawer_layout.openDrawer(GravityCompat.START)
                             setupMenuItemDV()
                         }
+                    }
+
+                    CatolicoActivities.SETTINGS.code ->{
+                        this.usuario = getIntentUser(data)
+                        setupMenuItemDV()
                     }
                 }
             }
@@ -183,7 +192,6 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         setContentView(R.layout.activity_catolico_main)
         Hawk.init(applicationContext).build()
         usuario = intent.getSerializableExtra(USER_KEY) as? Usuario
-        println(usuario)
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()

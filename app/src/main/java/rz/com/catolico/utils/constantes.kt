@@ -10,6 +10,8 @@ class Constantes {
         const val TOP_LITURGIAS = "topLiturgias"
         const val DELETE = "delete"
         const val FORGOT_PASSWORD = "forgotPassword"
+        const val SAVE_USER = "save"
+        const val CHANGE_PASSWORD = "changePasswordValidator"
 
         const val SANTOS = "santos/"
         const val ORACOES = "oracoes/"

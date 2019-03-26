@@ -13,7 +13,7 @@ import rz.com.catolico.interfaces.Usuario.Login
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 
-class LoginTask(private val context: Context, private val usuario: Usuario, private val showDialog: Boolean) : AsyncTask<Usuario, Void, Usuario>() {
+class LoginTask(private val context: Context, private val usuario: Usuario, private val showDialog: Boolean) : AsyncTask<Usuario, Void, Usuario>(){
 
     var TAG = "USUARIO TASK"
     var dialog: Dialog? = null
@@ -24,9 +24,11 @@ class LoginTask(private val context: Context, private val usuario: Usuario, priv
     override fun onPreExecute() {
         if (context != null && showDialog) {
             dialog = ProgressDialog.show(context, context.getString(R.string.aguarde), context.getString(R.string.dialog_wait_pt_br))
+
         }
     }
 
+    @Throws(CatolicoException::class)
     override fun doInBackground(vararg params: Usuario?): Usuario? {
         val call: Call<Usuario> = if (usuario.idFacebook != null) {
             RetrofitConfig().usuarioService().getUserFacebook(usuario)
@@ -36,14 +38,22 @@ class LoginTask(private val context: Context, private val usuario: Usuario, priv
 
         try {
             response = call.execute()
-            return response?.body()
+            return if(response?.body()!=null)response?.body()!! else null
         } catch (exception: Exception) {
-            ToastMisc.generalError(context)
+            println(response?.errorBody().toString())
+           /* if(
+
+                    ){
+
+            }*/
+            exception.printStackTrace();
+            //ToastMisc.generalError(context)
             throw CatolicoException(context.getString(R.string.general_error))
         }
 
     }
 
+    @Throws(CatolicoException::class)
     override fun onPostExecute(result: Usuario?) {
         dialog?.dismiss()
         if (context is Login) {
