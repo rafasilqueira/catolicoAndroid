@@ -1,4 +1,4 @@
-package rz.com.catolico.AsincTasks.UsuarioTask
+package rz.com.catolico.asincTasks.UsuarioTask
 
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.AsyncTask
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.Exception.CatolicoException
+import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login

@@ -18,8 +18,6 @@ import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.AsincTasks.UsuarioTask.LoginTask
-import rz.com.catolico.Exception.CatolicoException
 import rz.com.catolico.R
 import rz.com.catolico.bean.CallBackDialog
 import rz.com.catolico.bean.Usuario

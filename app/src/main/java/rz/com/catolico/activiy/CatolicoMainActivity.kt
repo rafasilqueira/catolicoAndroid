@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -23,6 +24,8 @@ import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
+import rz.com.catolico.fragments.SantoFragment
+import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
 
@@ -44,6 +47,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
     private var menuItemFilter: MenuItem? = null
     private var menuItemSearch: MenuItem? = null
     private var doubleBackToExitPressedOnce: Boolean = false
+    private var selectedFragmetn: Fragment? = null
 
 
     fun setupMenuItemDV() {
@@ -96,6 +100,10 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
+    fun setFragment(selectedFragment : Fragment){
+        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, SANTO_FRAGMENT_TAG).commit()
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -137,8 +145,19 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
             LoginManager.getInstance().logOut()
         }
         Hawk.delete(USER_KEY)
-        startActivity(Intent(this, MainActivity::class.java).putExtra("finish", true).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        startActivity(Intent(this, SplashScreenActivity::class.java).putExtra("finish", true).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
         finish()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_catolico_main_activity, menu)
+        menuItemFavoritar = menu?.findItem(R.id.ic_favorite_oracao)
+        menuItemShare = menu?.findItem(R.id.ic_share)
+        menuItemFilter = menu?.findItem(R.id.ic_options_filter)
+        menuItemSearch = menu?.findItem(R.id.ic_search)
+        selectedFragmetn = SantoFragment.instance()
+        setFragment(selectedFragmetn!!)
+        return true
     }
 
     override fun onBackPressed() {
@@ -160,7 +179,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun getIntentUser(data: Intent?):Usuario{
+    fun getIntentUser(data: Intent?): Usuario {
         return (data?.getSerializableExtra(USER_KEY) as Usuario)
     }
 
@@ -177,7 +196,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
                         }
                     }
 
-                    CatolicoActivities.SETTINGS.code ->{
+                    CatolicoActivities.SETTINGS.code -> {
                         this.usuario = getIntentUser(data)
                         setupMenuItemDV()
                     }
@@ -195,6 +214,11 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()
+        bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+
+            true
+        }
+
     }
 
     fun setupDrawerLayout() {
