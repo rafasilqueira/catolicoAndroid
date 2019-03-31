@@ -22,7 +22,7 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
-import rz.com.catolico.bean.Usuario
+import br.com.tupinamba.model.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.fragments.SantoFragment
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG

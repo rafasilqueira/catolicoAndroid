@@ -13,7 +13,7 @@ import android.preference.PreferenceGroup
 import android.preference.PreferenceManager
 import rz.com.catolico.Dialogs.UserDeleteDialog
 import rz.com.catolico.R
-import rz.com.catolico.bean.Usuario
+import br.com.tupinamba.model.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 

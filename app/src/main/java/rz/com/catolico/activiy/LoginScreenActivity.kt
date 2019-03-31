@@ -20,7 +20,7 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.bean.CallBackDialog
-import rz.com.catolico.bean.Usuario
+import br.com.tupinamba.model.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY

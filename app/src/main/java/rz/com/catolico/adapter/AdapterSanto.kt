@@ -8,10 +8,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import br.com.tupinamba.model.bean.Santo
+import com.squareup.picasso.Picasso
 import rz.com.catolico.R
+import java.text.SimpleDateFormat
 
-class AdapterSanto(activity: Activity,fragment: Fragment ,santoArrayList : List<Santo>) : RecyclerView.Adapter<AdapterSanto.ViewHolder>(){
+class AdapterSanto(activity: Activity, santoArrayList: MutableList<Santo>) : RecyclerView.Adapter<AdapterSanto.ViewHolder>() {
 
+    private var santoArrayList: MutableList<Santo>? = null
+    private var activity: Activity? = null
+    private var fragment: Fragment? = null
+    private val formatterComemoracao = SimpleDateFormat("dd/MM")
+
+    constructor(activity: Activity, fragment: Fragment, santoArrayList: MutableList<Santo>) : this(activity, santoArrayList) {
+        this.fragment = fragment
+    }
+
+    init {
+        this.santoArrayList = santoArrayList
+        this.activity = activity
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterSanto.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.adapter_santos, parent, false)
@@ -19,13 +35,27 @@ class AdapterSanto(activity: Activity,fragment: Fragment ,santoArrayList : List<
     }
 
     override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return santoArrayList!!.size
     }
 
-    override fun onBindViewHolder(p0: AdapterSanto.ViewHolder, p1: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun onBindViewHolder(viewHolder: AdapterSanto.ViewHolder, position: Int) {
+        viewHolder.setIsRecyclable(false)
+        val santo = santoArrayList?.get(position)
+        viewHolder.txtSantoNome.text = santo?.nome
+        if (santo?.imgurl != null && !santo.imgurl.equals("")) {
+            Picasso.with(activity)
+                    .load(santo.imgurl)
+                    .placeholder(R.drawable.ic_santo)
+                    .error(R.drawable.ic_santo)
+                    .into(viewHolder.imgSanto)
+        } else {
+            viewHolder.imgSanto.setImageResource(R.drawable.ic_santo)
+        }
 
+        viewHolder.txtSantoComemoracao.text = formatterComemoracao.format(santo?.comemoracao)
+        viewHolder.txtDiaData.text = santo?.diasData.toString()
+
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
