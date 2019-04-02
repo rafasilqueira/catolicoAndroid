@@ -13,14 +13,14 @@ import com.squareup.picasso.Picasso
 import rz.com.catolico.R
 import java.text.SimpleDateFormat
 
-class AdapterSanto(activity: Activity, santoArrayList: MutableList<Santo>) : RecyclerView.Adapter<AdapterSanto.ViewHolder>() {
+class AdapterSanto(activity: Activity, santoArrayList: List<Santo>) : RecyclerView.Adapter<AdapterSanto.ViewHolder>() {
 
-    private var santoArrayList: MutableList<Santo>? = null
+    private var santoArrayList: List<Santo>? = null
     private var activity: Activity? = null
     private var fragment: Fragment? = null
     private val formatterComemoracao = SimpleDateFormat("dd/MM")
 
-    constructor(activity: Activity, fragment: Fragment, santoArrayList: MutableList<Santo>) : this(activity, santoArrayList) {
+    constructor(activity: Activity, fragment: Fragment, santoArrayList: List<Santo>) : this(activity, santoArrayList) {
         this.fragment = fragment
     }
 
@@ -35,7 +35,7 @@ class AdapterSanto(activity: Activity, santoArrayList: MutableList<Santo>) : Rec
     }
 
     override fun getItemCount(): Int {
-        return santoArrayList!!.size
+        return santoArrayList?.size ?: 0
     }
 
     override fun onBindViewHolder(viewHolder: AdapterSanto.ViewHolder, position: Int) {
@@ -58,18 +58,10 @@ class AdapterSanto(activity: Activity, santoArrayList: MutableList<Santo>) : Rec
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var imgSanto: AppCompatImageView
-        var txtSantoNome: TextView
-        var txtSantoComemoracao: TextView
-        var txtDiaData: TextView
-
-        init {
-            imgSanto = itemView.findViewById<View>(R.id.img_santo) as AppCompatImageView
-            txtSantoNome = itemView.findViewById<View>(R.id.txt_santo_nome) as TextView
-            txtSantoComemoracao = itemView.findViewById<View>(R.id.txt_santo_comemoracao) as TextView
-            txtDiaData = itemView.findViewById<View>(R.id.txt_dia_data) as TextView
-        }
+        var imgSanto: AppCompatImageView = itemView.findViewById<View>(R.id.img_santo) as AppCompatImageView
+        var txtSantoNome: TextView = itemView.findViewById<View>(R.id.txt_santo_nome) as TextView
+        var txtSantoComemoracao: TextView = itemView.findViewById<View>(R.id.txt_santo_comemoracao) as TextView
+        var txtDiaData: TextView = itemView.findViewById<View>(R.id.txt_dia_data) as TextView
     }
 
 }

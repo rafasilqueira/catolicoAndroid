@@ -3,6 +3,7 @@ package rz.com.catolico.utils
 class Constantes {
     companion object {
         const val LISTAR = "listar"
+        const val LISTAR_TOP = "listarTop30"
         const val GET_BY_DATE = "getByDate"
         const val SAVE = "saveApp"
         const val LOGIN = "login"

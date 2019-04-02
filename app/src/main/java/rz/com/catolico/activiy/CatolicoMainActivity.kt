@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import br.com.tupinamba.model.bean.Usuario
 import com.facebook.Profile
 import com.facebook.login.LoginManager
 import com.orhanobut.hawk.Hawk
@@ -22,7 +23,6 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
-import br.com.tupinamba.model.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.fragments.SantoFragment
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -47,7 +47,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
     private var menuItemFilter: MenuItem? = null
     private var menuItemSearch: MenuItem? = null
     private var doubleBackToExitPressedOnce: Boolean = false
-    private var selectedFragmetn: Fragment? = null
+    private var selectedFragment: Fragment? = null
 
 
     fun setupMenuItemDV() {
@@ -100,8 +100,8 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun setFragment(selectedFragment : Fragment){
-        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, SANTO_FRAGMENT_TAG).commit()
+    fun setFragment(selectedFragment: Fragment , tag : String) {
+        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -155,8 +155,8 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         menuItemShare = menu?.findItem(R.id.ic_share)
         menuItemFilter = menu?.findItem(R.id.ic_options_filter)
         menuItemSearch = menu?.findItem(R.id.ic_search)
-        selectedFragmetn = SantoFragment.instance()
-        setFragment(selectedFragmetn!!)
+        selectedFragment = SantoFragment.instance()
+        setFragment(selectedFragment!! , SANTO_FRAGMENT_TAG)
         return true
     }
 
@@ -215,7 +215,19 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         setupDrawerLayout()
         setupMenuItemDV()
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
-
+            var TAG : String? = null
+            var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+            when (menuItem.itemId) {
+                R.id.action_item1 -> {
+                    selectedFragment = SantoFragment.instance()
+                    TAG = SANTO_FRAGMENT_TAG
+                }
+            }
+            val fm = supportFragmentManager
+            /*for (i in 0 until fm.backStackEntryCount) {
+                fm.popBackStack()
+            }*/
+            setFragment(selectedFragment!! , TAG!!)
             true
         }
 
