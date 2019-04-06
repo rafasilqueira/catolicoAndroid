@@ -3,25 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_marginBottom="10dp"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal"
+        android:layout_gravity="center"
         android:layout_marginLeft="05dp"
-        android:layout_gravity="center">
+        android:layout_weight="1"
+        android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,8 +31,8 @@
                 <android.support.v7.widget.AppCompatImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    app:srcCompat="@drawable/ic_calendar_black_24dp"
-                    android:layout_marginRight="05dp"/>
+                    android:layout_marginRight="05dp"
+                    app:srcCompat="@drawable/ic_calendar_black_24dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -48,31 +48,50 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
+
                     <TextView
                         android:id="@+id/txt_santo_nome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
-                        android:textStyle="bold"
                         android:text="@string/santo_nome"
                         android:textColor="@android:color/black"
-                        />
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/txt_dia_data"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/hoje"
-                        android:textColor="@android:color/darker_gray" />
+                        android:orientation="horizontal">
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/img_star"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginRight="05dp"
+                            android:text="*"
+                            android:textColor="@color/dourado"
+                            android:textSize="40dp"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/ic_star" />
+
+                        <TextView
+                            android:id="@+id/txt_dia_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hoje"
+                            android:textColor="@android:color/darker_gray" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
-
 
 
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,13 +102,13 @@
             android:id="@+id/img_santo"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:paddingBottom="05dp"
+            android:layout_gravity="end"
             android:paddingLeft="05dp"
-            android:paddingRight="05dp"
             android:paddingTop="05dp"
+            android:paddingRight="05dp"
+            android:paddingBottom="05dp"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/ic_santo"
-            android:layout_gravity="end"/>
+            app:srcCompat="@drawable/ic_santo" />
 
     </LinearLayout>
 

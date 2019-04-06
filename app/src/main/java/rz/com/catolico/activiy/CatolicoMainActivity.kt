@@ -100,7 +100,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun setFragment(selectedFragment: Fragment , tag : String) {
+    fun setFragment(selectedFragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
     }
 
@@ -149,6 +149,24 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         finish()
     }
 
+    fun setupFragmentMenuIcon(fragment: Fragment) {
+        disableAllFragmentIcons()
+        when (fragment) {
+            is SantoFragment -> {
+                menuItemSearch?.isVisible = true
+            }
+        }
+
+
+    }
+
+    fun disableAllFragmentIcons() {
+        menuItemFavoritar?.isVisible = false
+        menuItemShare?.isVisible = false
+        menuItemFilter?.isVisible = false
+        menuItemSearch?.isVisible = false
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_catolico_main_activity, menu)
         menuItemFavoritar = menu?.findItem(R.id.ic_favorite_oracao)
@@ -156,7 +174,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         menuItemFilter = menu?.findItem(R.id.ic_options_filter)
         menuItemSearch = menu?.findItem(R.id.ic_search)
         selectedFragment = SantoFragment.instance()
-        setFragment(selectedFragment!! , SANTO_FRAGMENT_TAG)
+        setFragment(selectedFragment!!, SANTO_FRAGMENT_TAG)
         return true
     }
 
@@ -215,7 +233,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
         setupDrawerLayout()
         setupMenuItemDV()
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
-            var TAG : String? = null
+            var TAG: String? = null
             var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {
                 R.id.action_item1 -> {
@@ -227,7 +245,7 @@ class CatolicoMainActivity : AppCompatActivity(), OnNavigationItemSelectedListen
             /*for (i in 0 until fm.backStackEntryCount) {
                 fm.popBackStack()
             }*/
-            setFragment(selectedFragment!! , TAG!!)
+            setFragment(selectedFragment!!, TAG!!)
             true
         }
 
