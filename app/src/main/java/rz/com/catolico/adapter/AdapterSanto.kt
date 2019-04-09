@@ -1,45 +1,64 @@
 package rz.com.catolico.adapter
 
-import android.app.Activity
-import android.support.v4.app.Fragment
-import android.support.v7.widget.AppCompatImageView
+import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import br.com.tupinamba.model.bean.Santo
+import com.squareup.picasso.Picasso
 import rz.com.catolico.R
+import rz.com.catolico.fragments.FragmentAbstract
+import java.text.SimpleDateFormat
+import rz.com.catolico.utils.ActivityUtils.Companion.getResourceString
 
-class AdapterSanto(activity: Activity,fragment: Fragment ,santoArrayList : List<Santo>) : RecyclerView.Adapter<AdapterSanto.ViewHolder>(){
+class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo>(context, mItems) {
 
+    private var fragmentAbstract: FragmentAbstract<Santo>? = null
+    private val formatterComemoracao = SimpleDateFormat("dd/MM")
+    val TODAY : String = getResourceString(context,R.string.hoje)
+    val DAYS_TO_DATE : String = getResourceString(context,R.string.days_qtde)
+    val IS_TODAY : Int = 0
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterSanto.ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.adapter_santos, parent, false)
-        return ViewHolder(v)
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: List<Santo>) : this(context, mItems) {
+        this.fragmentAbstract = fragmentAbstract
     }
 
-    override fun getItemCount(): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun getDaysToDate(days : Int) : String{
+        return if (days == IS_TODAY) TODAY else getResourceString(context,R.string.at) + " %02d ".format(days) + DAYS_TO_DATE
     }
 
-    override fun onBindViewHolder(p0: AdapterSanto.ViewHolder, p1: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.adapter_santos, parent, false)
+        return VHSanto(context, view)
     }
 
+    override fun onBindData(holder: RecyclerView.ViewHolder, santo: Santo) {
+        val view: VHSanto
+        holder.setIsRecyclable(false)
+        if (holder is VHSanto) {
+            view = holder
+            view.txtSantoNome.text = santo.nome
+            view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
+            view.txtDiaData.text = getDaysToDate(santo.diasData)
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            if(santo.diasData == IS_TODAY){
+                view.imgStar.visibility = View.VISIBLE
+            }
 
-        var imgSanto: AppCompatImageView
-        var txtSantoNome: TextView
-        var txtSantoComemoracao: TextView
-        var txtDiaData: TextView
+            if (santo.imgurl != null && !santo.imgurl.equals("")) {
+                Picasso.with(context)
+                        .load(santo.imgurl)
+                        .placeholder(R.drawable.ic_santo)
+                        .error(R.drawable.ic_santo)
+                        .into(view.imgSanto)
+            }
 
-        init {
-            imgSanto = itemView.findViewById<View>(R.id.img_santo) as AppCompatImageView
-            txtSantoNome = itemView.findViewById<View>(R.id.txt_santo_nome) as TextView
-            txtSantoComemoracao = itemView.findViewById<View>(R.id.txt_santo_comemoracao) as TextView
-            txtDiaData = itemView.findViewById<View>(R.id.txt_dia_data) as TextView
+            view.setOnClickListener(View.OnClickListener {
+                fragmentAbstract?.itemClickListenr(santo)
+            })
         }
+
     }
 
 }

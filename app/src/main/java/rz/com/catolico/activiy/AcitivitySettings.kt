@@ -1,0 +1,33 @@
+package rz.com.catolico.activiy
+
+import android.app.Activity
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.fragments.FragmetConfig
+import rz.com.catolico.utils.Constantes.Companion.USER_KEY
+
+class AcitivitySettings : AppCompatActivity() {
+
+    private var usuario: Usuario? = null
+
+    fun setUsuario(usuario: Usuario){
+        this.usuario = usuario;
+    }
+
+    override fun onBackPressed() {
+        setResult(Activity.RESULT_OK,Intent().putExtra(USER_KEY,usuario))
+        super.onBackPressed()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        usuario = intent.getSerializableExtra(USER_KEY) as Usuario
+        val fragment = FragmetConfig.createInstance(usuario!!)
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, "configFragment")
+                .commit()
+    }
+}

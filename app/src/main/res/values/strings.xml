@@ -38,6 +38,7 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="cancelado">Cancelado</string>
     <string name="error_server_connection">Erro de conexão com o servidor!</string>
     <string name="santo_dia">Santo do dia</string>
+    <string name="santo_search_result">Nenhum santo encontrado ... </string>
     <string name="liturgia_dia">Liturgia</string>
     <string name="oracoes">Orações</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -81,6 +82,8 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="nenhum_resultado">Nenhum resultado!</string>
     <string name="data_exemplo">00/00/0000</string>
     <string name="hoje">hoje</string>
+    <string name="at">em</string>
+    <string name="days_qtde"> dias</string>
     <string name="versao">Versão</string>
     <string name="desenvolvido_por">Desenvolvido por:</string>
     <string name="rz_solucoes">RZ Soluções</string>

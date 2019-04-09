@@ -45,7 +45,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/data_exemplo"
                         android:textColor="@color/red"
-                        android:textSize="22sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -58,13 +58,31 @@
                         android:textSize="22sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/txt_dia_data"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/hoje"
-                        android:textColor="@android:color/darker_gray"
-                        android:textSize="20sp" />
+                        android:orientation="horizontal">
+
+
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/img_star"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_marginRight="05dp"
+                            android:textSize="40dp"
+                            app:srcCompat="@drawable/ic_star"
+                            android:visibility="gone"
+                            />
+
+                        <TextView
+                            android:id="@+id/txt_dia_data"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/hoje"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
 
                 </LinearLayout>
             </LinearLayout>
