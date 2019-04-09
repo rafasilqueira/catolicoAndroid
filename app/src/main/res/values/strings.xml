@@ -38,6 +38,7 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="cancelado">Cancelado</string>
     <string name="error_server_connection">Erro de conexão com o servidor!</string>
     <string name="santo_dia">Santo do dia</string>
+    <string name="santo_search_result">Nenhum santo encontrado ... </string>
     <string name="liturgia_dia">Liturgia</string>
     <string name="oracoes">Orações</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

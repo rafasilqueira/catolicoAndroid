@@ -5,30 +5,30 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.fragments.AbstractFragment
+import rz.com.catolico.fragments.FragmentAbstract
 
 
 open class CallBackFragment<T>(fragment: Fragment) : Callback<T> {
 
-    private var abstractFragment: AbstractFragment<*> = (fragment as AbstractFragment<*>)
+    private var fragmentAbstract: FragmentAbstract<*> = (fragment as FragmentAbstract<*>)
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
-            this.abstractFragment.changeView(R.layout.abstract_recycler_view)
+            this.fragmentAbstract.changeView(R.layout.abstract_recycler_view)
         }
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         t.printStackTrace()
-        this.abstractFragment?.changeView(R.layout.erro_screen_top)
+        this.fragmentAbstract?.changeView(R.layout.erro_screen_top)
     }
 
     init {
-        if(fragment is AbstractFragment<*>){
-            this.abstractFragment = abstractFragment
+        if(fragment is FragmentAbstract<*>){
+            this.fragmentAbstract = fragmentAbstract
 
         }
-        abstractFragment?.changeView(R.layout.load_screen_fragment)
+        fragmentAbstract?.changeView(R.layout.load_screen_fragment)
     }
 
 }

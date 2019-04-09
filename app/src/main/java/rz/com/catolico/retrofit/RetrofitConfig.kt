@@ -25,16 +25,6 @@ class RetrofitConfig {
         }
     })
 
-
-
-// Register an adapter to manage the date types as long values
-
-    /*builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
-        public Date deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return new Date(json.getAsJsonPrimitive().getAsLong());
-        }
-    });*/
-
     private val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(builder.create()))
@@ -45,7 +35,7 @@ class RetrofitConfig {
         return retrofit.create(UsuarioService::class.java)
     }
 
-    fun getSantoService(): SantoService {
+    fun santoService(): SantoService {
         return retrofit.create(SantoService::class.java)
     }
 

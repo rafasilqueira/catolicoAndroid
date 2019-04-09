@@ -20,15 +20,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activiy.SplashScreenActivity">
+        <activity android:name=".activiy.AcitivitySplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activiy.CatolicoMainActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activiy.LoginScreenActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.ActivityCatolicoMain" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.AcitivityLoginScreen" android:screenOrientation="portrait"></activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id_dev"/>
 
@@ -46,8 +46,9 @@
                 <data android:scheme="@string/fb_login_protocol_scheme_dev" />
             </intent-filter>
         </activity>
-        <activity android:name=".activiy.InsertEditUserActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activiy.Settings" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.AcitivityInsertEditUser" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.ActivitySanto" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.AcitivitySettings" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

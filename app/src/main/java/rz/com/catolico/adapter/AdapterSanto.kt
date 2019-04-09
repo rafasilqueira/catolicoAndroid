@@ -8,20 +8,20 @@ import android.view.ViewGroup
 import br.com.tupinamba.model.bean.Santo
 import com.squareup.picasso.Picasso
 import rz.com.catolico.R
-import rz.com.catolico.fragments.AbstractFragment
+import rz.com.catolico.fragments.FragmentAbstract
 import java.text.SimpleDateFormat
 import rz.com.catolico.utils.ActivityUtils.Companion.getResourceString
 
 class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo>(context, mItems) {
 
-    private var fragment: AbstractFragment<Santo>? = null
+    private var fragmentAbstract: FragmentAbstract<Santo>? = null
     private val formatterComemoracao = SimpleDateFormat("dd/MM")
     val TODAY : String = getResourceString(context,R.string.hoje)
     val DAYS_TO_DATE : String = getResourceString(context,R.string.days_qtde)
     val IS_TODAY : Int = 0
 
-    constructor(context: Context, fragment: AbstractFragment<Santo>, mItems: List<Santo>) : this(context, mItems) {
-        this.fragment = fragment
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: List<Santo>) : this(context, mItems) {
+        this.fragmentAbstract = fragmentAbstract
     }
 
     fun getDaysToDate(days : Int) : String{
@@ -38,7 +38,7 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
         holder.setIsRecyclable(false)
         if (holder is VHSanto) {
             view = holder
-            view.txtSantoNome.text = santo.descricao
+            view.txtSantoNome.text = santo.nome
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
             view.txtDiaData.text = getDaysToDate(santo.diasData)
 
@@ -55,7 +55,7 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragment?.itemClickListenr(santo)
+                fragmentAbstract?.itemClickListenr(santo)
             })
         }
 

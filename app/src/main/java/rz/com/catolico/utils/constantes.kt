@@ -2,11 +2,14 @@ package rz.com.catolico.utils
 
 class Constantes {
     companion object {
-        const val LISTAR = "listar"
-        const val LISTAR_TOP = "listarTop30"
-        const val GET_BY_DATE = "getByDate"
-        const val SAVE = "saveApp"
+
+        //SANTO
+        const val LISTAR_TOP = "top"
+        const val CELEBRATION= "celebration"
+
+        //USER
         const val LOGIN = "login"
+        const val SAVE = "saveApp"
         const val LOGINFACEBOOK = "loginFacebook"
         const val TOP_LITURGIAS = "topLiturgias"
         const val DELETE = "delete"

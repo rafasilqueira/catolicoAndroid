@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_star" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../../backup/Catolico Front End/Corel/star.svg" />
+                            <entry key="outputName" value="ic_hand_prayer" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../../backup/Catolico Front End/Corel/Hand Prayer.svg" />
                           </map>
                         </option>
                       </PersistentState>
