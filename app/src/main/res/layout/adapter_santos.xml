@@ -40,7 +40,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/txt_santo_comemoracao"
+                        android:id="@+id/txtSantoComemoracao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/data_exemplo"
@@ -50,7 +50,7 @@
 
 
                     <TextView
-                        android:id="@+id/txt_santo_nome"
+                        android:id="@+id/txtSantoNome"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLines="2"
@@ -76,7 +76,7 @@
                             app:srcCompat="@drawable/ic_star" />
 
                         <TextView
-                            android:id="@+id/txt_dia_data"
+                            android:id="@+id/txtDiasData"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/hoje"

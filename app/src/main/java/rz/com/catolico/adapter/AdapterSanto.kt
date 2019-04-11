@@ -9,23 +9,15 @@ import br.com.tupinamba.model.bean.Santo
 import com.squareup.picasso.Picasso
 import rz.com.catolico.R
 import rz.com.catolico.fragments.FragmentAbstract
-import java.text.SimpleDateFormat
-import rz.com.catolico.utils.ActivityUtils.Companion.getResourceString
+import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
+import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
 
 class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo>(context, mItems) {
 
     private var fragmentAbstract: FragmentAbstract<Santo>? = null
-    private val formatterComemoracao = SimpleDateFormat("dd/MM")
-    val TODAY : String = getResourceString(context,R.string.hoje)
-    val DAYS_TO_DATE : String = getResourceString(context,R.string.days_qtde)
-    val IS_TODAY : Int = 0
 
     constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: List<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
-    }
-
-    fun getDaysToDate(days : Int) : String{
-        return if (days == IS_TODAY) TODAY else getResourceString(context,R.string.at) + " %02d ".format(days) + DAYS_TO_DATE
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,9 +32,9 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view = holder
             view.txtSantoNome.text = santo.nome
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
-            view.txtDiaData.text = getDaysToDate(santo.diasData)
+            view.txtDiaData.text = getDaysToDate(context, santo.diasData)
 
-            if(santo.diasData == IS_TODAY){
+            if (santo.diasData == 0) {
                 view.imgStar.visibility = View.VISIBLE
             }
 

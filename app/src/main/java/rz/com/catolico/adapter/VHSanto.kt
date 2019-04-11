@@ -22,9 +22,9 @@ class VHSanto(private val mContext: Context, private val mView: View) : Recycler
     var imgStar : AppCompatImageView
 
     init {
-        txtSantoNome = mView.findViewById(R.id.txt_santo_nome)
-        txtDiaData = mView.findViewById(R.id.txt_dia_data)
-        txtComemoracao = mView.findViewById(R.id.txt_santo_comemoracao)
+        txtSantoNome = mView.findViewById(R.id.txtSantoNome)
+        txtDiaData = mView.findViewById(R.id.txtDiasData)
+        txtComemoracao = mView.findViewById(R.id.txtSantoComemoracao)
         imgSanto = mView.findViewById(R.id.img_santo)
         imgStar = mView.findViewById(R.id.img_star)
     }

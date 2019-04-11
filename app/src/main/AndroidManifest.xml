@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activiy.AcitivityInsertEditUser" android:screenOrientation="portrait"></activity>
-        <activity android:name=".activiy.ActivitySanto" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.ActivitySanto"></activity>
         <activity android:name=".activiy.AcitivitySettings" android:screenOrientation="portrait"></activity>
     </application>
 
