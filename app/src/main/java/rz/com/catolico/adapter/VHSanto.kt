@@ -18,15 +18,15 @@ class VHSanto(private val mContext: Context, private val mView: View) : Recycler
     var txtSantoNome: TextView
     var txtDiaData: TextView
     var txtComemoracao: TextView
-    var imgSanto: ImageView
-    var imgStar : AppCompatImageView
+    var imgSanto: AppCompatImageView
+    var txtIsSantoDia : TextView
 
     init {
-        txtSantoNome = mView.findViewById(R.id.txtSantoNome)
-        txtDiaData = mView.findViewById(R.id.txtDiasData)
-        txtComemoracao = mView.findViewById(R.id.txtSantoComemoracao)
+        txtSantoNome = mView.findViewById(R.id.txt_santo_nome)
+        txtDiaData = mView.findViewById(R.id.txt_dias_data)
+        txtComemoracao = mView.findViewById(R.id.txt_santo_comemoracao)
         imgSanto = mView.findViewById(R.id.img_santo)
-        imgStar = mView.findViewById(R.id.img_star)
+        txtIsSantoDia = mView.findViewById(R.id.txt_is_santo_dia)
     }
 
     fun setOnClickListener(listener: View.OnClickListener?) {

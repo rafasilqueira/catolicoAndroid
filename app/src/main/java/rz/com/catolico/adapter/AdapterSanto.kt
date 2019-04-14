@@ -35,14 +35,12 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view.txtDiaData.text = getDaysToDate(context, santo.diasData)
 
             if (santo.diasData == 0) {
-                view.imgStar.visibility = View.VISIBLE
+                view.txtIsSantoDia.visibility = View.VISIBLE
             }
 
             if (santo.imgurl != null && !santo.imgurl.equals("")) {
                 Picasso.with(context)
                         .load(santo.imgurl)
-                        .placeholder(R.drawable.ic_santo)
-                        .error(R.drawable.ic_santo)
                         .into(view.imgSanto)
             }
 
