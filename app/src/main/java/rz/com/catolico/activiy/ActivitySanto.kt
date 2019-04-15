@@ -37,7 +37,7 @@ class ActivitySanto : AppCompatActivity() {
         santo = intent.getSerializableExtra("santo") as Santo
         setContentView(R.layout.activity_santo)
         setupToolbar()
-        Picasso.with(this@ActivitySanto)
+        /*Picasso.with(this@ActivitySanto)
                 .load(santo?.imgurl)
                 .placeholder(R.drawable.ic_santo)
                 .error(R.drawable.ic_santo)
@@ -46,7 +46,7 @@ class ActivitySanto : AppCompatActivity() {
         title = santo?.nome
         txtSantoNome.text = santo?.nome
         txtDiasData.text = getDaysToDate(this, santo!!.diasData)
-        txtSantoComemoracao.text = formatterComemoracao.format(santo?.comemoracao)
+        txtSantoComemoracao.text = formatterComemoracao.format(santo?.comemoracao)*/
         txtSantoDescription.text = santo?.descricao
     }
 }

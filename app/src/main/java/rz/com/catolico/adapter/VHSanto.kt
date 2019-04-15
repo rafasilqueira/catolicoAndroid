@@ -2,11 +2,10 @@ package rz.com.catolico.adapter
 
 import android.content.Context
 import android.support.v7.widget.AppCompatImageView
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
-
 import rz.com.catolico.R
 
 /**
@@ -19,14 +18,19 @@ class VHSanto(private val mContext: Context, private val mView: View) : Recycler
     var txtDiaData: TextView
     var txtComemoracao: TextView
     var imgSanto: AppCompatImageView
-    var txtIsSantoDia : TextView
+    var txtIsSantoDia: TextView
+    var cardView: CardView
+    var txtDescricao : TextView
 
     init {
+        cardView = mView.findViewById(R.id.contact_card_view)
         txtSantoNome = mView.findViewById(R.id.txt_santo_nome)
         txtDiaData = mView.findViewById(R.id.txt_dias_data)
         txtComemoracao = mView.findViewById(R.id.txt_santo_comemoracao)
         imgSanto = mView.findViewById(R.id.img_santo)
         txtIsSantoDia = mView.findViewById(R.id.txt_is_santo_dia)
+        txtDescricao = mView.findViewById(R.id.txt_santo_descricao)
+        txtDescricao.visibility = View.GONE
     }
 
     fun setOnClickListener(listener: View.OnClickListener?) {

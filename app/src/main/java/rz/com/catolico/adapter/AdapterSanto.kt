@@ -33,6 +33,7 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view.txtSantoNome.text = santo.nome
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
             view.txtDiaData.text = getDaysToDate(context, santo.diasData)
+            view.txtDescricao.text = santo.descricao
 
             if (santo.diasData == 0) {
                 view.txtIsSantoDia.visibility = View.VISIBLE
@@ -45,7 +46,7 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.itemClickListenr(santo)
+                view.txtDescricao.visibility = if (view.txtDescricao.visibility == View.GONE) View.VISIBLE else View.GONE
             })
         }
 
