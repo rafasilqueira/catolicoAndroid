@@ -16,7 +16,6 @@ class AcitivitySplashScreen : AppCompatActivity(), Login {
 
 
     override fun doLoginSucess(usuario: Usuario) {
-        //System.out.println(GsonBuilder().setPrettyPrinting().create().toJson(usuario))
         startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java).putExtra(USER_KEY, usuario))
         finish()
     }

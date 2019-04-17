@@ -9,23 +9,15 @@ import br.com.tupinamba.model.bean.Santo
 import com.squareup.picasso.Picasso
 import rz.com.catolico.R
 import rz.com.catolico.fragments.FragmentAbstract
-import java.text.SimpleDateFormat
-import rz.com.catolico.utils.ActivityUtils.Companion.getResourceString
+import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
+import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
 
 class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo>(context, mItems) {
 
     private var fragmentAbstract: FragmentAbstract<Santo>? = null
-    private val formatterComemoracao = SimpleDateFormat("dd/MM")
-    val TODAY : String = getResourceString(context,R.string.hoje)
-    val DAYS_TO_DATE : String = getResourceString(context,R.string.days_qtde)
-    val IS_TODAY : Int = 0
 
     constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: List<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
-    }
-
-    fun getDaysToDate(days : Int) : String{
-        return if (days == IS_TODAY) TODAY else getResourceString(context,R.string.at) + " %02d ".format(days) + DAYS_TO_DATE
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -40,25 +32,64 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view = holder
             view.txtSantoNome.text = santo.nome
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
-            view.txtDiaData.text = getDaysToDate(santo.diasData)
+            view.txtDiaData.text = getDaysToDate(context, santo.diasData)
+            view.txtDescricao.text = santo.descricao
 
-            if(santo.diasData == IS_TODAY){
-                view.imgStar.visibility = View.VISIBLE
-            }
+            setupIcons(view, santo)
 
             if (santo.imgurl != null && !santo.imgurl.equals("")) {
-                Picasso.with(context)
-                        .load(santo.imgurl)
-                        .placeholder(R.drawable.ic_santo)
-                        .error(R.drawable.ic_santo)
-                        .into(view.imgSanto)
+                Picasso.with(context).load(santo.imgurl).into(view.imgSanto)
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.itemClickListenr(santo)
+                view.txtDescricao.visibility = if (view.txtDescricao.visibility == View.GONE) View.VISIBLE else View.GONE
             })
-        }
 
+            view.prayButton.setOnClickListener {
+
+            }
+
+            view.shareButton.setOnClickListener {
+
+            }
+
+            view.favoriteButton.setOnClickListener {
+
+            }
+        }
+    }
+
+    private fun setupIcons(view: VHSanto, santo: Santo) {
+        setupFavoriteIcon(view)
+        setupPrayIcon(view, santo)
+        setupSantoDia(view, santo)
+    }
+
+    private fun setupPrayIcon(view: VHSanto, santo: Santo) {
+        if (santo.oracoes.isEmpty()) {
+            view.divideLineOne.visibility = View.GONE
+            view.prayButton.visibility = View.GONE
+            view.txtPrayQty.visibility = View.GONE
+        } else {
+            view.txtPrayQty.text = getOracoesQty(santo)
+        }
+    }
+
+    private fun setupFavoriteIcon(view: VHSanto) {
+        if (!isUserLogged) {
+            view.favoriteButton.visibility = View.GONE
+            view.dividerLineTwo.visibility = View.GONE
+        }
+    }
+
+    private fun setupSantoDia(view: VHSanto, santo: Santo) {
+        if (santo.diasData == 0) {
+            view.txtIsSantoDia.visibility = View.VISIBLE
+        }
+    }
+
+    private fun getOracoesQty(santo: Santo): String {
+        return " %02d ".format((santo.oracoes?.size ?: 0).toString())
     }
 
 }

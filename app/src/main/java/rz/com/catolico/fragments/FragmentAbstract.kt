@@ -51,7 +51,7 @@ abstract class FragmentAbstract<T> : Fragment() {
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        view = inflater.inflate(R.layout.abstract_recycler_view, container, false) as ViewGroup
+        view = inflater.inflate(R.layout.recycler_view_abstract, container, false) as ViewGroup
         mInflater = inflater
         mContainer = container
         loadData()
