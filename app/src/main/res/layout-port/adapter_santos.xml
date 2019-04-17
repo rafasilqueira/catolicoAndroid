@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintLeft_toRightOf="@+id/img_santo"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="4dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintLeft_toRightOf="@+id/img_santo"
@@ -91,7 +91,7 @@
                 app:layout_constraintLeft_toRightOf="@+id/txt_dias_data" />
 
             <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/favourite_button"
+                android:id="@+id/favorite_button"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginRight="4dp"
@@ -135,7 +135,7 @@
                 android:layout_marginRight="05dp"
                 android:background="@android:color/darker_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/favourite_button" />
+                app:layout_constraintRight_toLeftOf="@+id/favorite_button" />
 
             <android.support.v7.widget.AppCompatImageButton
                 android:id="@+id/pray_button"

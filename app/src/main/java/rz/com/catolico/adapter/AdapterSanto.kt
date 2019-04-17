@@ -35,21 +35,61 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view.txtDiaData.text = getDaysToDate(context, santo.diasData)
             view.txtDescricao.text = santo.descricao
 
-            if (santo.diasData == 0) {
-                view.txtIsSantoDia.visibility = View.VISIBLE
-            }
+            setupIcons(view, santo)
 
             if (santo.imgurl != null && !santo.imgurl.equals("")) {
-                Picasso.with(context)
-                        .load(santo.imgurl)
-                        .into(view.imgSanto)
+                Picasso.with(context).load(santo.imgurl).into(view.imgSanto)
             }
 
             view.setOnClickListener(View.OnClickListener {
                 view.txtDescricao.visibility = if (view.txtDescricao.visibility == View.GONE) View.VISIBLE else View.GONE
             })
-        }
 
+            view.prayButton.setOnClickListener {
+
+            }
+
+            view.shareButton.setOnClickListener {
+
+            }
+
+            view.favoriteButton.setOnClickListener {
+
+            }
+        }
+    }
+
+    private fun setupIcons(view: VHSanto, santo: Santo) {
+        setupFavoriteIcon(view)
+        setupPrayIcon(view, santo)
+        setupSantoDia(view, santo)
+    }
+
+    private fun setupPrayIcon(view: VHSanto, santo: Santo) {
+        if (santo.oracoes.isEmpty()) {
+            view.divideLineOne.visibility = View.GONE
+            view.prayButton.visibility = View.GONE
+            view.txtPrayQty.visibility = View.GONE
+        } else {
+            view.txtPrayQty.text = getOracoesQty(santo)
+        }
+    }
+
+    private fun setupFavoriteIcon(view: VHSanto) {
+        if (!isUserLogged) {
+            view.favoriteButton.visibility = View.GONE
+            view.dividerLineTwo.visibility = View.GONE
+        }
+    }
+
+    private fun setupSantoDia(view: VHSanto, santo: Santo) {
+        if (santo.diasData == 0) {
+            view.txtIsSantoDia.visibility = View.VISIBLE
+        }
+    }
+
+    private fun getOracoesQty(santo: Santo): String {
+        return " %02d ".format((santo.oracoes?.size ?: 0).toString())
     }
 
 }

@@ -1,6 +1,7 @@
 package rz.com.catolico.adapter
 
 import android.content.Context
+import android.support.v7.widget.AppCompatImageButton
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -21,6 +22,12 @@ class VHSanto(private val mContext: Context, private val mView: View) : Recycler
     var txtIsSantoDia: TextView
     var cardView: CardView
     var txtDescricao : TextView
+    var favoriteButton : AppCompatImageButton
+    var prayButton : AppCompatImageButton
+    var shareButton : AppCompatImageButton
+    var divideLineOne : View
+    var dividerLineTwo : View
+    var txtPrayQty : TextView
 
     init {
         cardView = mView.findViewById(R.id.contact_card_view)
@@ -31,6 +38,12 @@ class VHSanto(private val mContext: Context, private val mView: View) : Recycler
         txtIsSantoDia = mView.findViewById(R.id.txt_is_santo_dia)
         txtDescricao = mView.findViewById(R.id.txt_santo_descricao)
         txtDescricao.visibility = View.GONE
+        favoriteButton = mView.findViewById(R.id.favorite_button)
+        prayButton = mView.findViewById(R.id.pray_button)
+        shareButton = mView.findViewById(R.id.share_button)
+        divideLineOne = mView.findViewById(R.id.divider_line)
+        dividerLineTwo = mView.findViewById(R.id.divider_line_2)
+        txtPrayQty = mView.findViewById(R.id.txt_prayers_qty)
     }
 
     fun setOnClickListener(listener: View.OnClickListener?) {
