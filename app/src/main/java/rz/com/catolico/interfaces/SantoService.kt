@@ -1,6 +1,6 @@
 package rz.com.catolico.interfaces
 
-import br.com.tupinamba.model.bean.Santo
+import rz.com.catolico.bean.Santo
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

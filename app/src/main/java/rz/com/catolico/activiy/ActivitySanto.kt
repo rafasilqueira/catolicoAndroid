@@ -4,12 +4,9 @@ import android.app.Activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import br.com.tupinamba.model.bean.Santo
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_santo.*
 import rz.com.catolico.R
-import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
-import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
+import rz.com.catolico.bean.Santo
 
 class ActivitySanto : AppCompatActivity() {
 
@@ -47,6 +44,6 @@ class ActivitySanto : AppCompatActivity() {
         txtSantoNome.text = santo?.nome
         txtDiasData.text = getDaysToDate(this, santo!!.diasData)
         txtSantoComemoracao.text = formatterComemoracao.format(santo?.comemoracao)*/
-        txtSantoDescription.text = santo?.descricao
+        //txtSantoDescription.text = santo?.descricao
     }
 }

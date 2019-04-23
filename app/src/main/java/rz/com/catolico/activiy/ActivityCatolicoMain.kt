@@ -15,7 +15,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 import com.facebook.Profile
 import com.facebook.login.LoginManager
 import com.orhanobut.hawk.Hawk
@@ -48,6 +48,10 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     private var menuItemSearch: MenuItem? = null
     private var doubleBackToExitPressedOnce: Boolean = false
     private var selectedFragment: Fragment? = null
+
+    fun getIntentUser(): Usuario? {
+        return intent.getSerializableExtra(USER_KEY) as? Usuario
+    }
 
 
     fun setupMenuItemDV() {
@@ -141,26 +145,26 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-        when(item?.itemId){
-            R.id.ic_favorite_oracao ->{
+        when (item?.itemId) {
+            R.id.ic_favorite_oracao -> {
 
             }
 
-            R.id.ic_share ->{
+            R.id.ic_share -> {
 
             }
 
-            R.id.ic_order_by_category ->{
+            R.id.ic_order_by_category -> {
 
             }
 
-            R.id.ic_order_by_alfabetical ->{
+            R.id.ic_order_by_alfabetical -> {
 
             }
 
-            R.id.ic_search ->{
-                when(fragment){
-                    is FragmentSanto ->{
+            R.id.ic_search -> {
+                when (fragment) {
+                    is FragmentSanto -> {
                         fragment.showDialogDatePicker()
                     }
                 }
@@ -258,7 +262,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_catolico_main)
         Hawk.init(applicationContext).build()
-        usuario = intent.getSerializableExtra(USER_KEY) as? Usuario
+        usuario = getIntentUser()
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()

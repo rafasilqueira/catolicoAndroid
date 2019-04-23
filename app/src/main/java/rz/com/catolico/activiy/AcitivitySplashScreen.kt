@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
 import rz.com.catolico.asincTasks.UsuarioTask.LoginTask
 import rz.com.catolico.R
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 

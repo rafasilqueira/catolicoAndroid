@@ -18,9 +18,9 @@ import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
 import retrofit2.Call
 import retrofit2.Response
+import rz.com.catolico.CallBack.CallBackDialog
 import rz.com.catolico.R
-import rz.com.catolico.bean.CallBackDialog
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
@@ -154,7 +154,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
 
             override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
                 super.onResponse(call, response)
-                if(response?.body()!=null)
+                if (response?.body() != null)
                     doLoginSucess(response.body()!!)
                 else
                     ToastMisc.userNotFound(this@AcitivityLoginScreen)

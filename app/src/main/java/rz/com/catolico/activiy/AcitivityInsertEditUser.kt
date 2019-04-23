@@ -13,9 +13,9 @@ import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_user_insert_edit.*
 import retrofit2.Call
 import retrofit2.Response
+import rz.com.catolico.CallBack.CallBackDialog
 import rz.com.catolico.R
-import rz.com.catolico.bean.CallBackDialog
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.Encrypts

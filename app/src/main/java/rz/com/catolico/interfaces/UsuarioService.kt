@@ -4,7 +4,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.utils.Constantes.Companion.DELETE
 import rz.com.catolico.utils.Constantes.Companion.FORGOT_PASSWORD
 import rz.com.catolico.utils.Constantes.Companion.LOGIN
