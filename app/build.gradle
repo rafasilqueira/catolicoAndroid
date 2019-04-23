@@ -8,7 +8,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "rz.com.catolico"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -38,7 +38,7 @@ android {
 
 repositories {
     jcenter()
-    mavenLocal()
+    /*mavenLocal()*/
 }
 
 dependencies {
@@ -61,5 +61,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:converter-jackson:2.3.0'
     implementation "com.orhanobut:hawk:2.0.1"
-    implementation "br.com.tupinamba:CatolicoModelAPI:1.0-SNAPSHOT"
+    implementation group: 'org.apache.axis', name: 'axis', version: '1.4'
+    /*implementation "br.com.tupinamba:CatolicoModelAPI:1.0-SNAPSHOT"*/
 }

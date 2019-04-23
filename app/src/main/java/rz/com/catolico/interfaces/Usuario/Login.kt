@@ -1,6 +1,6 @@
 package rz.com.catolico.interfaces.Usuario
 
-import br.com.tupinamba.model.bean.Usuario
+import rz.com.catolico.bean.Usuario
 
 interface Login {
 

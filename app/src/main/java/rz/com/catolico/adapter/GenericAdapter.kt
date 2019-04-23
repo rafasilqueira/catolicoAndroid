@@ -3,6 +3,7 @@ package rz.com.catolico.adapter
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.utils.ActivityUtils.Companion.isUserLogged
 
 import java.util.ArrayList
@@ -11,6 +12,7 @@ abstract class GenericAdapter<T>(val context: Context, mItems: List<T>?) : Recyc
 
     private val mItems: List<T> = mItems ?: ArrayList()
     protected var isUserLogged : Boolean = isUserLogged(context)
+    protected var usuario =  (context as ActivityCatolicoMain).getIntentUser()
 
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 
