@@ -5,23 +5,31 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import rz.com.catolico.bean.Santo
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.R
 import rz.com.catolico.CallBack.CallBackDialog
+import rz.com.catolico.R
+import rz.com.catolico.bean.Santo
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
+import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
 import rz.com.catolico.utils.ToastMisc
 
-class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo>(context, mItems) {
+class AdapterSanto(context: Context, mItems: MutableList<Santo>) : GenericAdapter<Santo>(context, mItems), IFavorite<Santo> {
 
     private var fragmentAbstract: FragmentAbstract<Santo>? = null
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: List<Santo>) : this(context, mItems) {
+    init {
+        if (usuario != null && usuario?.uhs?.isNotEmpty()!!) {
+            super.syncronizeFavorites(mItems, usuario?.uhs!!)
+        }
+    }
+
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: MutableList<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
     }
 
@@ -39,6 +47,7 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
             view.txtDiaData.text = getDaysToDate(context, santo.diasData!!)
             view.txtDescricao.text = santo.descricao
+            if (santo.favorite) { view.favoriteButton.setImageResource(R.drawable.ic_favorite_star_selected) }
 
             setupIcons(view, santo)
 
@@ -60,19 +69,27 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
 
             view.favoriteButton.setOnClickListener {
                 if (usuario != null) {
-                    addOrRemoveSanto(santo)
-                    val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(usuario!!)
+                    var userClone = usuario?.clone() as Usuario
+
+                    if (santo.favorite) userClone?.removeSanto(santo)
+                    else userClone?.addSanto(santo)
+
+                    val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone!!)
                     call.enqueue(object : CallBackDialog<Boolean>(context) {
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             super.onResponse(call, response)
+                            //b?.length ?: -1
+                            santo.favorite = santo?.favorite
                             ToastMisc.sucess(this@AdapterSanto.context)
+                            notifyDataSetChanged()
                         }
 
                         override fun onFailure(call: Call<Boolean>, t: Throwable) {
                             super.onFailure(call, t)
                             ToastMisc.generalError(this@AdapterSanto.context)
                         }
+
                     })
                 }
             }
@@ -110,16 +127,6 @@ class AdapterSanto(context: Context, mItems: List<Santo>) : GenericAdapter<Santo
 
     private fun getOracoesQty(santo: Santo): String {
         return " %02d ".format((santo.oracoes?.size ?: 0).toString())
-    }
-
-    private fun addOrRemoveSanto(santo: Santo) {
-        /*if (usuario != null) {
-            if (usuario?.uhs?.filter { it == santo }?.firstOrNull() == null) {
-                usuario?.addSanto(santo)
-            } else {
-                usuario?.removeSanto(santo)
-            }
-        }*/
     }
 
 }

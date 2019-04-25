@@ -15,14 +15,14 @@ abstract class FragmentAbstract<T> : Fragment() {
 
     protected var parentActivityCatolicoMain: ActivityCatolicoMain? = null
     protected var recyclerView: RecyclerView? = null
-    protected var mList: List<T>? = null
+    protected var mList: MutableList<T>? = null
     private var view: ViewGroup? = null
     private var mInflater: LayoutInflater? = null
     private var mContainer: ViewGroup? = null
 
     abstract fun loadData()
 
-    abstract fun setupAdapter(list: List<T>)
+    abstract fun setupAdapter(list: MutableList<T>)
 
     abstract fun itemClickListenr(type: T)
 

@@ -98,7 +98,7 @@
                 android:background="?selectableItemBackground"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/divider_line"
-                app:srcCompat="@drawable/ic_favorite_star_gray_24dp" />
+                app:srcCompat="@drawable/ic_favorite_star_unselected" />
 
             <View
                 android:id="@+id/divider_line"

@@ -1,18 +1,21 @@
 package rz.com.catolico.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
 import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.utils.ActivityUtils.Companion.isUserLogged
+import rz.com.catolico.utils.Constantes
 
 import java.util.ArrayList
 
-abstract class GenericAdapter<T>(val context: Context, mItems: List<T>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class GenericAdapter<T>(val context: Context, mItems: MutableList<T>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mItems: List<T> = mItems ?: ArrayList()
     protected var isUserLogged : Boolean = isUserLogged(context)
-    protected var usuario =  (context as ActivityCatolicoMain).getIntentUser()
+    protected var usuario =  (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as? Usuario
 
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 

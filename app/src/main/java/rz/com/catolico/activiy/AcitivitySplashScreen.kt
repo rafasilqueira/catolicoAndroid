@@ -29,9 +29,9 @@ class AcitivitySplashScreen : AppCompatActivity(), Login {
         val handle = Handler()
         handle.postDelayed({
             usuario = Hawk.get<Any>(USER_KEY) as Usuario?
-            println(usuario)
+            //println(usuario)
             if (usuario != null) {
-                println(Gson().toJson(usuario))
+                //println(Gson().toJson(usuario))
                 LoginTask(this, usuario!!, false).execute()
             } else {
                 Hawk.delete(USER_KEY)

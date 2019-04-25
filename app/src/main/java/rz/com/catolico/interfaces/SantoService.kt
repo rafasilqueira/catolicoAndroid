@@ -11,9 +11,9 @@ import rz.com.catolico.utils.Constantes.Companion.SANTOS
 interface SantoService {
 
     @GET(SANTOS + LISTAR_TOP)
-    fun getLatests(): Call<List<Santo>>
+    fun getLatests(): Call<MutableList<Santo>>
 
-    @GET(SANTOS + CELEBRATION+"/{celebration}")
-    fun getByCelebrationDate(@Path("celebration")celebration : Long): Call<List<Santo>>
+    @GET("$SANTOS$CELEBRATION/{celebration}")
+    fun getByCelebrationDate(@Path("celebration")celebration : Long): Call<MutableList<Santo>>
 
 }

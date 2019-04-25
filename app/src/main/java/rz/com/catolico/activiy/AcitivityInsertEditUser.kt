@@ -128,7 +128,7 @@ class AcitivityInsertEditUser : AppCompatActivity() {
                 } else {
                     if (changePassword) {
                         var storagePassword = decrypt((Hawk.get(USER_KEY) as Usuario)?.password!!)
-                        println(storagePassword)
+                        //println(storagePassword)
                         if (changePasswordValidator(storagePassword, edtOldPassword, edtPassword, edtPasswordConfirm))
                             usuario?.password = encryptPassword(edtPassword.text.toString())
                         else
@@ -137,7 +137,7 @@ class AcitivityInsertEditUser : AppCompatActivity() {
                 }
                 usuario?.nome = nome
                 usuario?.email = email
-                println(GsonBuilder().setPrettyPrinting().create().toJson(usuario))
+                //println(GsonBuilder().setPrettyPrinting().create().toJson(usuario))
                 saveUpdateUser(usuario!!)
             }
         }

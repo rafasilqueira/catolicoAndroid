@@ -65,7 +65,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             txtUserName?.text = usuario?.nome
             txtUserEmail?.text = usuario?.email
             if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain)) {
-                println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
+                //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
                 val profile = Profile.getCurrentProfile()
                 Picasso.with(this@ActivityCatolicoMain).load(profile?.getProfilePictureUri(200, 200).toString()).placeholder(R.drawable.ic_account_circle_white_96dp).error(R.drawable.ic_account_circle_white_96dp).into(imgUser)
             }
