@@ -11,18 +11,18 @@ class Usuario : BaseEntityName(), Serializable,Cloneable {
     var newPassword: String? = null
     var tipoUsuario: TipoUsuario? = null
     var oracoes: MutableList<Oracao> = ArrayList()
-    var uhs: MutableList<Santo> = ArrayList()
+    var santos: MutableList<Santo> = ArrayList()
 
     fun addOracao(oracao: Oracao) {
         oracoes.add(oracao)
     }
 
     fun addSanto(santo: Santo) {
-        uhs.add(santo)
+        santos.add(santo)
     }
 
     fun removeSanto(santo: Santo){
-        uhs.remove(santo)
+        santos.remove(santo)
     }
 
     fun removeOracao(oracao: Oracao){

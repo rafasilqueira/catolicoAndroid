@@ -19,5 +19,6 @@ class SantoUtils() {
             if (days < 0) howManyDays = ActivityUtils.getResourceString(context, R.string.ha) + " %02d ".format(days) + DAYS_TO_DATE
             return howManyDays!!
         }
+
     }
 }

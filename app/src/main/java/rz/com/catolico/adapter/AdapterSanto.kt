@@ -19,13 +19,13 @@ import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
 import rz.com.catolico.utils.ToastMisc
 
-class AdapterSanto(context: Context, mItems: MutableList<Santo>) : GenericAdapter<Santo>(context, mItems), IFavorite<Santo> {
+class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavorite<Santo> {
 
     private var fragmentAbstract: FragmentAbstract<Santo>? = null
 
     init {
-        if (usuario != null && usuario?.uhs?.isNotEmpty()!!) {
-            super.syncronizeFavorites(mItems, usuario?.uhs!!)
+        if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
+            super.syncronizeFavorites(mItems, usuario?.santos!!)
         }
     }
 
@@ -71,16 +71,18 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : GenericAdapte
                 if (usuario != null) {
                     var userClone = usuario?.clone() as Usuario
 
-                    if (santo.favorite) userClone?.removeSanto(santo)
-                    else userClone?.addSanto(santo)
+                    if (santo.favorite) {
+                        userClone.removeSanto(santo)
+                    } else {
+                        userClone.addSanto(santo)
+                    }
 
                     val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone!!)
                     call.enqueue(object : CallBackDialog<Boolean>(context) {
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             super.onResponse(call, response)
-                            //b?.length ?: -1
-                            santo.favorite = santo?.favorite
+                            santo.favorite = !santo?.favorite
                             ToastMisc.sucess(this@AdapterSanto.context)
                             notifyDataSetChanged()
                         }
@@ -126,7 +128,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : GenericAdapte
     }
 
     private fun getOracoesQty(santo: Santo): String {
-        return " %02d ".format((santo.oracoes?.size ?: 0).toString())
+        return "%02d".format((santo.oracoes?.size))
     }
 
 }

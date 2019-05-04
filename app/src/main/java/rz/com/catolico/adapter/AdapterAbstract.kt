@@ -11,7 +11,7 @@ import rz.com.catolico.utils.Constantes
 
 import java.util.ArrayList
 
-abstract class GenericAdapter<T>(val context: Context, mItems: MutableList<T>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class AdapterAbstract<T>(val context: Context, mItems: MutableList<T>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val mItems: List<T> = mItems ?: ArrayList()
     protected var isUserLogged : Boolean = isUserLogged(context)

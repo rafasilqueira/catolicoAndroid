@@ -11,7 +11,6 @@ import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.Toast
 import rz.com.catolico.bean.Santo
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
@@ -112,8 +111,6 @@ class FragmentSanto : FragmentAbstract<Santo>() {
 
 
         dialogDatePicker!!.findViewById<View>(R.id.btn_search_liturgia).setOnClickListener {
-            //println(datePicker.dayOfMonth)
-            //println(calendar.time)
             val dateToSearch = calendar.timeInMillis
             val call = RetrofitConfig().santoService().getByCelebrationDate(dateToSearch)
             call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivityCatolicoMain as Context) {
