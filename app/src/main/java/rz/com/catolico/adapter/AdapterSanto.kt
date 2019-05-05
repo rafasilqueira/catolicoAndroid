@@ -34,7 +34,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.adapter_santos, parent, false)
+        val view = LayoutInflater.from(context).inflate(R.layout.adapter_santo, parent, false)
         return VHSanto(context, view)
     }
 

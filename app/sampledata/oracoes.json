@@ -1,0 +1,22 @@
+{
+  "comment": "Nomes de santos - santos.json",
+  "names": [
+    {
+      "short_names": [
+        { "name": "São Francisco de Assis" },
+        { "name": "São José" },
+        { "name": "São Judas Tadeu" },
+        { "name": "São Jorge" },
+        { "name": "São Pedro" },
+        { "name": "Santa Rita de Cassia" },
+        { "name": "Santa Maria" }
+      ],
+      "categories_example": [
+        { "name": "Maria" },
+        { "name": "Santos" },
+        { "name": "Novenas" },
+        { "name": "Eucaristia" }
+      ]
+    }
+  ]
+}

@@ -39,10 +39,13 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         if (holder is VHOracao) {
             view = holder
             view.txtOracao?.text = oracao.nome
-            view.txtOracao?.text = oracao.categoriaOracao?.nome
+            view.txtCategoria?.text = oracao.categoriaOracao?.nome
+
             if (oracao.favorite) {
                 view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_selected)
             }
+
+
 
             view.favoriteButton?.setOnClickListener {
                 if (usuario != null) {

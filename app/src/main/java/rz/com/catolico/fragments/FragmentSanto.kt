@@ -22,7 +22,7 @@ import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 
-class FragmentSanto : FragmentAbstract<Santo>() {
+class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
@@ -56,7 +56,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
 
     override fun setupAdapter(list: MutableList<Santo>) {
         setupRecyclerView()
-        adapterSanto = AdapterSanto(parentActivityCatolicoMain!!, this@FragmentSanto, list!!)
+        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list!!)
         recyclerView?.adapter = adapterSanto
     }
 
@@ -73,7 +73,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
         window!!.setAttributes(lp)
         val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterSanto(parentActivityCatolicoMain!!, this, list)
+        recyclerView.adapter = AdapterSanto(parentActivity!!, this, list)
         dialogResult.show()
         dialogResult.setCanceledOnTouchOutside(true)
     }
@@ -113,7 +113,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
         dialogDatePicker!!.findViewById<View>(R.id.btn_search_liturgia).setOnClickListener {
             val dateToSearch = calendar.timeInMillis
             val call = RetrofitConfig().santoService().getByCelebrationDate(dateToSearch)
-            call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivityCatolicoMain as Context) {
+            call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivity as Context) {
 
                 override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                     super.onResponse(call, response)
@@ -122,12 +122,12 @@ class FragmentSanto : FragmentAbstract<Santo>() {
                         showDialogDatePickerResult(response.body()!!)
                         dialogDatePicker?.dismiss()
                     }else{
-                        Toast.makeText(parentActivityCatolicoMain!!,R.string.santo_search_result,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(parentActivity!!,R.string.santo_search_result,Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
-                    ToastMisc.generalError(parentActivityCatolicoMain!!)
+                    ToastMisc.generalError(parentActivity!!)
                     super.onFailure(call, t)
                 }
             })
@@ -138,7 +138,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
     }
 
     override fun itemClickListenr(type: Santo) {
-        startActivity(Intent(parentActivityCatolicoMain!!,ActivitySanto::class.java).putExtra("santo",type))
+        startActivity(Intent(parentActivity!!,ActivitySanto::class.java).putExtra("santo",type))
     }
 
 }

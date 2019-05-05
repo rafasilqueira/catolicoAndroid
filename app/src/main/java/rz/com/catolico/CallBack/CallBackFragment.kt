@@ -14,7 +14,7 @@ open class CallBackFragment<T>(fragment: Fragment) : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
-            this.fragmentAbstract.changeView(R.layout.recycler_view_abstract)
+            this.fragmentAbstract.changeView(R.layout.recycler_view_adapter_santo)
         }
     }
 

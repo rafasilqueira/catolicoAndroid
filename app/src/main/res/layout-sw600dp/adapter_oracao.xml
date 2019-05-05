@@ -38,7 +38,7 @@
                 tools:text="@sample/santos.json/names/short_names/name" />
 
             <TextView
-                android:id="@+id/txt_santo_comemoracao"
+                android:id="@+id/txt_categoria"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

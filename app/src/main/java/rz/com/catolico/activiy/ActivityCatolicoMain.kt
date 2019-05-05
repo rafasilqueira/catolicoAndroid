@@ -15,7 +15,6 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
-import rz.com.catolico.bean.Usuario
 import com.facebook.Profile
 import com.facebook.login.LoginManager
 import com.orhanobut.hawk.Hawk
@@ -23,8 +22,11 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
+import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
@@ -270,10 +272,21 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             var TAG: String? = null
             var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {
-                R.id.action_item1 -> {
+                R.id.action_load_saynts -> {
                     selectedFragment = FragmentSanto.instance()
                     TAG = SANTO_FRAGMENT_TAG
                 }
+
+                R.id.action_load_liturgia -> {
+
+                }
+
+                R.id.action_load_prays -> {
+                    selectedFragment = FragmentOracao.instance()
+                    TAG = ORACAO_FRAGMENT_TAG
+                }
+
+
             }
             val fm = supportFragmentManager
             /*for (i in 0 until fm.backStackEntryCount) {

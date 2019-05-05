@@ -3,6 +3,7 @@ package rz.com.catolico.retrofit
 import com.google.gson.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import rz.com.catolico.interfaces.OracaoService
 import rz.com.catolico.interfaces.SantoService
 import rz.com.catolico.interfaces.UsuarioService
 import java.lang.reflect.Type
@@ -44,6 +45,10 @@ class RetrofitConfig {
 
     fun santoService(): SantoService {
         return retrofit.create(SantoService::class.java)
+    }
+
+    fun OracaoService(): OracaoService {
+        return retrofit.create(OracaoService::class.java)
     }
 
 }

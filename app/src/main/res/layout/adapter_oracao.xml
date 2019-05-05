@@ -35,7 +35,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@sample/santos.json/names/short_names/name" />
+                tools:text="@sample/oracoes.json/names/short_names/name" />
 
             <TextView
                 android:id="@+id/txt_categoria"
@@ -47,7 +47,7 @@
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintTop_toBottomOf="@+id/txt_oracao"
                 app:layout_constraintLeft_toLeftOf="parent"
-                tools:text="@sample/santos.json/names/datas_exemplo/data" />
+                tools:text="@sample/oracoes.json/names/categories_example/name" />
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_favorite_pray"
@@ -60,7 +60,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="HardcodedText"
-                tools:srcCompat="@drawable/ic_favorite_heart_unselected" />
+                app:srcCompat="@drawable/ic_favorite_heart_unselected" />
 
         </android.support.constraint.ConstraintLayout>
 
