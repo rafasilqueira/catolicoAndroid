@@ -12,7 +12,7 @@
 
         <item
             android:id="@+id/menu_item_oracoes_favoritas"
-            android:icon="@drawable/ic_hearth_black_36dp"
+            android:icon="@drawable/ic_hearth_drawer_menu_36dp"
             android:title="@string/minhas_oracoes" />
 
         <item

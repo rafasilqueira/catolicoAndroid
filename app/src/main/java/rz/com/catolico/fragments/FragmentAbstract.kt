@@ -11,29 +11,30 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 
-abstract class FragmentAbstract<T> : Fragment() {
+abstract class FragmentAbstract<T>(viewToLoad :Int) : Fragment() {
 
-    protected var parentActivityCatolicoMain: ActivityCatolicoMain? = null
+    protected var parentActivity: ActivityCatolicoMain? = null
     protected var recyclerView: RecyclerView? = null
-    protected var mList: List<T>? = null
+    protected var mList: MutableList<T> = ArrayList()
     private var view: ViewGroup? = null
     private var mInflater: LayoutInflater? = null
     private var mContainer: ViewGroup? = null
+    private var initialView = viewToLoad
 
     abstract fun loadData()
 
-    abstract fun setupAdapter(list: List<T>)
+    abstract fun setupAdapter(list: MutableList<T>)
 
     abstract fun itemClickListenr(type: T)
 
     fun disableAllIcons(){
-        parentActivityCatolicoMain?.disableAllFragmentIcons()
+        parentActivity?.disableAllFragmentIcons()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        this.parentActivityCatolicoMain = context as ActivityCatolicoMain
-        parentActivityCatolicoMain?.setupFragmentMenuIcon(this@FragmentAbstract)
+        this.parentActivity = context as ActivityCatolicoMain
+        parentActivity?.setupFragmentMenuIcon(this@FragmentAbstract)
     }
 
     fun changeView(layout: Int) {
@@ -44,14 +45,14 @@ abstract class FragmentAbstract<T> : Fragment() {
 
     protected fun setupRecyclerView() {
         recyclerView = view?.findViewById(R.id.recyclerview)
-        var llm = LinearLayoutManager(parentActivityCatolicoMain)
+        var llm = LinearLayoutManager(parentActivity)
         llm.orientation = LinearLayoutManager.VERTICAL
         recyclerView?.layoutManager = llm
     }
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        view = inflater.inflate(R.layout.recycler_view_abstract, container, false) as ViewGroup
+        view = inflater.inflate(initialView, container, false) as ViewGroup
         mInflater = inflater
         mContainer = container
         loadData()

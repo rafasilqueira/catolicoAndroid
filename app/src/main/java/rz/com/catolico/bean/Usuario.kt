@@ -2,7 +2,7 @@ package rz.com.catolico.bean
 
 import java.io.Serializable
 
-class Usuario : BaseEntityName(), Serializable {
+class Usuario : BaseEntityName(), Serializable,Cloneable {
 
     var idFacebook: String? = null
     var email: String? = null
@@ -10,11 +10,33 @@ class Usuario : BaseEntityName(), Serializable {
     var oldPassword: String? = null
     var newPassword: String? = null
     var tipoUsuario: TipoUsuario? = null
-    var oracoes: List<Oracao>? = null
-    var uhs: MutableList<Oracao> = ArrayList()
+    var oracoes: MutableList<Oracao> = ArrayList()
+    var santos: MutableList<Santo> = ArrayList()
 
-    fun addOracao(oracao:Oracao){
-        uhs?.add(oracao)
+    fun addOracao(oracao: Oracao) {
+        oracoes.add(oracao)
+    }
+
+    fun addSanto(santo: Santo) {
+        santos.add(santo)
+    }
+
+    fun removeSanto(santo: Santo){
+        santos.remove(santo)
+    }
+
+    fun removeOracao(oracao: Oracao){
+        oracoes.remove(oracao)
+    }
+
+    public override fun clone(): Any {
+        return try {
+            super.clone()
+        } catch (e: CloneNotSupportedException) {
+            println("Cloning not allowed.")
+            this
+        }
+
     }
 
 }

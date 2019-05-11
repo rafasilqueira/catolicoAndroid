@@ -40,7 +40,7 @@ class LoginTask(private val context: Context, private val usuario: Usuario, priv
             response = call.execute()
             return if(response?.body()!=null)response?.body()!! else null
         } catch (exception: Exception) {
-            println(response?.errorBody().toString())
+            //println(response?.errorBody().toString())
            /* if(
 
                     ){

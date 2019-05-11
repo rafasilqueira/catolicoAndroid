@@ -11,7 +11,6 @@ import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.Toast
 import rz.com.catolico.bean.Santo
-import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
@@ -22,8 +21,9 @@ import rz.com.catolico.CallBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
+import kotlin.collections.ArrayList
 
-class FragmentSanto : FragmentAbstract<Santo>() {
+class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
@@ -36,18 +36,18 @@ class FragmentSanto : FragmentAbstract<Santo>() {
 
     override fun loadData() {
         changeView(R.layout.load_screen_fragment)
-        val call: Call<List<Santo>> = RetrofitConfig().santoService().getLatests()
+        val call: Call<MutableList<Santo>> = RetrofitConfig().santoService().getLatests()
 
-        call.enqueue(object : CallBackFragment<List<Santo>>(this@FragmentSanto) {
+        call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto) {
 
-            override fun onResponse(call: Call<List<Santo>>, response: Response<List<Santo>>) {
+            override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)
-                this@FragmentSanto.mList = response.body()
-                println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
-                setupAdapter(mList!!)
+                this@FragmentSanto.mList = response.body() ?: ArrayList()
+                //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
+                setupAdapter(mList)
             }
 
-            override fun onFailure(call: Call<List<Santo>>, t: Throwable) {
+            override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
                 super.onFailure(call, t)
                 this@FragmentSanto.changeView(R.layout.erro_screen_top)
                 disableAllIcons()
@@ -55,13 +55,13 @@ class FragmentSanto : FragmentAbstract<Santo>() {
         })
     }
 
-    override fun setupAdapter(list: List<Santo>) {
+    override fun setupAdapter(list: MutableList<Santo>) {
         setupRecyclerView()
-        adapterSanto = AdapterSanto(parentActivityCatolicoMain!!, this@FragmentSanto, list!!)
+        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list!!)
         recyclerView?.adapter = adapterSanto
     }
 
-    fun showDialogDatePickerResult(list: List<Santo>){
+    fun showDialogDatePickerResult(list: MutableList<Santo>){
         var dialogResult = Dialog(activity!!)
         dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogResult.setCancelable(false)
@@ -74,7 +74,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
         window!!.setAttributes(lp)
         val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterSanto(parentActivityCatolicoMain!!, this, list)
+        recyclerView.adapter = AdapterSanto(parentActivity!!, this, list)
         dialogResult.show()
         dialogResult.setCanceledOnTouchOutside(true)
     }
@@ -112,25 +112,23 @@ class FragmentSanto : FragmentAbstract<Santo>() {
 
 
         dialogDatePicker!!.findViewById<View>(R.id.btn_search_liturgia).setOnClickListener {
-            println(datePicker.dayOfMonth)
-            println(calendar.time)
             val dateToSearch = calendar.timeInMillis
             val call = RetrofitConfig().santoService().getByCelebrationDate(dateToSearch)
-            call.enqueue(object : CallBackDialog<List<Santo>>(parentActivityCatolicoMain as Context) {
+            call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivity as Context) {
 
-                override fun onResponse(call: Call<List<Santo>>, response: Response<List<Santo>>) {
+                override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                     super.onResponse(call, response)
-                    println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
+                    //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
                     if(!response.body()!!.isEmpty()){
                         showDialogDatePickerResult(response.body()!!)
                         dialogDatePicker?.dismiss()
                     }else{
-                        Toast.makeText(parentActivityCatolicoMain!!,R.string.santo_search_result,Toast.LENGTH_SHORT).show()
+                        Toast.makeText(parentActivity!!,R.string.santo_search_result,Toast.LENGTH_SHORT).show()
                     }
                 }
 
-                override fun onFailure(call: Call<List<Santo>>, t: Throwable) {
-                    ToastMisc.generalError(parentActivityCatolicoMain!!)
+                override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
+                    ToastMisc.generalError(parentActivity!!)
                     super.onFailure(call, t)
                 }
             })
@@ -141,7 +139,7 @@ class FragmentSanto : FragmentAbstract<Santo>() {
     }
 
     override fun itemClickListenr(type: Santo) {
-        startActivity(Intent(parentActivityCatolicoMain!!,ActivitySanto::class.java).putExtra("santo",type))
+        startActivity(Intent(parentActivity!!,ActivitySanto::class.java).putExtra("santo",type))
     }
 
 }
