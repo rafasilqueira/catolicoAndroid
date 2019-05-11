@@ -4,13 +4,14 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.CallBack.CallBackFragment
 import rz.com.catolico.R
-import rz.com.catolico.adapter.AdapterOracao
+import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.retrofit.RetrofitConfig
 
+
 class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao) {
 
-    private var adapterOracao: AdapterOracao? = null
+    private var adapterOracaoCategory: AdapterOracaoCategory? = null
 
     companion object {
         fun instance(): FragmentOracao {
@@ -20,8 +21,8 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
     override fun setupAdapter(mItems: MutableList<Oracao>) {
         setupRecyclerView()
-        adapterOracao = AdapterOracao(parentActivity!!, mItems)
-        recyclerView?.adapter = adapterOracao
+        adapterOracaoCategory = AdapterOracaoCategory(parentActivity!!, convertListToMap(mItems))
+        recyclerView?.adapter = adapterOracaoCategory
     }
 
     override fun itemClickListenr(type: Oracao) {
@@ -36,10 +37,13 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
                 super.onResponse(call, response)
-                if(response.isSuccessful){
-                    this@FragmentOracao.mList = response.body()
+                if (response.isSuccessful) {
+                    this@FragmentOracao.mList = response.body() ?: ArrayList()
+                    if (mList.isNotEmpty()) {
+
+                    }
                     //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
-                    setupAdapter(mList!!)
+                    setupAdapter(mList)
                 }
             }
 
@@ -49,6 +53,13 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
                 disableAllIcons()
             }
         })
+    }
+
+    private fun convertListToMap(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
+        return mItems.map { it.categoriaOracao }
+                .distinct()
+                .map { it!!.nome to mItems.filter { oracao -> oracao.categoriaOracao == it }.toMutableList() }
+                .toMap()
     }
 
 }

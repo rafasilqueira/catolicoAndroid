@@ -5,6 +5,7 @@ import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.TextView
+import org.w3c.dom.Text
 import rz.com.catolico.R
 
 /**
@@ -13,15 +14,10 @@ import rz.com.catolico.R
 
 class VHOracao(private val mContext: Context, private val mView: View) : RecyclerView.ViewHolder(mView) {
 
-    var txtOracao: TextView? = null
-    var txtCategoria: TextView? = null
-    var favoriteButton: AppCompatImageView? = null
-
-    init {
-        txtOracao = mView.findViewById(R.id.txt_oracao)
-        txtCategoria = mView.findViewById(R.id.txt_categoria)
-        favoriteButton = mView.findViewById(R.id.img_favorite_pray)
-    }
+    var txtOracao : TextView? = mView.findViewById(R.id.txt_oracao) ?: null
+    var txtCategoria : TextView? = mView.findViewById(R.id.txt_categoria) ?: null
+    var favoriteButton : AppCompatImageView? = mView.findViewById(R.id.img_favorite_pray) ?: null
+    var dividerLine : View? = mView.findViewById(R.id.divider_line) ?: null
 
     fun setOnClickListener(listener: View.OnClickListener?) {
         if (listener != null) {

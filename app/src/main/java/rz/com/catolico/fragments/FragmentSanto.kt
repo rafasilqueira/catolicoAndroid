@@ -21,6 +21,7 @@ import rz.com.catolico.CallBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
+import kotlin.collections.ArrayList
 
 class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
 
@@ -41,9 +42,9 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
 
             override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)
-                this@FragmentSanto.mList = response.body()
+                this@FragmentSanto.mList = response.body() ?: ArrayList()
                 //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
-                setupAdapter(mList!!)
+                setupAdapter(mList)
             }
 
             override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {

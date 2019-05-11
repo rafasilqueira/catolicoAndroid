@@ -15,7 +15,7 @@ abstract class FragmentAbstract<T>(viewToLoad :Int) : Fragment() {
 
     protected var parentActivity: ActivityCatolicoMain? = null
     protected var recyclerView: RecyclerView? = null
-    protected var mList: MutableList<T>? = null
+    protected var mList: MutableList<T> = ArrayList()
     private var view: ViewGroup? = null
     private var mInflater: LayoutInflater? = null
     private var mContainer: ViewGroup? = null

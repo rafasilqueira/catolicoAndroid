@@ -3,17 +3,17 @@ package rz.com.catolico.adapter
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
-import rz.com.catolico.CallBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.ToastMisc
 
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavorite<Oracao> {
 
@@ -41,11 +41,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
             view.txtOracao?.text = oracao.nome
             view.txtCategoria?.text = oracao.categoriaOracao?.nome
 
-            if (oracao.favorite) {
-                view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_selected)
-            }
-
-
+            setupIcon(view,oracao)
 
             view.favoriteButton?.setOnClickListener {
                 if (usuario != null) {
@@ -58,24 +54,37 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
                     }
 
                     val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
-                    call.enqueue(object : CallBackDialog<Boolean>(context) {
+                    call.enqueue(object : Callback<Boolean> {
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                            super.onResponse(call, response)
                             oracao.favorite = !oracao.favorite
-                            ToastMisc.sucess(this@AdapterOracao.context)
+                            //ToastMisc.sucess(this@AdapterOracao.context)
                             notifyDataSetChanged()
                         }
 
                         override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                            super.onFailure(call, t)
-                            ToastMisc.generalError(this@AdapterOracao.context)
+                            //ToastMisc.generalError(this@AdapterOracao.context)
                         }
 
                     })
                 }
             }
         }
+    }
 
+    private fun setupIcon(view: VHOracao, oracao: Oracao) {
+        setupFavoriteIcon(view,oracao)
+        if(usuario== null){
+            view.favoriteButton!!.visibility = View.GONE
+            view.dividerLine!!.visibility = View.GONE
+        }
+    }
+
+    private fun setupFavoriteIcon(view: VHOracao, oracao: Oracao){
+        if (oracao.favorite) {
+            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_selected)
+        } else {
+            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_unselected)
+        }
     }
 }
