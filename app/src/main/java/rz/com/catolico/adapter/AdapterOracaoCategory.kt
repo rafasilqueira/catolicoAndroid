@@ -3,6 +3,7 @@ package rz.com.catolico.adapter
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
@@ -31,11 +32,23 @@ class AdapterOracaoCategory(context: Context, private var map: Map<String, Mutab
     override fun onBindData(holder: RecyclerView.ViewHolder, key: String) {
         val view: VHOracaoCategory
         if (holder is VHOracaoCategory) {
+            var oracoes = getMapValues(map, key)
             view = holder
             view.txtName.text = key
+            view.txtPrayQty.text = " %02d ".format(oracoes?.size)
             if (view.recyclerView.adapter == null) {
-                view.recyclerView.adapter = getMapValues(map, key)?.let { AdapterOracao(context, it) }
+                view.recyclerView.adapter = oracoes?.let { AdapterOracao(context, it) }
             }
+
+            view.setOnClickListener(View.OnClickListener {
+                if (view.txtPrayQty.visibility == View.GONE) {
+                    view.recyclerView.visibility = View.GONE
+                    view.txtPrayQty.visibility = View.VISIBLE
+                } else {
+                    view.recyclerView.visibility = View.VISIBLE
+                    view.txtPrayQty.visibility = View.GONE
+                }
+            })
         }
     }
 
