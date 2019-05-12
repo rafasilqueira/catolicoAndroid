@@ -9,6 +9,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.adapter.ViewHolder.VHOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
@@ -58,12 +59,12 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             oracao.favorite = !oracao.favorite
-                            //ToastMisc.sucess(this@AdapterOracao.context)
+                            //ToastMisc.sucess(this@AdapterOracao.abstractContext)
                             notifyDataSetChanged()
                         }
 
                         override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                            //ToastMisc.generalError(this@AdapterOracao.context)
+                            //ToastMisc.generalError(this@AdapterOracao.abstractContext)
                         }
 
                     })
@@ -82,9 +83,9 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
     private fun setupFavoriteIcon(view: VHOracao, oracao: Oracao){
         if (oracao.favorite) {
-            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_selected)
+            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected)
         } else {
-            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_heart_unselected)
+            view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_unselected)
         }
     }
 }

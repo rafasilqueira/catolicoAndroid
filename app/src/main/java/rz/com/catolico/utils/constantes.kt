@@ -30,7 +30,7 @@ class Constantes {
         const val ORACAO_FRAGMENT_CONTENT_TAG = "oracaoContentTag"
         const val SELECTED_CATEGORIA_ORACAO_TAG = "selectedcategoriaTag"
 
-        const val USER_KEY = "user"
+        const val USER_KEY = "usuario"
         const val ORACAO_KEY = "oracao"
         const val USER_CHANGE_PASSWORD = "passwordChange"
         const val ORACOES_DELETADAS_ARRAY_LIST = "oracoesDeletadas"
