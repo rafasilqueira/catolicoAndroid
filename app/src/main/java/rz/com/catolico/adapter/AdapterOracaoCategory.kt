@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import rz.com.catolico.R
+import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.interfaces.IMap

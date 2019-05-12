@@ -47,7 +47,7 @@ class LoginTask(private val context: Context, private val usuario: Usuario, priv
 
             }*/
             exception.printStackTrace();
-            //ToastMisc.generalError(context)
+            //ToastMisc.generalError(abstractContext)
             throw CatolicoException(context.getString(R.string.general_error))
         }
 

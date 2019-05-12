@@ -10,6 +10,7 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.CallBack.CallBackDialog
 import rz.com.catolico.R
+import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
@@ -47,7 +48,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
             view.txtDiaData.text = getDaysToDate(context, santo.diasData!!)
             view.txtDescricao.text = santo.descricao
-            if (santo.favorite) { view.favoriteButton.setImageResource(R.drawable.ic_favorite_star_selected) }
+            if (santo.favorite) { view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected) }
 
             setupIcons(view, santo)
 
@@ -63,11 +64,11 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
 
             }
 
-            view.shareButton.setOnClickListener {
+            view.shareButton?.setOnClickListener {
 
             }
 
-            view.favoriteButton.setOnClickListener {
+            view.favoriteButton?.setOnClickListener {
                 if (usuario != null) {
                     var userClone = usuario?.clone() as Usuario
 
@@ -116,7 +117,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
 
     private fun setupFavoriteIcon(view: VHSanto) {
         if (!isUserLogged) {
-            view.favoriteButton.visibility = View.GONE
+            view.favoriteButton?.visibility = View.GONE
             view.dividerLineTwo.visibility = View.GONE
         }
     }

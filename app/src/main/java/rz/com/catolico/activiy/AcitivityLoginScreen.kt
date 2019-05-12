@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.*
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
@@ -63,7 +64,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
 
             //Retriving package info
             packageInfo = context.packageManager.getPackageInfo(packageName,
-                    PackageManager.GET_SIGNATURES)
+                    GET_SIGNATURES)
 
             Log.e("Package Name=", context.applicationContext.packageName)
 
@@ -75,7 +76,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
                 // String key = new String(Base64.encodeBytes(md.digest()));
                 Log.e("Key Hash=", key)
             }
-        } catch (e1: PackageManager.NameNotFoundException) {
+        } catch (e1: NameNotFoundException) {
             Log.e("Name not found", e1.toString())
         } catch (e: NoSuchAlgorithmException) {
             Log.e("No such an algorithm", e.toString())
@@ -148,7 +149,6 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
             RetrofitConfig().usuarioService().getUserFacebook(usuario)
         else
             RetrofitConfig().usuarioService().getUser(usuario)
-
 
         call.enqueue(object : CallBackDialog<Usuario>(this@AcitivityLoginScreen) {
 
