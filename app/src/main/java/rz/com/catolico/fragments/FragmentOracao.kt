@@ -11,7 +11,8 @@ import rz.com.catolico.retrofit.RetrofitConfig
 
 class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao) {
 
-    private var adapterOracaoCategory: AdapterOracaoCategory? = null
+    private var adapter: AdapterOracaoCategory? = null
+    private var showByCategory = true
 
     companion object {
         fun instance(): FragmentOracao {
@@ -20,9 +21,12 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
     }
 
     override fun setupAdapter(mItems: MutableList<Oracao>) {
-        setupRecyclerView()
-        adapterOracaoCategory = AdapterOracaoCategory(parentActivity!!, convertListToMap(mItems))
-        recyclerView?.adapter = adapterOracaoCategory
+        if (mItems.isNotEmpty()) {
+            setupRecyclerView()
+            var map = if (showByCategory) setupPrayByCategory(mItems) else setupPrayAlphabetical(mItems)
+            adapter = AdapterOracaoCategory(parentActivity!!, map)
+            recyclerView?.adapter = adapter
+        }
     }
 
     override fun itemClickListenr(type: Oracao) {
@@ -32,7 +36,6 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
     override fun loadData() {
         changeView(R.layout.load_screen_fragment)
         val call: Call<MutableList<Oracao>> = RetrofitConfig().OracaoService().getOracoes()
-
         call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao) {
 
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
@@ -40,10 +43,9 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
                 if (response.isSuccessful) {
                     this@FragmentOracao.mList = response.body() ?: ArrayList()
                     if (mList.isNotEmpty()) {
-
+                        setupAdapter(mList)
+                        //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
                     }
-                    //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
-                    setupAdapter(mList)
                 }
             }
 
@@ -55,10 +57,33 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         })
     }
 
-    private fun convertListToMap(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
+    fun showByCategory() {
+        showByCategory = true
+        setupAdapter(mList)
+    }
+
+    fun showAlphabetical() {
+        showByCategory = false
+        setupAdapter(mList)
+    }
+
+    private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
         return mItems.map { it.categoriaOracao }
                 .distinct()
-                .map { it!!.nome to mItems.filter { oracao -> oracao.categoriaOracao == it }.toMutableList() }
+                .sortedBy { it?.nome }
+                .map { it!!.nome to mItems.filter { oracao -> oracao.categoriaOracao == it }
+                        .sortedBy { it.nome }
+                        .toMutableList() }
+                .toMap()
+    }
+
+    private fun setupPrayAlphabetical(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
+        return mItems.map { it.nome[0] }
+                .distinct()
+                .sorted()
+                .map { it.toString() to mItems.filter { oracao -> oracao.nome[0] == it }
+                        .sortedBy { it.nome }
+                        .toMutableList() }
                 .toMap()
     }
 

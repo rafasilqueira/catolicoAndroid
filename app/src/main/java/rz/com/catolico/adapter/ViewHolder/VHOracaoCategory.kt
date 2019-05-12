@@ -11,14 +11,18 @@ import rz.com.catolico.R
  * @author Rafael.Tupinamba 11/05/2019
  */
 
-class VHOracaoCategory(private val context: Context, private val view: View) : VHAbstract(context,view) {
+class VHOracaoCategory(val context: Context, val view: View) : VHAbstract(context, view) {
 
     var llm = LinearLayoutManager(context)
     var txtName = view.findViewById(R.id.txt_name) as TextView
     var recyclerView = view.findViewById(R.id.recyclerview) as RecyclerView
+    var txtPrayQty = view.findViewById(R.id.txt_prayers_qty) as TextView
 
     init {
+        txtPrayQty.visibility = View.GONE
         recyclerView.layoutManager = llm
     }
+
+
 
 }

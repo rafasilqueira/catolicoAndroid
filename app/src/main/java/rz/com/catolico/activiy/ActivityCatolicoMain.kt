@@ -157,10 +157,19 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             }
 
             R.id.ic_order_by_category -> {
-
+                when (fragment) {
+                    is FragmentOracao -> {
+                        fragment.showByCategory()
+                    }
+                }
             }
 
             R.id.ic_order_by_alfabetical -> {
+                when (fragment) {
+                    is FragmentOracao -> {
+                        fragment.showAlphabetical()
+                    }
+                }
 
             }
 
@@ -168,6 +177,10 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 when (fragment) {
                     is FragmentSanto -> {
                         fragment.showDialogDatePicker()
+                    }
+
+                    is FragmentOracao -> {
+                        println("ToDo")
                     }
                 }
             }
@@ -189,11 +202,22 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         disableAllFragmentIcons()
         when (fragment) {
             is FragmentSanto -> {
-                menuItemSearch?.isVisible = true
+                showIconsFragmentSanto()
+            }
+
+            is FragmentOracao -> {
+                showIconsFragmentOracao()
             }
         }
+    }
 
+    private fun showIconsFragmentSanto() {
+        menuItemSearch?.isVisible = true
+    }
 
+    private fun showIconsFragmentOracao() {
+        menuItemSearch?.isVisible = true
+        menuItemFilter?.isVisible = true
     }
 
     fun disableAllFragmentIcons() {
@@ -222,10 +246,8 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
                 }
-
                 this.doubleBackToExitPressedOnce = true
                 Toast.makeText(this, "Aperte VOLTAR novamente para sair !", Toast.LENGTH_SHORT).show()
-
                 Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 1500)
             } else {
                 super.onBackPressed()
@@ -268,7 +290,9 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()
+
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
+            disableAllFragmentIcons()
             var TAG: String? = null
             var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {

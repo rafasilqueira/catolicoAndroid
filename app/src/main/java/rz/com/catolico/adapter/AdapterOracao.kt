@@ -42,7 +42,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
             view.txtOracao?.text = oracao.nome
             view.txtCategoria?.text = oracao.categoriaOracao?.nome
 
-            setupIcon(view,oracao)
+            setupIcon(view, oracao)
 
             view.favoriteButton?.setOnClickListener {
                 if (usuario != null) {
@@ -74,14 +74,14 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
     }
 
     private fun setupIcon(view: VHOracao, oracao: Oracao) {
-        setupFavoriteIcon(view,oracao)
-        if(usuario== null){
+        setupFavoriteIcon(view, oracao)
+        if (usuario == null) {
             view.favoriteButton!!.visibility = View.GONE
             view.dividerLine!!.visibility = View.GONE
         }
     }
 
-    private fun setupFavoriteIcon(view: VHOracao, oracao: Oracao){
+    private fun setupFavoriteIcon(view: VHOracao, oracao: Oracao) {
         if (oracao.favorite) {
             view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected)
         } else {

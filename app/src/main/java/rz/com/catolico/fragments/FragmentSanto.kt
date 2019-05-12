@@ -14,7 +14,6 @@ import rz.com.catolico.bean.Santo
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivitySanto
 import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.CallBack.CallBackDialog
 import rz.com.catolico.CallBack.CallBackFragment
@@ -139,7 +138,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
     }
 
     override fun itemClickListenr(type: Santo) {
-        startActivity(Intent(parentActivity!!,ActivitySanto::class.java).putExtra("santo",type))
+
     }
 
 }

@@ -18,27 +18,44 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="08dp">
 
         <TextView
             android:id="@+id/txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/red"
+            android:layout_marginStart="05dp"
+            android:lines="1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@sample/oracoes.json/names/categories_example/name"
-            android:textColor="@color/red"/>
+            tools:text="@sample/oracoes.json/names/categories_example/name" />
+
+        <TextView
+            android:id="@+id/txt_prayers_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/item_count"
+            android:text="05"
+            android:textColor="@color/white"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textStyle="bold"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/txt_name"
+            app:layout_constraintBottom_toBottomOf="@id/txt_name"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/txt_name"
+            android:layout_marginTop="05dp"
             app:layout_constraintLeft_toRightOf="parent"
-            tools:listitem="@layout/adapter_oracao"
-            tools:itemCount="5">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt_name"
+            tools:itemCount="5"
+            tools:listitem="@layout/adapter_oracao">
 
 
         </android.support.v7.widget.RecyclerView>

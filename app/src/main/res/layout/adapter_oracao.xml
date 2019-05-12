@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
                 app:layout_constraintLeft_toLeftOf="parent"
+                android:lines="1"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@sample/oracoes.json/names/short_names/name" />
 
@@ -39,6 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:lines="1"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@android:color/darker_gray"
                 app:layout_constraintTop_toBottomOf="@+id/txt_oracao"
