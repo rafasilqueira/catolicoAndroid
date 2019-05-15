@@ -11,7 +11,7 @@ import android.preference.Preference
 import android.preference.PreferenceFragment
 import android.preference.PreferenceGroup
 import android.preference.PreferenceManager
-import rz.com.catolico.Dialogs.DialogUserDelete
+import rz.com.catolico.dialogs.DialogUserDelete
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.activiy.AcitivityInsertEditUser

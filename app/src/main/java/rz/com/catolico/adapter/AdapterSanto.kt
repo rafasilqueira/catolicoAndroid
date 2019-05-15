@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.CallBack.CallBackDialog
+import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
+import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
@@ -61,7 +62,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             })
 
             view.prayButton.setOnClickListener {
-
+                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(santo.oracoes)
             }
 
             view.shareButton?.setOnClickListener {

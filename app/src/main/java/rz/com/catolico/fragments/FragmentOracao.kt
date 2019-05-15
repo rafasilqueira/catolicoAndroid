@@ -2,17 +2,22 @@ package rz.com.catolico.fragments
 
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.CallBack.CallBackFragment
 import rz.com.catolico.R
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
+import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 
 
 class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao) {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
+
+    fun notifyDataSetChanged() {
+        recyclerView?.adapter?.notifyDataSetChanged()
+    }
 
     companion object {
         fun instance(): FragmentOracao {
@@ -24,7 +29,7 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         if (mItems.isNotEmpty()) {
             setupRecyclerView()
             var map = if (showByCategory) setupPrayByCategory(mItems) else setupPrayAlphabetical(mItems)
-            adapter = AdapterOracaoCategory(parentActivity!!, map)
+            adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
     }
@@ -67,13 +72,25 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         setupAdapter(mList)
     }
 
+    fun swapFragment(oracao: Oracao){
+        val fragment = FragmentOracaoContent.instance(oracao)
+        fragmentManager!!.beginTransaction()
+                .hide(this)
+                .add(R.id.frame_layout, fragment, ORACAO_FRAGMENT_CONTENT_TAG)
+                .addToBackStack(null)
+                .commit()
+    }
+
     private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
         return mItems.map { it.categoriaOracao }
                 .distinct()
                 .sortedBy { it?.nome }
-                .map { it!!.nome to mItems.filter { oracao -> oracao.categoriaOracao == it }
-                        .sortedBy { it.nome }
-                        .toMutableList() }
+                .map {
+                    it!!.nome to mItems
+                            .filter { oracao -> oracao.categoriaOracao == it }
+                            .sortedBy { it.nome }
+                            .toMutableList()
+                }
                 .toMap()
     }
 
@@ -81,9 +98,12 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         return mItems.map { it.nome[0] }
                 .distinct()
                 .sorted()
-                .map { it.toString() to mItems.filter { oracao -> oracao.nome[0] == it }
-                        .sortedBy { it.nome }
-                        .toMutableList() }
+                .map {
+                    it.toString() to mItems
+                            .filter { oracao -> oracao.nome[0] == it }
+                            .sortedBy { it.nome }
+                            .toMutableList()
+                }
                 .toMap()
     }
 

@@ -1,4 +1,4 @@
-package rz.com.catolico.Dialogs
+package rz.com.catolico.dialogs
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -10,7 +10,7 @@ import com.facebook.login.LoginManager
 import com.orhanobut.hawk.Hawk
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.CallBack.CallBackDialog
+import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.activiy.AcitivitySettings
 import rz.com.catolico.activiy.AcitivitySplashScreen

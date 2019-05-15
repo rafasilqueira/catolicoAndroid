@@ -15,14 +15,10 @@ import rz.com.catolico.interfaces.IMap
  * @author Rafael.Tupinamba 11/05/2019
  */
 
-class AdapterOracaoCategory(context: Context, private var map: Map<String, MutableList<Oracao>>) :
+class AdapterOracaoCategory(context: Context, fragmentAbstract : FragmentAbstract<Oracao>, private var map: Map<String, MutableList<Oracao>>) :
         AdapterAbstract<String>(context, map.keys.toMutableList()), IMap<Oracao> {
 
-    private var fragmentAbstract: FragmentAbstract<Oracao>? = null
-
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<Oracao>, map: Map<String, MutableList<Oracao>>) : this(context, map) {
-        this.fragmentAbstract = fragmentAbstract
-    }
+    private var fragmentAbstract = fragmentAbstract
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.adapter_oracao_a_z_category, parent, false)
@@ -37,7 +33,7 @@ class AdapterOracaoCategory(context: Context, private var map: Map<String, Mutab
             view.txtName.text = key
             view.txtPrayQty.text = " %02d ".format(oracoes?.size)
             if (view.recyclerView.adapter == null) {
-                view.recyclerView.adapter = oracoes?.let { AdapterOracao(context, it) }
+                view.recyclerView.adapter = oracoes?.let { AdapterOracao(context,fragmentAbstract, it) }
             }
 
             view.setOnClickListener(View.OnClickListener {

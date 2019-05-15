@@ -26,6 +26,7 @@ import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
@@ -211,7 +212,21 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    private fun showIconsFragmentSanto() {
+    fun isPrayFavorite(favorite: Boolean) {
+        if (favorite) {
+            menuItemFavoritar?.setIcon(R.drawable.ic_favorite_star_selected_action_bar)
+        } else {
+            menuItemFavoritar?.setIcon(R.drawable.ic_favorite_star_unselected_action_bar)
+        }
+    }
+
+    fun showIconsOracaoContent() {
+        disableAllFragmentIcons()
+        menuItemShare?.isVisible = true
+        menuItemFavoritar?.isVisible = true
+    }
+
+    fun showIconsFragmentSanto() {
         menuItemSearch?.isVisible = true
     }
 
@@ -242,6 +257,17 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
+
+            val olfFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+            var current: Fragment? = null
+            when (olfFragment?.tag) {
+                ORACAO_FRAGMENT_CONTENT_TAG -> {
+                    disableAllFragmentIcons()
+                    showIconsFragmentOracao()
+                    (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).notifyDataSetChanged()
+                }
+            }
+
             if (supportFragmentManager.backStackEntryCount == 0) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()

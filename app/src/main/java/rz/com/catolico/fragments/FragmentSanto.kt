@@ -2,7 +2,6 @@ package rz.com.catolico.fragments
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -14,9 +13,11 @@ import rz.com.catolico.bean.Santo
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterSanto
-import rz.com.catolico.CallBack.CallBackDialog
-import rz.com.catolico.CallBack.CallBackFragment
+import rz.com.catolico.bean.Oracao
+import rz.com.catolico.callBack.CallBackDialog
+import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
@@ -63,7 +64,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
     fun showDialogDatePickerResult(list: MutableList<Santo>){
         var dialogResult = Dialog(activity!!)
         dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogResult.setCancelable(false)
+        dialogResult.setCancelable(true)
         dialogResult.setContentView(R.layout.dialog_santo_dia)
         val lp = WindowManager.LayoutParams()
         val window = dialogResult.getWindow()
@@ -139,6 +140,24 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
 
     override fun itemClickListenr(type: Santo) {
 
+    }
+
+    fun showDialogSayntPrays(list: MutableList<Oracao>) {
+        var dialogResult = Dialog(activity!!)
+        dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialogResult.setCancelable(true)
+        dialogResult.setContentView(R.layout.dialog_oracoes)
+        val lp = WindowManager.LayoutParams()
+        val window = dialogResult.getWindow()
+        lp.copyFrom(window!!.attributes)
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
+        window!!.setAttributes(lp)
+        val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(activity)
+        recyclerView.adapter = AdapterOracao(parentActivity!!, this@FragmentSanto, list)
+        dialogResult.show()
+        dialogResult.setCanceledOnTouchOutside(true)
     }
 
 }
