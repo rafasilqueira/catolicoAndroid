@@ -3,7 +3,6 @@ package rz.com.catolico.activiy
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.*
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -19,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.CallBack.CallBackDialog
+import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login

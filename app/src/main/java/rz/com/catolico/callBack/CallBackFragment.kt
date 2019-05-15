@@ -1,4 +1,4 @@
-package rz.com.catolico.CallBack
+package rz.com.catolico.callBack
 
 import android.support.v4.app.Fragment
 import retrofit2.Call

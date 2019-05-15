@@ -13,12 +13,14 @@ import rz.com.catolico.adapter.ViewHolder.VHOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
+import rz.com.catolico.fragments.FragmentOracao
+import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavorite<Oracao> {
 
-    private var fragmentAbstract: FragmentAbstract<Oracao>? = null
+    private var fragmentAbstract: FragmentAbstract<*>? = null
 
     init {
         if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
@@ -26,7 +28,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         }
     }
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<Oracao>, mItems: MutableList<Oracao>) : this(context, mItems) {
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
     }
 
@@ -70,6 +72,20 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
                     })
                 }
             }
+
+            view.setOnClickListener(View.OnClickListener {
+                println("aqui")
+                when(fragmentAbstract){
+                   is FragmentOracao -> {
+                       (fragmentAbstract as FragmentOracao).swapFragment(oracao)
+                   }
+
+                   is FragmentSanto -> {
+
+                   }
+               }
+            })
+
         }
     }
 
