@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.google.gson.GsonBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHOracao
+import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
@@ -21,15 +23,25 @@ import rz.com.catolico.retrofit.RetrofitConfig
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavorite<Oracao> {
 
     private var fragmentAbstract: FragmentAbstract<*>? = null
+    private var parentView : VHOracaoCategory? = null
 
-    init {
+    /*init {
+        syncronizeFavorites(mItems)
+    }
+
+    fun syncronizeFavorites(mItems: MutableList<Oracao>){
         if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
             super.syncronizeFavorites(mItems, usuario?.oracoes!!)
         }
-    }
+    }*/
 
     constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
+    }
+
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>, parentVH: VHOracaoCategory) : this(context, mItems) {
+        this.fragmentAbstract = fragmentAbstract
+        this.parentView = parentVH
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -61,12 +73,16 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                             oracao.favorite = !oracao.favorite
-                            //ToastMisc.sucess(this@AdapterOracao.abstractContext)
+                            if(oracao?.favorite!!){
+                                usuario!!.addOracao(oracao!!.clone() as Oracao)
+                            }else{
+                                usuario!!.removeOracao(oracao!!)
+                            }
                             notifyDataSetChanged()
                         }
 
                         override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                            //ToastMisc.generalError(this@AdapterOracao.abstractContext)
+                            t.printStackTrace()
                         }
 
                     })
@@ -77,7 +93,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
                 println("aqui")
                 when(fragmentAbstract){
                    is FragmentOracao -> {
-                       (fragmentAbstract as FragmentOracao).swapFragment(oracao)
+                       (fragmentAbstract as FragmentOracao).swapFragment(oracao,parentView!!)
                    }
 
                    is FragmentSanto -> {
