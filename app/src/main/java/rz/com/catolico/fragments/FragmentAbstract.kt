@@ -10,8 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.bean.Usuario
 
-abstract class FragmentAbstract<T>(viewToLoad :Int) : Fragment() {
+abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
 
     protected var parentActivity: ActivityCatolicoMain? = null
     protected var recyclerView: RecyclerView? = null
@@ -20,6 +21,7 @@ abstract class FragmentAbstract<T>(viewToLoad :Int) : Fragment() {
     private var mInflater: LayoutInflater? = null
     private var mContainer: ViewGroup? = null
     private var initialView = viewToLoad
+    protected var usuario: Usuario? = null
 
     abstract fun loadData()
 
@@ -27,14 +29,15 @@ abstract class FragmentAbstract<T>(viewToLoad :Int) : Fragment() {
 
     abstract fun itemClickListenr(type: T)
 
-    fun disableAllIcons(){
+    fun disableAllIcons() {
         parentActivity?.disableAllFragmentIcons()
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        this.parentActivity = context as ActivityCatolicoMain
+        parentActivity = context as ActivityCatolicoMain
         parentActivity?.setupFragmentMenuIcon(this@FragmentAbstract)
+        usuario = parentActivity?.getIntentUser()
     }
 
     fun changeView(layout: Int) {

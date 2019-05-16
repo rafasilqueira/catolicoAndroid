@@ -7,15 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.bean.Usuario
+import rz.com.catolico.retrofit.RetrofitConfig
 
 class FragmentOracaoContent : Fragment() {
 
     private var parentContext: ActivityCatolicoMain? = null
     private var txtOracao: TextView? = null
     private var txtDescricao: TextView? = null
+    private var oracao: Oracao? = null
+    private var usuario: Usuario? = null
 
     companion object {
         fun instance(oracao: Oracao): FragmentOracaoContent {
@@ -30,18 +37,52 @@ class FragmentOracaoContent : Fragment() {
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         parentContext = context as ActivityCatolicoMain
+        usuario = parentContext!!.getIntentUser()
         parentContext!!.showIconsOracaoContent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_oracao_content, container, false) as ViewGroup
-        var oracao = arguments?.getSerializable("oracao") as Oracao
+        oracao = arguments?.getSerializable("oracao") as Oracao
         txtOracao = view.findViewById(R.id.txt_oracao)
         txtDescricao = view.findViewById(R.id.txt_descricao_oracao)
-        txtOracao?.text = oracao.nome
-        txtDescricao?.text = oracao.descricao
-        parentContext?.isPrayFavorite(oracao.favorite)
+        txtOracao?.text = oracao?.nome
+        txtDescricao?.text = oracao?.descricao
+        parentContext?.isPrayFavorite(oracao!!.favorite)
         return view
+    }
+
+    fun favoriteButtonListener() {
+        if (usuario != null) {
+            val userClone = usuario?.clone() as Usuario
+
+            if (oracao?.favorite!!) {
+                userClone.removeOracao(oracao!!)
+            } else {
+                userClone.addOracao(oracao!!)
+            }
+
+            val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
+            call.enqueue(object : Callback<Boolean> {
+
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    if(response.isSuccessful){
+                        oracao?.favorite = !oracao?.favorite!!
+                        if(oracao?.favorite!!){
+                            usuario!!.addOracao(oracao!!.clone() as Oracao)
+                        }else{
+                            usuario!!.removeOracao(oracao!!)
+                        }
+                        parentContext?.isPrayFavorite(oracao!!.favorite)
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
+        }
     }
 
 }

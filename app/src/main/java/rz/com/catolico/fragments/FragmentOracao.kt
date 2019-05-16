@@ -4,19 +4,25 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.adapter.AdapterOracaoCategory
+import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 
 
-class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao) {
+class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao), IFavorite<Oracao> {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
+    private var selectedVH : VHOracaoCategory? = null
+
 
     fun notifyDataSetChanged() {
         recyclerView?.adapter?.notifyDataSetChanged()
+        syncronizeFavorites(mList)
+        selectedVH?.recyclerView?.adapter?.notifyDataSetChanged()
     }
 
     companion object {
@@ -48,8 +54,8 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
                 if (response.isSuccessful) {
                     this@FragmentOracao.mList = response.body() ?: ArrayList()
                     if (mList.isNotEmpty()) {
+                        syncronizeFavorites(mList)
                         setupAdapter(mList)
-                        //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
                     }
                 }
             }
@@ -62,6 +68,12 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         })
     }
 
+    fun syncronizeFavorites(mItems: MutableList<Oracao>) {
+        if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
+            super.syncronizeFavorites(mItems, usuario?.oracoes!!)
+        }
+    }
+
     fun showByCategory() {
         showByCategory = true
         setupAdapter(mList)
@@ -72,7 +84,8 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         setupAdapter(mList)
     }
 
-    fun swapFragment(oracao: Oracao){
+    fun swapFragment(oracao: Oracao, selectedVH : VHOracaoCategory) {
+        this.selectedVH = selectedVH
         val fragment = FragmentOracaoContent.instance(oracao)
         fragmentManager!!.beginTransaction()
                 .hide(this)

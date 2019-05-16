@@ -33,8 +33,9 @@ class AdapterOracaoCategory(context: Context, fragmentAbstract : FragmentAbstrac
             view.txtName.text = key
             view.txtPrayQty.text = " %02d ".format(oracoes?.size)
             if (view.recyclerView.adapter == null) {
-                view.recyclerView.adapter = oracoes?.let { AdapterOracao(context,fragmentAbstract, it) }
+                view.recyclerView.adapter = oracoes?.let { AdapterOracao(context,fragmentAbstract, it,view) }
             }
+
 
             view.setOnClickListener(View.OnClickListener {
                 if (view.txtPrayQty.visibility == View.GONE) {
@@ -47,5 +48,7 @@ class AdapterOracaoCategory(context: Context, fragmentAbstract : FragmentAbstrac
             })
         }
     }
+
+
 
 }

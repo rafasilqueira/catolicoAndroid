@@ -25,6 +25,7 @@ import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.fragments.FragmentOracao
+import rz.com.catolico.fragments.FragmentOracaoContent
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
@@ -149,8 +150,14 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
         when (item?.itemId) {
-            R.id.ic_favorite_oracao -> {
 
+
+            R.id.ic_favorite -> {
+                when (fragment) {
+                    is FragmentOracaoContent -> {
+                        fragment.favoriteButtonListener()
+                    }
+                }
             }
 
             R.id.ic_share -> {
@@ -223,7 +230,9 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     fun showIconsOracaoContent() {
         disableAllFragmentIcons()
         menuItemShare?.isVisible = true
-        menuItemFavoritar?.isVisible = true
+        if(getIntentUser()!=null){
+            menuItemFavoritar?.isVisible = true
+        }
     }
 
     fun showIconsFragmentSanto() {
@@ -244,7 +253,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_catolico_main_activity, menu)
-        menuItemFavoritar = menu?.findItem(R.id.ic_favorite_oracao)
+        menuItemFavoritar = menu?.findItem(R.id.ic_favorite)
         menuItemShare = menu?.findItem(R.id.ic_share)
         menuItemFilter = menu?.findItem(R.id.ic_options_filter)
         menuItemSearch = menu?.findItem(R.id.ic_search)
