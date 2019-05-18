@@ -40,23 +40,23 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         return VHSanto(context, view)
     }
 
-    override fun onBindData(holder: RecyclerView.ViewHolder, santo: Santo) {
+    override fun onBindData(holder: RecyclerView.ViewHolder, genericType: Santo) {
         val view: VHSanto
         holder.setIsRecyclable(false)
         if (holder is VHSanto) {
             view = holder
-            view.txtSantoNome.text = santo.nome
-            view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
-            view.txtDiaData.text = getDaysToDate(context, santo.diasData!!)
-            view.txtDescricao.text = santo.descricao
-            if (santo.favorite) {
+            view.txtSantoNome.text = genericType.nome
+            view.txtComemoracao.text = formatterComemoracao.format(genericType.comemoracao)
+            view.txtDiaData.text = getDaysToDate(context, genericType.diasData!!)
+            view.txtDescricao.text = genericType.descricao
+            if (genericType.favorite) {
                 view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected)
             }
 
-            setupIcons(view, santo)
+            setupIcons(view, genericType)
 
-            if (santo.imgurl != null && !santo.imgurl.equals("")) {
-                Picasso.with(context).load(santo.imgurl).into(view.imgSanto)
+            if (genericType.imgurl != null && !genericType.imgurl.equals("")) {
+                Picasso.with(context).load(genericType.imgurl).into(view.imgSanto)
             }
 
             view.setOnClickListener(View.OnClickListener {
@@ -64,7 +64,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             })
 
             view.prayButton.setOnClickListener {
-                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(santo)
+                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(genericType)
             }
 
             view.shareButton?.setOnClickListener {
@@ -75,17 +75,17 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
                 if (usuario != null) {
                     val userClone = usuario?.clone() as Usuario
 
-                    if (santo.favorite) {
-                        userClone.removeSanto(santo)
+                    if (genericType.favorite) {
+                        userClone.removeSanto(genericType)
                     } else {
-                        userClone.addSanto(santo)
+                        userClone.addSanto(genericType)
                     }
 
                     val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
                     call.enqueue(object : Callback<Boolean> {
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                            santo.favorite = !santo.favorite
+                            genericType.favorite = !genericType.favorite
                             notifyDataSetChanged()
                         }
 
