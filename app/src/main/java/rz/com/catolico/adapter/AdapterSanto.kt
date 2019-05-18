@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFavorite
@@ -73,7 +73,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
 
             view.favoriteButton?.setOnClickListener {
                 if (usuario != null) {
-                    var userClone = usuario?.clone() as Usuario
+                    val userClone = usuario?.clone() as Usuario
 
                     if (santo.favorite) {
                         userClone.removeSanto(santo)
@@ -81,21 +81,18 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
                         userClone.addSanto(santo)
                     }
 
-                    val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone!!)
-                    call.enqueue(object : CallBackDialog<Boolean>(context) {
+                    val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
+                    call.enqueue(object : Callback<Boolean> {
 
                         override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                            super.onResponse(call, response)
-                            santo.favorite = !santo?.favorite
-                            ToastMisc.sucess(this@AdapterSanto.context)
+                            santo.favorite = !santo.favorite
                             notifyDataSetChanged()
                         }
 
                         override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                            super.onFailure(call, t)
+                            t.printStackTrace()
                             ToastMisc.generalError(this@AdapterSanto.context)
                         }
-
                     })
                 }
             }
@@ -110,18 +107,20 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
 
     private fun setupPrayIcon(view: VHSanto, santo: Santo) {
         if (santo.oracoes.isEmpty()) {
-            view.divideLineOne.visibility = View.GONE
+            view.dividerLineTwo.visibility = View.GONE
             view.prayButton.visibility = View.GONE
             view.txtPrayQty.visibility = View.GONE
         } else {
             view.txtPrayQty.text = getOracoesQty(santo)
+            view.divideLineOne.visibility = View.VISIBLE
         }
     }
 
     private fun setupFavoriteIcon(view: VHSanto) {
-        if (!isUserLogged) {
+        if (usuario == null) {
             view.favoriteButton?.visibility = View.GONE
             view.dividerLineTwo.visibility = View.GONE
+            view.divideLineOne.visibility = View.GONE
         }
     }
 

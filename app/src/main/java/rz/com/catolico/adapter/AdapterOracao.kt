@@ -17,10 +17,11 @@ import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentOracaoContent
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 
-class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems) {
+class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems) , IFavorite<Oracao> {
 
     private var fragmentAbstract: FragmentAbstract<*>? = null
     private var parentView: VHOracaoCategory? = null
@@ -28,6 +29,12 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
     constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>, parentVH: VHOracaoCategory) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
         this.parentView = parentVH
+    }
+
+    init {
+        if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
+           syncronizeFavorites(mItems, usuario?.oracoes!!)
+        }
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -77,21 +84,16 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
             view.setOnClickListener(View.OnClickListener {
                 fragmentAbstract?.swapFragment(FragmentOracaoContent.instance(oracao), ORACAO_FRAGMENT_CONTENT_TAG)
-                if (fragmentAbstract is FragmentOracao)
-                    (fragmentAbstract as FragmentOracao).selectedAdapter = this@AdapterOracao
 
-                if(fragmentAbstract is FragmentSanto)
-                    (fragmentAbstract as FragmentSanto).dialgoSayntPray?.dismiss()
-
-                /*when (fragmentAbstract) {
+                when (fragmentAbstract) {
                     is FragmentOracao -> {
-                        (fragmentAbstract as FragmentOracao).showSelectedORacao(oracao, this)
+                        (fragmentAbstract as FragmentOracao).selectedAdapter = this@AdapterOracao
                     }
 
                     is FragmentSanto -> {
-
+                        (fragmentAbstract as FragmentSanto).dialgoSayntPray?.dismiss()
                     }
-                }*/
+                }
             })
 
         }

@@ -4,12 +4,12 @@ import android.content.Context
 import rz.com.catolico.R
 import java.text.SimpleDateFormat
 
-class SantoUtils() {
+class SantoUtils {
 
     companion object {
         val formatterComemoracao = SimpleDateFormat("dd/MM")
 
-        fun getDaysToDate(context : Context,days: Int): String {
+        fun getDaysToDate(context: Context, days: Int): String {
             val TODAY: String = ActivityUtils.getResourceString(context, R.string.hoje)
             val DAYS_TO_DATE: String = ActivityUtils.getResourceString(context, R.string.days_qtde)
             val IS_TODAY = 0

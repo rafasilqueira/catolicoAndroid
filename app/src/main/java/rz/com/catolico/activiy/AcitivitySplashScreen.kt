@@ -4,9 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
-import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
-import rz.com.catolico.asincTasks.UsuarioTask.LoginTask
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
@@ -16,7 +14,10 @@ class AcitivitySplashScreen : AppCompatActivity(), Login {
 
 
     override fun doLoginSucess(usuario: Usuario) {
-        startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java).putExtra(USER_KEY, usuario))
+        startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java)
+                .putExtra(USER_KEY, usuario)
+                .putExtra("drawer", intent.getBooleanExtra("drawer",false))
+        )
         finish()
     }
 
@@ -26,13 +27,14 @@ class AcitivitySplashScreen : AppCompatActivity(), Login {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Hawk.init(applicationContext).build()
+        println(intent.getBooleanExtra("drawer",false))
         val handle = Handler()
         handle.postDelayed({
             usuario = Hawk.get<Any>(USER_KEY) as Usuario?
             //println(usuario)
             if (usuario != null) {
                 //println(Gson().toJson(usuario))
-                LoginTask(this, usuario!!, false).execute()
+                doLogin(usuario!!, this, false)
             } else {
                 Hawk.delete(USER_KEY)
                 startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java))
@@ -42,4 +44,5 @@ class AcitivitySplashScreen : AppCompatActivity(), Login {
         }, 1500)
 
     }
+
 }
