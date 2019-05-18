@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Response
-import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
+import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFavorite
@@ -49,7 +49,9 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             view.txtComemoracao.text = formatterComemoracao.format(santo.comemoracao)
             view.txtDiaData.text = getDaysToDate(context, santo.diasData!!)
             view.txtDescricao.text = santo.descricao
-            if (santo.favorite) { view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected) }
+            if (santo.favorite) {
+                view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected)
+            }
 
             setupIcons(view, santo)
 
@@ -62,7 +64,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             })
 
             view.prayButton.setOnClickListener {
-                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(santo.oracoes)
+                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(santo)
             }
 
             view.shareButton?.setOnClickListener {
@@ -107,7 +109,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     private fun setupPrayIcon(view: VHSanto, santo: Santo) {
-        if (santo.oracoes!!.isEmpty()) {
+        if (santo.oracoes.isEmpty()) {
             view.divideLineOne.visibility = View.GONE
             view.prayButton.visibility = View.GONE
             view.txtPrayQty.visibility = View.GONE
@@ -130,7 +132,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     private fun getOracoesQty(santo: Santo): String {
-        return "%02d".format((santo.oracoes?.size))
+        return "%02d".format((santo.oracoes.size))
     }
 
 }

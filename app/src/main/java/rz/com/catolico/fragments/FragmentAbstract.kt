@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.adapter.AdapterOracao
+import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
+import rz.com.catolico.utils.Constantes
 
 abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
 
@@ -31,6 +34,15 @@ abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
 
     fun disableAllIcons() {
         parentActivity?.disableAllFragmentIcons()
+    }
+
+
+    fun swapFragment(fragment: Fragment , TAG : String) {
+        fragmentManager!!.beginTransaction()
+                .hide(this)
+                .add(R.id.frame_layout, fragment, TAG)
+                .addToBackStack(null)
+                .commit()
     }
 
     override fun onAttach(context: Context?) {

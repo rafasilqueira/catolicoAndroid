@@ -15,10 +15,8 @@ import rz.com.catolico.interfaces.IMap
  * @author Rafael.Tupinamba 11/05/2019
  */
 
-class AdapterOracaoCategory(context: Context, fragmentAbstract : FragmentAbstract<Oracao>, private var map: Map<String, MutableList<Oracao>>) :
+class AdapterOracaoCategory(context: Context,  var fragmentAbstract: FragmentAbstract<*>, private var map: Map<String, MutableList<Oracao>>) :
         AdapterAbstract<String>(context, map.keys.toMutableList()), IMap<Oracao> {
-
-    private var fragmentAbstract = fragmentAbstract
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.adapter_oracao_a_z_category, parent, false)

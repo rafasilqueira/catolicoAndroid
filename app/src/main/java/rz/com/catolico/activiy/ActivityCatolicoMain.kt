@@ -230,7 +230,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     fun showIconsOracaoContent() {
         disableAllFragmentIcons()
         menuItemShare?.isVisible = true
-        if(getIntentUser()!=null){
+        if (getIntentUser() != null) {
             menuItemFavoritar?.isVisible = true
         }
     }
@@ -267,13 +267,28 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
 
-            val olfFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-            var current: Fragment? = null
-            when (olfFragment?.tag) {
+            val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+
+            var current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
+                supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG)
+            } else {
+                supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
+            }
+            when (oldFragment?.tag) {
                 ORACAO_FRAGMENT_CONTENT_TAG -> {
                     disableAllFragmentIcons()
-                    showIconsFragmentOracao()
-                    (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).notifyDataSetChanged()
+                    when (current) {
+
+                        is FragmentOracao -> {
+                            showIconsFragmentOracao()
+                            (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).updateAdapter()
+                        }
+
+                        is FragmentSanto -> {
+                            showIconsFragmentSanto()
+
+                        }
+                    }
                 }
             }
 
