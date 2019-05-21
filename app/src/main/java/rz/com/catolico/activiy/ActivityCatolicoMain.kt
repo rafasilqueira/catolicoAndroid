@@ -24,9 +24,11 @@ import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
+import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentOracaoContent
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -35,7 +37,7 @@ import rz.com.catolico.utils.StatusFacebookLogin
 
 class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListener {
 
-    private var usuario: Usuario? = null;
+    private var usuario: Usuario? = null
     private var header: View? = null
     private var menu: Menu? = null
     private var menuItemMeusDadosDV: MenuItem? = null
@@ -58,7 +60,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     }
 
 
-    fun setupMenuItemDV() {
+    private fun setupMenuItemDV() {
         if (usuario != null) {
             menuItemMeusDadosDV?.isVisible = true
             menuItemMinhasOracoesDV?.isVisible = true
@@ -71,7 +73,11 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain)) {
                 //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
                 val profile = Profile.getCurrentProfile()
-                Picasso.with(this@ActivityCatolicoMain).load(profile?.getProfilePictureUri(200, 200).toString()).placeholder(R.drawable.ic_account_circle_white_96dp).error(R.drawable.ic_account_circle_white_96dp).into(imgUser)
+                Picasso.with(this@ActivityCatolicoMain)
+                        .load(profile?.getProfilePictureUri(200, 200).toString())
+                        .placeholder(R.drawable.ic_account_circle_white_96dp)
+                        .error(R.drawable.ic_account_circle_white_96dp)
+                        .into(imgUser)
             }
         } else {
             menuItemMeusDadosDV?.isVisible = false
@@ -108,7 +114,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun setFragment(selectedFragment: Fragment, tag: String) {
+   private fun setFragment(selectedFragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
     }
 
@@ -202,7 +208,14 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             LoginManager.getInstance().logOut()
         }
         Hawk.delete(USER_KEY)
-        startActivity(Intent(this, AcitivitySplashScreen::class.java).putExtra("finish", true).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        clearAllFlagsAndRestart(true)
+    }
+
+    private fun clearAllFlagsAndRestart(openDrawer: Boolean) {
+        val intent = Intent(this, AcitivitySplashScreen::class.java)
+        intent.putExtra("finish", true).flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        if (openDrawer) intent.putExtra("drawer", true)
+        startActivity(intent)
         finish()
     }
 
@@ -230,12 +243,12 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     fun showIconsOracaoContent() {
         disableAllFragmentIcons()
         menuItemShare?.isVisible = true
-        if(getIntentUser()!=null){
+        if (getIntentUser() != null) {
             menuItemFavoritar?.isVisible = true
         }
     }
 
-    fun showIconsFragmentSanto() {
+   private fun showIconsFragmentSanto() {
         menuItemSearch?.isVisible = true
     }
 
@@ -267,13 +280,28 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
 
-            val olfFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-            var current: Fragment? = null
-            when (olfFragment?.tag) {
+            val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+
+            val current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
+                supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG)
+            } else {
+                supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
+            }
+            when (oldFragment?.tag) {
                 ORACAO_FRAGMENT_CONTENT_TAG -> {
                     disableAllFragmentIcons()
-                    showIconsFragmentOracao()
-                    (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).notifyDataSetChanged()
+                    when (current) {
+
+                        is FragmentOracao -> {
+                            showIconsFragmentOracao()
+                            (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).updateAdapter()
+                        }
+
+                        is FragmentSanto -> {
+                            showIconsFragmentSanto()
+
+                        }
+                    }
                 }
             }
 
@@ -290,7 +318,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun getIntentUser(data: Intent?): Usuario {
+    private fun getIntentUser(data: Intent?): Usuario {
         return (data?.getSerializableExtra(USER_KEY) as Usuario)
     }
 
@@ -301,9 +329,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 when (requestCode) {
                     CatolicoActivities.LOGIN_SCREEN.code -> {
                         if (data?.getSerializableExtra(USER_KEY) != null) {
-                            usuario = getIntentUser(data)
-                            drawer_layout.openDrawer(GravityCompat.START)
-                            setupMenuItemDV()
+                            clearAllFlagsAndRestart(true)
                         }
                     }
 
@@ -337,7 +363,8 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 }
 
                 R.id.action_load_liturgia -> {
-
+                    selectedFragment = FragmentLiturgia.instance()
+                    TAG = LITURGIA_FRAGMENT_TAG
                 }
 
                 R.id.action_load_prays -> {
@@ -357,10 +384,10 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
     }
 
-    fun setupDrawerLayout() {
-        var toggle = ActionBarDrawerToggle(this, drawer_layout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer_layout.addDrawerListener(toggle);
-        toggle.syncState();
+   private fun setupDrawerLayout() {
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle)
+        toggle.syncState()
         navigation_view.setNavigationItemSelectedListener(this)
         header = navigation_view.getHeaderView(0)
         menu = navigation_view.menu
@@ -372,13 +399,16 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         menuItemMinhasOracoesDV = menu?.findItem(R.id.menu_item_oracoes_favoritas)
         menuItemSugestaoDV = menu?.findItem(R.id.menu_item_sugerir_oracao)
         menuItemAutenticateDV = menu?.findItem(R.id.menu_item_autenticate)
+        if (getIntentUser() != null && intent.getBooleanExtra("drawer", false)) {
+            drawer_layout.openDrawer(GravityCompat.START)
+        }
     }
 
 
-    fun setupToolbar() {
+   private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         mToolbar.setTitleTextColor(resources.getColor(android.R.color.white))
-        mToolbar.setTitle("Católico de Fé");
+        mToolbar.title = "Católico de Fé"
     }
 
 }

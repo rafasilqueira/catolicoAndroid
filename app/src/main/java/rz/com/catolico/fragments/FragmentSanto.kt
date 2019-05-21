@@ -9,24 +9,26 @@ import android.view.Window
 import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.Toast
-import rz.com.catolico.bean.Santo
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.adapter.AdapterOracao
+import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
+    var dialgoSayntPray: Dialog? = null
 
     companion object {
         fun instance(): FragmentSanto {
@@ -57,21 +59,21 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
 
     override fun setupAdapter(list: MutableList<Santo>) {
         setupRecyclerView()
-        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list!!)
+        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list)
         recyclerView?.adapter = adapterSanto
     }
 
-    fun showDialogDatePickerResult(list: MutableList<Santo>){
-        var dialogResult = Dialog(activity!!)
+    fun showDialogDatePickerResult(list: MutableList<Santo>) {
+        val dialogResult = Dialog(activity!!)
         dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialogResult.setCancelable(true)
         dialogResult.setContentView(R.layout.dialog_santo_dia)
         val lp = WindowManager.LayoutParams()
-        val window = dialogResult.getWindow()
+        val window = dialogResult.window
         lp.copyFrom(window!!.attributes)
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window!!.setAttributes(lp)
+        window.attributes = lp
         val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AdapterSanto(parentActivity!!, this, list)
@@ -80,7 +82,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
     }
 
     fun showDialogDatePicker() {
-        var calendar = Calendar.getInstance()
+        val calendar = Calendar.getInstance()
 
         dialogDatePicker = Dialog(activity!!)
         dialogDatePicker?.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -91,20 +93,20 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
             dialogDatePicker?.setContentView(R.layout.dialog_search_by_date)
 
         val lp = WindowManager.LayoutParams()
-        val window = dialogDatePicker?.getWindow()
+        val window = dialogDatePicker?.window
         lp.copyFrom(window!!.attributes)
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         window.attributes = lp
-        var datePicker = dialogDatePicker?.findViewById<View>(R.id.date_picker) as DatePicker
+        val datePicker = dialogDatePicker?.findViewById<View>(R.id.date_picker) as DatePicker
 
 
-        var year = calendar?.get(Calendar.YEAR)!!
-        var month = calendar?.get(Calendar.MONTH)!!
-        var day = calendar?.get(Calendar.DAY_OF_MONTH)!!
+        val year = calendar?.get(Calendar.YEAR)!!
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
 
-        datePicker.init(year,month,day) { view, year, monthOfYear, dayOfMonth ->
+        datePicker.init(year, month, day) { _, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -119,11 +121,11 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
                 override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                     super.onResponse(call, response)
                     //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
-                    if(!response.body()!!.isEmpty()){
+                    if (response.body()!!.isNotEmpty()) {
                         showDialogDatePickerResult(response.body()!!)
                         dialogDatePicker?.dismiss()
-                    }else{
-                        Toast.makeText(parentActivity!!,R.string.santo_search_result,Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(parentActivity!!, R.string.santo_search_result, Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -142,22 +144,24 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
 
     }
 
-    fun showDialogSayntPrays(list: MutableList<Oracao>) {
-        var dialogResult = Dialog(activity!!)
-        dialogResult.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialogResult.setCancelable(true)
-        dialogResult.setContentView(R.layout.dialog_oracoes)
+    fun showDialogSayntPrays(santo: Santo) {
+        dialgoSayntPray = Dialog(activity!!)
+        dialgoSayntPray?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialgoSayntPray?.setCancelable(true)
+        dialgoSayntPray?.setContentView(R.layout.dialog_saynt_prays)
         val lp = WindowManager.LayoutParams()
-        val window = dialogResult.getWindow()
+        val window = dialgoSayntPray?.window
         lp.copyFrom(window!!.attributes)
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window!!.setAttributes(lp)
-        val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
+        window.attributes = lp
+        val recyclerView = dialgoSayntPray?.findViewById(R.id.recyclerview) as RecyclerView
+        val map = HashMap<String, MutableList<Oracao>>()
+        map[santo.nome] = santo.oracoes.sortedBy { it.nome }.toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterOracao(parentActivity!!, this@FragmentSanto, list)
-        dialogResult.show()
-        dialogResult.setCanceledOnTouchOutside(true)
+        recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
+        dialgoSayntPray?.show()
+        dialgoSayntPray?.setCanceledOnTouchOutside(true)
     }
 
 }

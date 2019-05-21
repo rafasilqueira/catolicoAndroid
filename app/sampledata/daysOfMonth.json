@@ -1,0 +1,12 @@
+{
+  "comment": "Months examples - months.json",
+  "days": [
+        { "day": "02" },
+        { "day": "03" },
+        { "day": "01" },
+        { "day": "23" },
+        { "day": "27" },
+        { "day": "15" },
+        { "day": "19" }
+  ]
+}

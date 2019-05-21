@@ -3,8 +3,8 @@ package rz.com.catolico.fragments
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
-import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
@@ -16,13 +16,13 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
-    private var selectedVH : VHOracaoCategory? = null
+    var selectedAdapter: AdapterOracao? = null
 
 
-    fun notifyDataSetChanged() {
-        recyclerView?.adapter?.notifyDataSetChanged()
+    fun updateAdapter() {
         syncronizeFavorites(mList)
-        selectedVH?.recyclerView?.adapter?.notifyDataSetChanged()
+        recyclerView?.adapter?.notifyDataSetChanged()
+        selectedAdapter?.notifyDataSetChanged()
     }
 
     companion object {
@@ -84,14 +84,10 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         setupAdapter(mList)
     }
 
-    fun swapFragment(oracao: Oracao, selectedVH : VHOracaoCategory) {
-        this.selectedVH = selectedVH
+    fun showSelectedORacao(oracao: Oracao, selectedAdapter: AdapterOracao) {
+        this.selectedAdapter = selectedAdapter
         val fragment = FragmentOracaoContent.instance(oracao)
-        fragmentManager!!.beginTransaction()
-                .hide(this)
-                .add(R.id.frame_layout, fragment, ORACAO_FRAGMENT_CONTENT_TAG)
-                .addToBackStack(null)
-                .commit()
+        swapFragment(fragment, ORACAO_FRAGMENT_CONTENT_TAG)
     }
 
     private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {

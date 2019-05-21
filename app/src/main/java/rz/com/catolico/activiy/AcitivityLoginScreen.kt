@@ -3,7 +3,8 @@ package rz.com.catolico.activiy
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager.*
+import android.content.pm.PackageManager.GET_SIGNATURES
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
@@ -16,16 +17,11 @@ import com.facebook.login.LoginResult
 import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
-import retrofit2.Call
-import retrofit2.Response
-import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.Usuario.Login
-import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.Encrypts
-import rz.com.catolico.utils.ToastMisc
 import rz.com.catolico.utils.ValidaCampos.Companion.isValidEmailAddress
 import rz.com.catolico.utils.ValidaCampos.Companion.isValidPassword
 import java.security.MessageDigest
@@ -98,7 +94,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
             if (isValidEmailAddress(edt_user_email) && isValidPassword(edt_password)) {
                 usuario?.email = edt_user_email.text.toString()
                 usuario?.password = Encrypts.criptografar(edt_password.text.toString(), Encrypts.CHAVE)
-                doLogin(usuario!!)
+                doLogin(usuario!!, this, true)
             }
         }
 
@@ -114,7 +110,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
                         usuario?.email = `object`.getString("email")
                         usuario?.nome = `object`.getString("name")
                         usuario?.idFacebook = `object`.getString("id")
-                        doLogin(usuario!!)
+                        doLogin(usuario!!, this@AcitivityLoginScreen, true)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -139,37 +135,6 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
         txt_novo_usuario.setOnClickListener {
             startActivity(Intent(this, AcitivityInsertEditUser::class.java))
         }
-    }
-
-
-    private fun doLogin(usuario: Usuario) {
-
-        val call: Call<Usuario> = if (usuario.idFacebook != null)
-            RetrofitConfig().usuarioService().getUserFacebook(usuario)
-        else
-            RetrofitConfig().usuarioService().getUser(usuario)
-
-        call.enqueue(object : CallBackDialog<Usuario>(this@AcitivityLoginScreen) {
-
-            override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
-                super.onResponse(call, response)
-                if (response?.body() != null)
-                    doLoginSucess(response.body()!!)
-                else
-                    ToastMisc.userNotFound(this@AcitivityLoginScreen)
-
-                //println(response?.body())
-
-            }
-
-            override fun onFailure(call: Call<Usuario>, t: Throwable) {
-                super.onFailure(call, t)
-                t.printStackTrace()
-                ToastMisc.generalError(this@AcitivityLoginScreen)
-            }
-
-        })
-
     }
 
 }
