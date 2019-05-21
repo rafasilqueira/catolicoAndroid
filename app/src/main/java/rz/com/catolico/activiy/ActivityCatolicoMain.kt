@@ -24,9 +24,11 @@ import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
+import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentOracaoContent
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -361,7 +363,8 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 }
 
                 R.id.action_load_liturgia -> {
-
+                    selectedFragment = FragmentLiturgia.instance()
+                    TAG = LITURGIA_FRAGMENT_TAG
                 }
 
                 R.id.action_load_prays -> {

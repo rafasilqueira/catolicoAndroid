@@ -1,0 +1,16 @@
+{
+  "comment": "Months examples - months.json",
+  "months": [
+    {
+      "short_months": [
+        { "name": "Jun" },
+        { "name": "Jul" },
+        { "name": "Aug" },
+        { "name": "Sep" },
+        { "name": "Oct" },
+        { "name": "Nov" },
+        { "name": "Dec" }
+      ]
+    }
+  ]
+}
