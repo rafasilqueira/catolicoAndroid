@@ -18,9 +18,9 @@ class RetrofitConfig {
 
     var builder = setupGsonBuilder()
 
-  private  fun setupGsonBuilder(): GsonBuilder {
+    private fun setupGsonBuilder(): GsonBuilder {
 
-      return GsonBuilder().registerTypeAdapter(Date::class.java, object : JsonSerializer<Date> {
+        return GsonBuilder().registerTypeAdapter(Date::class.java, object : JsonSerializer<Date> {
             override fun serialize(date: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
                 return JsonPrimitive(date?.time)
             }
@@ -48,12 +48,12 @@ class RetrofitConfig {
         return retrofit.create(SantoService::class.java)
     }
 
-    fun OracaoService(): OracaoService {
+    fun oracaoService(): OracaoService {
         return retrofit.create(OracaoService::class.java)
     }
 
-    fun LiturgiaService(): OracaoService {
-        return retrofit.create(LiturgiaService()::class.java)
+    fun liturgiaService(): LiturgiaService {
+        return retrofit.create(LiturgiaService::class.java)
     }
 
 }

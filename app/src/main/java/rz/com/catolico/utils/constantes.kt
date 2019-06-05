@@ -21,7 +21,7 @@ class Constantes {
         const val ORACOES = "oracoes/"
         const val CATEGORIAS = "categorias/"
         const val USUARIO = "usuario/"
-        const val LITURGIA = "liturgias/"
+        const val LITURGIA = "liturgia/"
         const val SANTO_FRAGMENT_TAG = "santoTag"
         const val SANTO_FRAGMENT_CONTENT_TAG = "santoContentTag"
         const val LITURGIA_FRAGMENT_TAG = "liturgiaTag"

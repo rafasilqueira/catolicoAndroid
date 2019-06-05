@@ -35,7 +35,7 @@ interface Login {
 
             override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
                 super.onResponse(call, response)
-                if (response?.body() != null)
+                if (response.body() != null)
                     doLoginSucess(response.body()!!)
                 else
                     ToastMisc.userNotFound(context)

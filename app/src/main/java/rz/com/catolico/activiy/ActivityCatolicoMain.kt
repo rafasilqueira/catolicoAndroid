@@ -68,7 +68,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             menuItemAutenticateDV?.setTitle(R.string.sair)
             setupIconAutenticate(true)
             linearLayoutHeader?.visibility = View.VISIBLE
-            txtUserName?.text = usuario?.nome
+            txtUserName?.text = usuario?.name
             txtUserEmail?.text = usuario?.email
             if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain)) {
                 //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
@@ -291,16 +291,12 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 ORACAO_FRAGMENT_CONTENT_TAG -> {
                     disableAllFragmentIcons()
                     when (current) {
-
                         is FragmentOracao -> {
                             showIconsFragmentOracao()
                             (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).updateAdapter()
                         }
 
-                        is FragmentSanto -> {
-                            showIconsFragmentSanto()
-
-                        }
+                        is FragmentSanto -> showIconsFragmentSanto()
                     }
                 }
             }

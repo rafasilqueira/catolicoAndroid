@@ -6,8 +6,8 @@ import java.util.*
 
 class Liturgia : BaseEntityName(), Serializable {
     var data: Date? = null
-    var today: Boolean = false
-    var tempo: TempoLiturgico? = null
-    var cor: CorLiturgica? = null
-    var leituras: List<Leitura>? = null
+    var today = false
+    var tempo: TempoLiturgico = TempoLiturgico()
+    var cor: CorLiturgica = CorLiturgica()
+    var leituras: MutableList<Leitura> = ArrayList()
 }

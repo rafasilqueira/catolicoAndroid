@@ -10,10 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
-import rz.com.catolico.adapter.AdapterOracao
-import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.utils.Constantes
 
 abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
 
@@ -23,7 +20,7 @@ abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
     private var view: ViewGroup? = null
     private var mInflater: LayoutInflater? = null
     private var mContainer: ViewGroup? = null
-    private var initialView = viewToLoad
+    var initialView = viewToLoad
     protected var usuario: Usuario? = null
 
     abstract fun loadData()
@@ -37,7 +34,7 @@ abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
     }
 
 
-    fun swapFragment(fragment: Fragment , TAG : String) {
+    fun swapFragment(fragment: Fragment, TAG: String) {
         fragmentManager!!.beginTransaction()
                 .hide(this)
                 .add(R.id.frame_layout, fragment, TAG)
@@ -58,11 +55,9 @@ abstract class FragmentAbstract<T>(viewToLoad: Int) : Fragment() {
         view?.addView(newView)
     }
 
-    protected fun setupRecyclerView() {
+    protected fun setupRecyclerView(linearLayoutManager: LinearLayoutManager = LinearLayoutManager(parentActivity, LinearLayoutManager.VERTICAL, false)) {
         recyclerView = view?.findViewById(R.id.recyclerview)
-        var llm = LinearLayoutManager(parentActivity)
-        llm.orientation = LinearLayoutManager.VERTICAL
-        recyclerView?.layoutManager = llm
+        recyclerView?.layoutManager = linearLayoutManager
     }
 
 

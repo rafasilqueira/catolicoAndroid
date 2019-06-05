@@ -18,9 +18,7 @@
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true">
+        android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="40dp"

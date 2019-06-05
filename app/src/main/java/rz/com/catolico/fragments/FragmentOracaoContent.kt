@@ -26,8 +26,8 @@ class FragmentOracaoContent : Fragment() {
 
     companion object {
         fun instance(oracao: Oracao): FragmentOracaoContent {
-            var fragmentOracaoContent = FragmentOracaoContent()
-            var bundle = Bundle()
+            val fragmentOracaoContent = FragmentOracaoContent()
+            val bundle = Bundle()
             bundle.putSerializable("oracao", oracao)
             fragmentOracaoContent.arguments = bundle
             return fragmentOracaoContent
@@ -46,7 +46,7 @@ class FragmentOracaoContent : Fragment() {
         oracao = arguments?.getSerializable("oracao") as Oracao
         txtOracao = view.findViewById(R.id.txt_oracao)
         txtDescricao = view.findViewById(R.id.txt_descricao_oracao)
-        txtOracao?.text = oracao?.nome
+        txtOracao?.text = oracao?.name
         txtDescricao?.text = oracao?.descricao
         parentContext?.isPrayFavorite(oracao!!.favorite)
         return view

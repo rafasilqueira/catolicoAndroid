@@ -108,7 +108,7 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
                         Log.d("Facebook SDK", "Sucesso!!!")
                         usuario = Usuario()
                         usuario?.email = `object`.getString("email")
-                        usuario?.nome = `object`.getString("name")
+                        usuario?.name = `object`.getString("name")
                         usuario?.idFacebook = `object`.getString("id")
                         doLogin(usuario!!, this@AcitivityLoginScreen, true)
                     } catch (e: JSONException) {

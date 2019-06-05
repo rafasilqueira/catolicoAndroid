@@ -8,8 +8,8 @@ import rz.com.catolico.utils.Constantes.Companion.TOP_LITURGIAS
 
 interface LiturgiaService {
 
-    @GET(LITURGIA + TOP_LITURGIAS)
-    fun getTopLiturgias(): Call<MutableList<Liturgia>>
+    @GET(LITURGIA)
+    fun getLiturgias(): Call<MutableList<Liturgia>>
 
 }
 

@@ -27,7 +27,7 @@ class Santo : BaseEntityFavorite(), Serializable {
     }
 
     fun addOracao(oracao:Oracao){
-        oracoes?.add(oracao)
+        oracoes.add(oracao)
     }
 
 }

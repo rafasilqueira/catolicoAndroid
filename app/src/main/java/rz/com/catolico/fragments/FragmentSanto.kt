@@ -157,7 +157,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
         window.attributes = lp
         val recyclerView = dialgoSayntPray?.findViewById(R.id.recyclerview) as RecyclerView
         val map = HashMap<String, MutableList<Oracao>>()
-        map[santo.nome] = santo.oracoes.sortedBy { it.nome }.toMutableList()
+        map[santo.name] = santo.oracoes.sortedBy { it.name }.toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
         dialgoSayntPray?.show()

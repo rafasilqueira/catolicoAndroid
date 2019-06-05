@@ -46,8 +46,8 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         val view: VHOracao
         if (holder is VHOracao) {
             view = holder
-            view.txtOracao.text = oracao.nome
-            view.txtCategoria.text = oracao.categoriaOracao?.nome
+            view.txtOracao.text = oracao.name
+            view.txtCategoria.text = oracao.categoriaOracao?.name
 
             setupIcon(view, oracao)
 

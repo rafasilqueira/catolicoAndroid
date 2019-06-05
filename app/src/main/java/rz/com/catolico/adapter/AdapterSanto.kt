@@ -45,7 +45,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         holder.setIsRecyclable(false)
         if (holder is VHSanto) {
             view = holder
-            view.txtSantoNome.text = genericType.nome
+            view.txtSantoNome.text = genericType.name
             view.txtComemoracao.text = formatterComemoracao.format(genericType.comemoracao)
             view.txtDiaData.text = getDaysToDate(context, genericType.diasData!!)
             view.txtDescricao.text = genericType.descricao

@@ -46,7 +46,7 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
     override fun loadData() {
         changeView(R.layout.load_screen_fragment)
-        val call: Call<MutableList<Oracao>> = RetrofitConfig().OracaoService().getOracoes()
+        val call: Call<MutableList<Oracao>> = RetrofitConfig().oracaoService().getOracoes()
         call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao) {
 
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
@@ -93,24 +93,24 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
     private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
         return mItems.map { it.categoriaOracao }
                 .distinct()
-                .sortedBy { it?.nome }
+                .sortedBy { it?.name }
                 .map {
-                    it!!.nome to mItems
+                    it!!.name to mItems
                             .filter { oracao -> oracao.categoriaOracao == it }
-                            .sortedBy { it.nome }
+                            .sortedBy { it.name }
                             .toMutableList()
                 }
                 .toMap()
     }
 
     private fun setupPrayAlphabetical(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.nome[0] }
+        return mItems.map { it.name[0] }
                 .distinct()
                 .sorted()
                 .map {
                     it.toString() to mItems
-                            .filter { oracao -> oracao.nome[0] == it }
-                            .sortedBy { it.nome }
+                            .filter { oracao -> oracao.name[0] == it }
+                            .sortedBy { it.name }
                             .toMutableList()
                 }
                 .toMap()
