@@ -45,7 +45,6 @@ abstract class AdapterAbstractViewPager<T>(var manager: FragmentManager) : Fragm
     }
 
     override fun getItemId(position: Int): Long {
-        // give an ID different from position when position has been changed
         return 0L + position
     }
 

@@ -2,8 +2,6 @@ package rz.com.catolico.fragments
 
 import android.support.design.widget.TabLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
-import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_liturgia.*
 import retrofit2.Call
 import retrofit2.Response
@@ -35,7 +33,6 @@ class FragmentLiturgia : FragmentAbstract<Liturgia>(R.layout.fragment_liturgia) 
             override fun onResponse(call: Call<MutableList<Liturgia>>, response: Response<MutableList<Liturgia>>) {
                 super.onResponse(call, response)
                 this@FragmentLiturgia.mList = response.body() ?: ArrayList()
-                Log.d("aaa", GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
                 setupAdapter(mList)
             }
 
@@ -52,6 +49,11 @@ class FragmentLiturgia : FragmentAbstract<Liturgia>(R.layout.fragment_liturgia) 
         adapterLiturgia = AdapterLiturgia(parentActivity!!, list, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()
+        try {
+            setLiturgiaViewPagerContent(list.first { it.today }.leituras)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun itemClickListenr(type: Liturgia) {
