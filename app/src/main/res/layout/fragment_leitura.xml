@@ -16,7 +16,7 @@
             android:layout_marginBottom="05dp"
             android:text="@string/leitura_salmo_ou_evangelho"
             android:textColor="@android:color/black"
-            android:textSize="20sp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
             android:textStyle="bold" />
 
 
@@ -24,6 +24,7 @@
             android:id="@+id/txtDescricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             android:text="@string/lorem_ipsum_dolor"
             android:textColor="@android:color/black" />
 

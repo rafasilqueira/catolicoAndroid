@@ -9,10 +9,10 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao), IFavorite<Oracao> {
+class FragmentOracao : FragmentAbstractAdapter<Oracao>(R.layout.fragment_oracao), IFavorite<Oracao> {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -86,8 +86,8 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
     fun showSelectedORacao(oracao: Oracao, selectedAdapter: AdapterOracao) {
         this.selectedAdapter = selectedAdapter
-        val fragment = FragmentOracaoContent.instance(oracao)
-        swapFragment(fragment, ORACAO_FRAGMENT_CONTENT_TAG)
+        val fragment = FragmentSelectedOracao.instance(oracao)
+        swapFragment(fragment, SELECTED_ORACAO_FRAGMENT_TAG)
     }
 
     private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {

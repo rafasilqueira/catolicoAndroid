@@ -26,16 +26,18 @@ import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.CatolicoActivities
 import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
-import rz.com.catolico.fragments.FragmentOracaoContent
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.fragments.FragmentSelectedOracao
+import rz.com.catolico.interfaces.IUserActivity
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
-import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
 
-class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListener {
+class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListener, IUserActivity {
 
     private var usuario: Usuario? = null
     private var header: View? = null
@@ -55,10 +57,9 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     private var doubleBackToExitPressedOnce: Boolean = false
     private var selectedFragment: Fragment? = null
 
-    fun getIntentUser(): Usuario? {
+    override fun getIntentUser(): Usuario? {
         return intent.getSerializableExtra(USER_KEY) as? Usuario
     }
-
 
     private fun setupMenuItemDV() {
         if (usuario != null) {
@@ -114,20 +115,14 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-   private fun setFragment(selectedFragment: Fragment, tag: String) {
+    private fun setFragment(selectedFragment: Fragment, tag: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
-            R.id.menu_item_user_profile -> {
-                startActivityForResult(
-                        Intent(
-                                this,
-                                AcitivitySettings::class.java).putExtra(USER_KEY, usuario),
-                        CatolicoActivities.SETTINGS.code)
-            }
+            R.id.menu_item_user_profile -> startActivityForResult(Intent(this, AcitivitySettings::class.java).putExtra(USER_KEY, usuario), CatolicoActivities.SETTINGS.code)
 
             R.id.menu_item_oracoes_favoritas -> {
             }
@@ -145,7 +140,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 if (usuario != null) {
                     endSession()
                 } else {
-                    startActivityForResult(Intent(this, AcitivityLoginScreen::class.java), CatolicoActivities.LOGIN_SCREEN.code)
+                    startActivityForResult(Intent(this, AcitivityILoginScreen::class.java), CatolicoActivities.LOGIN_SCREEN.code)
                 }
             }
         }
@@ -160,7 +155,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
             R.id.ic_favorite -> {
                 when (fragment) {
-                    is FragmentOracaoContent -> {
+                    is FragmentSelectedOracao -> {
                         fragment.favoriteButtonListener()
                     }
                 }
@@ -232,7 +227,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun isPrayFavorite(favorite: Boolean) {
+    fun isFavorite(favorite: Boolean) {
         if (favorite) {
             menuItemFavoritar?.setIcon(R.drawable.ic_favorite_star_selected_action_bar)
         } else {
@@ -240,15 +235,14 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         }
     }
 
-    fun showIconsOracaoContent() {
-        disableAllFragmentIcons()
+    fun showIconsSelectedContent() {
         menuItemShare?.isVisible = true
         if (getIntentUser() != null) {
             menuItemFavoritar?.isVisible = true
         }
     }
 
-   private fun showIconsFragmentSanto() {
+    private fun showIconsFragmentSanto() {
         menuItemSearch?.isVisible = true
     }
 
@@ -279,8 +273,9 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-
+            disableAllFragmentIcons()
             val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+
 
             val current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
                 supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG)
@@ -288,8 +283,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
                 supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
             }
             when (oldFragment?.tag) {
-                ORACAO_FRAGMENT_CONTENT_TAG -> {
-                    disableAllFragmentIcons()
+                SELECTED_ORACAO_FRAGMENT_TAG -> {
                     when (current) {
                         is FragmentOracao -> {
                             showIconsFragmentOracao()
@@ -298,6 +292,9 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
                         is FragmentSanto -> showIconsFragmentSanto()
                     }
+                }
+                SELECTED_SANTO_FRAGMENT_TAG -> {
+                    showIconsFragmentSanto()
                 }
             }
 
@@ -380,7 +377,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
 
     }
 
-   private fun setupDrawerLayout() {
+    private fun setupDrawerLayout() {
         val toggle = ActionBarDrawerToggle(this, drawer_layout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -401,7 +398,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
     }
 
 
-   private fun setupToolbar() {
+    private fun setupToolbar() {
         setSupportActionBar(mToolbar)
         mToolbar.setTitleTextColor(resources.getColor(android.R.color.white))
         mToolbar.title = "Católico de Fé"

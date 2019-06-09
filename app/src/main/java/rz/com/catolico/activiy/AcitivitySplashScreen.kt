@@ -7,10 +7,10 @@ import android.support.v7.app.AppCompatActivity
 import com.orhanobut.hawk.Hawk
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.interfaces.Usuario.Login
+import rz.com.catolico.interfaces.ILogin
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 
-class AcitivitySplashScreen : AppCompatActivity(), Login {
+class AcitivitySplashScreen : AppCompatActivity(), ILogin {
 
 
     override fun doLoginSucess(usuario: Usuario) {

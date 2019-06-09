@@ -11,7 +11,7 @@ import rz.com.catolico.R
 
 class VHOracao(val context: Context, view: View) : VHShareFavorite(context, view) {
 
-    var txtOracao: TextView = view.findViewById(R.id.txt_oracao)
+    var txtOracao: TextView = view.findViewById(R.id.txtOracao)
     var txtCategoria: TextView = view.findViewById(R.id.txt_categoria)
     var dividerLine: View = view.findViewById(R.id.divider_line)
 

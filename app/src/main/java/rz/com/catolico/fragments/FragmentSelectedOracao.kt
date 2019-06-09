@@ -16,7 +16,7 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentOracaoContent : Fragment() {
+class FragmentSelectedOracao : Fragment() {
 
     private var parentContext: ActivityCatolicoMain? = null
     private var txtOracao: TextView? = null
@@ -25,8 +25,8 @@ class FragmentOracaoContent : Fragment() {
     private var usuario: Usuario? = null
 
     companion object {
-        fun instance(oracao: Oracao): FragmentOracaoContent {
-            val fragmentOracaoContent = FragmentOracaoContent()
+        fun instance(oracao: Oracao): FragmentSelectedOracao {
+            val fragmentOracaoContent = FragmentSelectedOracao()
             val bundle = Bundle()
             bundle.putSerializable("oracao", oracao)
             fragmentOracaoContent.arguments = bundle
@@ -38,17 +38,17 @@ class FragmentOracaoContent : Fragment() {
         super.onAttach(context)
         parentContext = context as ActivityCatolicoMain
         usuario = parentContext!!.getIntentUser()
-        parentContext!!.showIconsOracaoContent()
+        parentContext!!.showIconsSelectedContent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_oracao_content, container, false) as ViewGroup
+        val view = inflater.inflate(R.layout.fragment_selected_oracao, container, false) as ViewGroup
         oracao = arguments?.getSerializable("oracao") as Oracao
-        txtOracao = view.findViewById(R.id.txt_oracao)
-        txtDescricao = view.findViewById(R.id.txt_descricao_oracao)
+        txtOracao = view.findViewById(R.id.txtOracao)
+        txtDescricao = view.findViewById(R.id.txtDescricao)
         txtOracao?.text = oracao?.name
         txtDescricao?.text = oracao?.descricao
-        parentContext?.isPrayFavorite(oracao!!.favorite)
+        parentContext?.isFavorite(oracao!!.favorite)
         return view
     }
 
@@ -73,7 +73,7 @@ class FragmentOracaoContent : Fragment() {
                         }else{
                             usuario!!.removeOracao(oracao!!)
                         }
-                        parentContext?.isPrayFavorite(oracao!!.favorite)
+                        parentContext?.isFavorite(oracao!!.favorite)
                     }
                 }
 

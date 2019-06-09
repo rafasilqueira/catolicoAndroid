@@ -13,7 +13,7 @@ import rz.com.catolico.bean.Liturgia
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentLiturgia : FragmentAbstract<Liturgia>(R.layout.fragment_liturgia) {
+class FragmentLiturgia : FragmentAbstractViewPager<Liturgia>(R.layout.fragment_liturgia) {
 
     private var adapterLiturgia: AdapterLiturgia? = null
     private var viewPagerAdapter: AdapterViewPagerLeitura? = null
@@ -23,7 +23,6 @@ class FragmentLiturgia : FragmentAbstract<Liturgia>(R.layout.fragment_liturgia) 
             return FragmentLiturgia()
         }
     }
-
 
     override fun loadData() {
         val call: Call<MutableList<Liturgia>> = RetrofitConfig().liturgiaService().getLiturgias()
@@ -60,7 +59,7 @@ class FragmentLiturgia : FragmentAbstract<Liturgia>(R.layout.fragment_liturgia) 
         setLiturgiaViewPagerContent(type.leituras)
     }
 
-    private fun setupViewPager() {
+    override fun setupViewPager() {
         tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         viewPagerAdapter = AdapterViewPagerLeitura(childFragmentManager)
     }

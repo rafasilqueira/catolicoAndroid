@@ -16,7 +16,7 @@ class VHOracaoCategory(val context: Context, val view: View) : VHAbstract(contex
     var llm = LinearLayoutManager(context)
     var txtName = view.findViewById(R.id.txt_name) as TextView
     var recyclerView = view.findViewById(R.id.recyclerview) as RecyclerView
-    var txtPrayQty = view.findViewById(R.id.txt_prayers_qty) as TextView
+    var txtPrayQty = view.findViewById(R.id.txtPrayQty) as TextView
 
     init {
         txtPrayQty.visibility = View.GONE

@@ -23,11 +23,11 @@ class Constantes {
         const val USUARIO = "usuario/"
         const val LITURGIA = "liturgia/"
         const val SANTO_FRAGMENT_TAG = "santoTag"
-        const val SANTO_FRAGMENT_CONTENT_TAG = "santoContentTag"
+        const val SELECTED_SANTO_FRAGMENT_TAG = "santoContentTag"
         const val LITURGIA_FRAGMENT_TAG = "liturgiaTag"
         const val LITURGIA_FRAGMENT_CONTENT_TAG = "leituraContentTag"
         const val ORACAO_FRAGMENT_TAG = "oracaoTag"
-        const val ORACAO_FRAGMENT_CONTENT_TAG = "oracaoContentTag"
+        const val SELECTED_ORACAO_FRAGMENT_TAG = "oracaoContentTag"
         const val SELECTED_CATEGORIA_ORACAO_TAG = "selectedcategoriaTag"
 
         const val USER_KEY = "usuario"

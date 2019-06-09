@@ -3,7 +3,7 @@ package rz.com.catolico.bean
 import java.io.Serializable
 import java.util.*
 
-class Santo : BaseEntityFavorite(), Serializable {
+class Santo : BaseEntityFavorite(), Serializable, Cloneable {
 
      var comemoracao: Date? = null
      var imgurl: String? = null
@@ -11,23 +11,18 @@ class Santo : BaseEntityFavorite(), Serializable {
      var diasData: Int? = null
      var oracoes: MutableList<Oracao> = ArrayList()
 
-    override fun equals(o: Any?): Boolean {
-        if (this === o) {
-            return true
-        } else if (o != null && this.javaClass == o.javaClass) {
-            val santo = o as Santo?
-            return this.id == santo!!.id
-        } else {
-            return false
-        }
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hash(this.id?.let { arrayOf<Any>(it) })
-    }
-
     fun addOracao(oracao:Oracao){
         oracoes.add(oracao)
+    }
+
+    public override fun clone(): Any {
+        return try {
+            super.clone()
+        } catch (e: CloneNotSupportedException) {
+            println("Cloning not allowed.")
+            this
+        }
+
     }
 
 }

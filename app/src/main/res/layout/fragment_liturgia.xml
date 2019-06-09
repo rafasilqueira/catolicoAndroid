@@ -69,6 +69,7 @@
                     android:background="@android:color/white"
                     app:tabIndicatorColor="@color/red"
                     app:tabIndicatorHeight="6dp"
+                    app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/red"
                     app:tabTextColor="@android:color/black" />

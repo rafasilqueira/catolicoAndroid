@@ -24,7 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
+class FragmentSanto : FragmentAbstractAdapter<Santo>(R.layout.fragment_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
