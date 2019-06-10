@@ -23,10 +23,10 @@ import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems) , IFavorite<Oracao> {
 
-    private var fragmentAbstract: FragmentAbstract<*>? = null
+    private var fragmentAbstract: FragmentAbstract<*,*>? = null
     private var parentView: VHOracaoCategory? = null
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>, parentVH: VHOracaoCategory) : this(context, mItems) {
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<*,*>, mItems: MutableList<Oracao>, parentVH: VHOracaoCategory) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
         this.parentView = parentVH
     }

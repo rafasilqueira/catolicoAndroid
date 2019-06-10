@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.fragment_liturgia.*
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
 import rz.com.catolico.adapter.AdapterLiturgia
 import rz.com.catolico.adapter.AdapterViewPagerLeitura
 import rz.com.catolico.bean.Leitura
@@ -13,7 +14,7 @@ import rz.com.catolico.bean.Liturgia
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentLiturgia : FragmentAbstractViewPager<Liturgia>(R.layout.fragment_liturgia) {
+class FragmentLiturgia : FragmentAbstractViewPager<Liturgia,ActivityBaseFragmentCatolicoMain>(R.layout.fragment_liturgia) {
 
     private var adapterLiturgia: AdapterLiturgia? = null
     private var viewPagerAdapter: AdapterViewPagerLeitura? = null
@@ -55,7 +56,7 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia>(R.layout.fragment_l
         }
     }
 
-    override fun itemClickListenr(type: Liturgia) {
+    override fun itemClickListener(type: Liturgia) {
         setLiturgiaViewPagerContent(type.leituras)
     }
 

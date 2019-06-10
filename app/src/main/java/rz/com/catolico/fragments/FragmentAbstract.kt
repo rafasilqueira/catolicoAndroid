@@ -7,22 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
+import rz.com.catolico.interfaces.IBaseFragmentActivty
 
-abstract class FragmentAbstract<T>(val initialView: Int) : Fragment() {
+abstract class FragmentAbstract<T, A : IBaseFragmentActivty>(val initialView: Int) : Fragment() {
 
-    protected var parentActivity: ActivityCatolicoMain? = null
+    protected var parentActivity: ActivityBaseFragment? = null
     protected var view: ViewGroup? = null
     protected var mInflater: LayoutInflater? = null
     protected var mContainer: ViewGroup? = null
     protected var usuario: Usuario? = null
 
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    abstract fun itemClickListenr(type: T)
 
     fun disableAllIcons() {
-        parentActivity?.disableAllFragmentIcons()
+        parentActivity?.disableAllIcons()
     }
 
     fun swapFragment(fragment: Fragment, TAG: String) {
@@ -35,8 +35,8 @@ abstract class FragmentAbstract<T>(val initialView: Int) : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentActivity = context as ActivityCatolicoMain
-        parentActivity?.setupFragmentMenuIcon(this@FragmentAbstract)
+        parentActivity = context as ActivityBaseFragment
+        parentActivity?.actionAttachFragment(this@FragmentAbstract)
         usuario = parentActivity?.getIntentUser()
     }
 

@@ -1,6 +1,7 @@
 package rz.com.catolico.adapter
 
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,7 @@ import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentLiturgia
 import java.util.*
 
-class AdapterLiturgia(context: Context, mItem: MutableList<Liturgia>, var fragmentAbstract: FragmentAbstract<Liturgia>) : AdapterAbstract<Liturgia>(context, mItem) {
+class AdapterLiturgia(context: Context, mItem: MutableList<Liturgia>, var fragmentAbstract: Fragment) : AdapterAbstract<Liturgia>(context, mItem) {
 
     private val calendar: Calendar = Calendar.getInstance()
 
@@ -69,7 +70,7 @@ class AdapterLiturgia(context: Context, mItem: MutableList<Liturgia>, var fragme
 
             view.setOnClickListener(View.OnClickListener {
                 if (fragmentAbstract is FragmentLiturgia) {
-                    (fragmentAbstract as FragmentLiturgia).itemClickListenr(genericType)
+                    (fragmentAbstract as FragmentLiturgia).itemClickListener(genericType)
                 }
             })
         }

@@ -11,14 +11,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 
 class FragmentSelectedOracao : Fragment() {
 
-    private var parentContext: ActivityCatolicoMain? = null
+    private var parentContext: ActivityBaseFragmentCatolicoMain? = null
     private var txtOracao: TextView? = null
     private var txtDescricao: TextView? = null
     private var oracao: Oracao? = null
@@ -36,7 +36,7 @@ class FragmentSelectedOracao : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentContext = context as ActivityCatolicoMain
+        parentContext = context as ActivityBaseFragmentCatolicoMain
         usuario = parentContext!!.getIntentUser()
         parentContext!!.showIconsSelectedContent()
     }

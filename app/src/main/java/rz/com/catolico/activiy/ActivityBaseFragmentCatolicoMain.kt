@@ -8,7 +8,6 @@ import android.support.design.widget.NavigationView.OnNavigationItemSelectedList
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -28,7 +27,6 @@ import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.fragments.FragmentSelectedOracao
-import rz.com.catolico.interfaces.IUserActivity
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -37,7 +35,7 @@ import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
 
-class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListener, IUserActivity {
+class ActivityBaseFragmentCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedListener {
 
     private var usuario: Usuario? = null
     private var header: View? = null
@@ -71,10 +69,10 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
             linearLayoutHeader?.visibility = View.VISIBLE
             txtUserName?.text = usuario?.name
             txtUserEmail?.text = usuario?.email
-            if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain)) {
-                //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
+            if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityBaseFragmentCatolicoMain)) {
+                //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityBaseFragmentCatolicoMain))
                 val profile = Profile.getCurrentProfile()
-                Picasso.with(this@ActivityCatolicoMain)
+                Picasso.with(this@ActivityBaseFragmentCatolicoMain)
                         .load(profile?.getProfilePictureUri(200, 200).toString())
                         .placeholder(R.drawable.ic_account_circle_white_96dp)
                         .error(R.drawable.ic_account_circle_white_96dp)
@@ -214,16 +212,11 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         finish()
     }
 
-    fun setupFragmentMenuIcon(fragment: Fragment) {
-        disableAllFragmentIcons()
+    override fun actionAttachFragment(fragment: Fragment) {
+        disableAllIcons()
         when (fragment) {
-            is FragmentSanto -> {
-                showIconsFragmentSanto()
-            }
-
-            is FragmentOracao -> {
-                showIconsFragmentOracao()
-            }
+            is FragmentSanto ->  showIconsFragmentSanto()
+            is FragmentOracao -> showIconsFragmentOracao()
         }
     }
 
@@ -251,7 +244,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         menuItemFilter?.isVisible = true
     }
 
-    fun disableAllFragmentIcons() {
+    override fun disableAllIcons() {
         menuItemFavoritar?.isVisible = false
         menuItemShare?.isVisible = false
         menuItemFilter?.isVisible = false
@@ -273,7 +266,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            disableAllFragmentIcons()
+            disableAllIcons()
             val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
 
 
@@ -346,7 +339,7 @@ class ActivityCatolicoMain : AppCompatActivity(), OnNavigationItemSelectedListen
         setupMenuItemDV()
 
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
-            disableAllFragmentIcons()
+            disableAllIcons()
             var TAG: String? = null
             var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {

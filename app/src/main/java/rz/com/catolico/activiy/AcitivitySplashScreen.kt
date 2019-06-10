@@ -14,7 +14,7 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
 
 
     override fun doLoginSucess(usuario: Usuario) {
-        startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java)
+        startActivity(Intent(this@AcitivitySplashScreen, ActivityBaseFragmentCatolicoMain::class.java)
                 .putExtra(USER_KEY, usuario)
                 .putExtra("drawer", intent.getBooleanExtra("drawer",false))
         )
@@ -37,7 +37,7 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
                 doLogin(usuario!!, this, false)
             } else {
                 Hawk.delete(USER_KEY)
-                startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java))
+                startActivity(Intent(this@AcitivitySplashScreen, ActivityBaseFragmentCatolicoMain::class.java))
                 finish()
             }
 

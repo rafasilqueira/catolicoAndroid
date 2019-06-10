@@ -3,6 +3,7 @@ package rz.com.catolico.fragments
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
@@ -12,7 +13,7 @@ import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao>(R.layout.fragment_oracao), IFavorite<Oracao> {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityBaseFragmentCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -40,7 +41,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao>(R.layout.fragment_oracao)
         }
     }
 
-    override fun itemClickListenr(type: Oracao) {
+    override fun itemClickListener(type: Oracao) {
         println("Aqui porra!!!")
     }
 
