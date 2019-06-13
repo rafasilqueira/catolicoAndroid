@@ -2,28 +2,23 @@ package rz.com.catolico.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.AppCompatImageView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
-class FragmentSelectedSanto : Fragment() {
+class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_santo) {
 
-    private var parentContext: ActivityBaseFragmentCatolicoMain? = null
     private var santo: Santo? = null
-    private var usuario: Usuario? = null
 
     companion object {
         fun instance(santo: Santo): FragmentSelectedSanto {
@@ -37,28 +32,32 @@ class FragmentSelectedSanto : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentContext = context as ActivityBaseFragmentCatolicoMain
-        usuario = parentContext!!.getIntentUser()
-        parentContext!!.disableAllIcons()
-        parentContext!!.showIconsSelectedContent()
+        parentActivity = context as ActivityCatolicoMain
+        usuario = parentActivity!!.getIntentUser()
+        parentActivity!!.disableAllIcons()
+        parentActivity!!.showIconsSelectedContent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_selected_santo, container, false) as ViewGroup
         santo = arguments?.getSerializable("santo") as Santo
-        parentContext?.isFavorite(santo!!.favorite)
-
-        val txtNome = view.findViewById<TextView>(R.id.txtNome)
-        val txtComemoracao = view.findViewById<TextView>(R.id.txtComemoracao)
-        val txtDescricao = view.findViewById<TextView>(R.id.txtDescricao)
+        parentActivity?.isFavorite(santo!!.favorite)
         val imgSanto = view.findViewById<AppCompatImageView>(R.id.imgSanto)
-
-        txtNome.text = santo?.name
-        txtComemoracao.text = formatterComemoracao.format(santo?.comemoracao)
-        txtDescricao.text = santo?.descricao
-        if (santo?.imgurl != null && !santo?.imgurl.equals("")) { Picasso.with(context).load(santo?.imgurl).into(imgSanto) }
+        if (santo?.imgurl != null && !santo?.imgurl.equals("")) Picasso.with(context).load(santo?.imgurl).into(imgSanto)
         return view
     }
+
+
+    /*val txtNome = view.findViewById<TextView>(R.id.txtNome)
+    val txtComemoracao = view.findViewById<TextView>(R.id.txtComemoracao)
+    val txtDescricao = view.findViewById<TextView>(R.id.txtDescricao)
+    val imgSanto = view.findViewById<AppCompatImageView>(R.id.imgSanto)
+
+    txtNome.text = santo?.name
+    txtComemoracao.text = formatterComemoracao.format(santo?.comemoracao)
+    txtDescricao.text = santo?.descricao
+    return view*/
+
 
     fun favoriteButtonListener() {
         if (usuario != null) {
@@ -81,7 +80,7 @@ class FragmentSelectedSanto : Fragment() {
                         } else {
                             usuario!!.removeSanto(santo!!)
                         }
-                        parentContext?.isFavorite(santo!!.favorite)
+                        parentActivity?.isFavorite(santo!!.favorite)
                     }
                 }
 
@@ -91,6 +90,7 @@ class FragmentSelectedSanto : Fragment() {
 
             })
         }
+
     }
 
 }

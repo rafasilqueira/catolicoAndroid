@@ -27,7 +27,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activiy.ActivityBaseFragmentCatolicoMain" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activiy.ActivityCatolicoMain" android:screenOrientation="portrait"></activity>
         <activity android:name=".activiy.AcitivityILoginScreen" android:screenOrientation="portrait"></activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id_dev"/>

@@ -11,9 +11,10 @@ import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.IBaseFragmentActivty
 
-abstract class FragmentAbstract<T, A : IBaseFragmentActivty>(val initialView: Int) : Fragment() {
+@Suppress("UNCHECKED_CAST")
+abstract class FragmentAbstract< A : IBaseFragmentActivty>(val initialView: Int) : Fragment() {
 
-    protected var parentActivity: ActivityBaseFragment? = null
+    protected var parentActivity: A? = null
     protected var view: ViewGroup? = null
     protected var mInflater: LayoutInflater? = null
     protected var mContainer: ViewGroup? = null
@@ -35,7 +36,7 @@ abstract class FragmentAbstract<T, A : IBaseFragmentActivty>(val initialView: In
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentActivity = context as ActivityBaseFragment
+        parentActivity = context as A
         parentActivity?.actionAttachFragment(this@FragmentAbstract)
         usuario = parentActivity?.getIntentUser()
     }

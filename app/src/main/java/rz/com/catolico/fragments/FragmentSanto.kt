@@ -12,7 +12,7 @@ import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Oracao
@@ -25,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityBaseFragmentCatolicoMain>(R.layout.fragment_santo) {
+class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layout.fragment_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null

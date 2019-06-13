@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
@@ -25,7 +25,7 @@ import rz.com.catolico.utils.ToastMisc
 
 class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavorite<Santo> {
 
-    private var fragmentAbstract: FragmentAbstract<Santo,ActivityBaseFragmentCatolicoMain>? = null
+    private var fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>? = null
 
     init {
         if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
@@ -33,7 +33,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         }
     }
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo,ActivityBaseFragmentCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
     }
 

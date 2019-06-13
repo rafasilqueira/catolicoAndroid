@@ -7,7 +7,7 @@ import rz.com.catolico.R
 import rz.com.catolico.fragments.FragmentAbstract
 
 
-open class CallBackFragment<T>(fragment: FragmentAbstract<*,*>) : Callback<T> {
+open class CallBackFragment<T>(fragment: FragmentAbstract<*>) : Callback<T> {
 
     private var fragmentAbstract = fragment
 

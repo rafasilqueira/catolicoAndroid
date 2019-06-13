@@ -2,7 +2,6 @@ package rz.com.catolico.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,18 +10,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
-import rz.com.catolico.activiy.ActivityBaseFragmentCatolicoMain
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentSelectedOracao : Fragment() {
+class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_oracao) {
 
-    private var parentContext: ActivityBaseFragmentCatolicoMain? = null
+    private var parentContext: ActivityCatolicoMain? = null
     private var txtOracao: TextView? = null
     private var txtDescricao: TextView? = null
     private var oracao: Oracao? = null
-    private var usuario: Usuario? = null
 
     companion object {
         fun instance(oracao: Oracao): FragmentSelectedOracao {
@@ -36,7 +34,7 @@ class FragmentSelectedOracao : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentContext = context as ActivityBaseFragmentCatolicoMain
+        parentContext = context as ActivityCatolicoMain
         usuario = parentContext!!.getIntentUser()
         parentContext!!.showIconsSelectedContent()
     }
