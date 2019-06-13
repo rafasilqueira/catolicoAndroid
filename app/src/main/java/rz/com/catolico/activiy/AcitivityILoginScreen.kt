@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_login_screen.*
 import org.json.JSONException
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.interfaces.Usuario.Login
+import rz.com.catolico.interfaces.ILogin
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.Encrypts
 import rz.com.catolico.utils.ValidaCampos.Companion.isValidEmailAddress
@@ -28,7 +28,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
-class AcitivityLoginScreen : AppCompatActivity(), Login {
+class AcitivityILoginScreen : AppCompatActivity(), ILogin {
 
     private var usuario: Usuario? = null
 
@@ -108,9 +108,9 @@ class AcitivityLoginScreen : AppCompatActivity(), Login {
                         Log.d("Facebook SDK", "Sucesso!!!")
                         usuario = Usuario()
                         usuario?.email = `object`.getString("email")
-                        usuario?.nome = `object`.getString("name")
+                        usuario?.name = `object`.getString("name")
                         usuario?.idFacebook = `object`.getString("id")
-                        doLogin(usuario!!, this@AcitivityLoginScreen, true)
+                        doLogin(usuario!!, this@AcitivityILoginScreen, true)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }

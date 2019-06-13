@@ -15,40 +15,47 @@
     app:cardUseCompatPadding="true"
     tools:ignore="MissingDefaultResource">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin">
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/txtMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/red"
-            tools:text="@sample/months.json/months/short_months/name"
-            android:lines="1"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin">
 
-        <TextView
-            android:id="@+id/txtDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textStyle="bold"
-            android:layout_marginTop="03dp"
-            android:textColor="@android:color/black"
-            tools:text="@sample/daysOfMonth.json/days/day"
-            app:layout_constraintTop_toBottomOf="@id/txtMonth"
-            app:layout_constraintLeft_toRightOf="@id/txtMonth"
-            app:layout_constraintRight_toLeftOf="@id/txtMonth"/>
+            <TextView
+                android:id="@+id/txtMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:lines="1"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@sample/months.json/months/short_months/name" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/txtDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="03dp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@id/txtMonth"
+                app:layout_constraintRight_toLeftOf="@id/txtMonth"
+                app:layout_constraintTop_toBottomOf="@id/txtMonth"
+                tools:text="@sample/daysOfMonth.json/days/day" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </FrameLayout>
 
 </android.support.v7.widget.CardView>

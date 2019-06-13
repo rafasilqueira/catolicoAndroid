@@ -40,7 +40,7 @@ class FragmetConfig : PreferenceFragment(), SharedPreferences.OnSharedPreference
     }
 
     fun updateUser(usuario: Usuario){
-        getParent(userDataPreference!!)?.title = usuario?.nome
+        getParent(userDataPreference!!)?.title = usuario?.name
         (myActivity as AcitivitySettings).setUsuario(usuario!!)
     }
 

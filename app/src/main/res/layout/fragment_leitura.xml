@@ -1,35 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="16dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="16dp">
+    android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
         <TextView
-            android:id="@+id/txt_leitura_passagem"
+            android:id="@+id/txtPassagem"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="05dp"
             android:text="@string/leitura_salmo_ou_evangelho"
             android:textColor="@android:color/black"
-            android:layout_marginBottom="05dp"
-            android:textSize="30sp"
-            android:textStyle="bold"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textStyle="bold" />
 
 
         <TextView
-            android:id="@+id/txt_leitura_descricao"
+            android:id="@+id/txtDescricao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="@string/lorem_ipsum_dolor"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            android:text="@string/lorem_ipsum_dolor"
+            android:textColor="@android:color/black" />
 
 
     </LinearLayout>

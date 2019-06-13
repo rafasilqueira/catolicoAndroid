@@ -34,7 +34,7 @@
                 <android.support.design.widget.CollapsingToolbarLayout
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="250dp"
                     app:contentScrim="?attr/colorPrimary"
                     app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
@@ -45,19 +45,18 @@
                         android:layout_height="wrap_content"
                         android:background="@color/white">
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/recyclerview"
+                        <android.support.v7.widget.AppCompatImageView
+                            android:id="@+id/imgSanto"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal"
-                            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                            android:layout_height="250dp"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            tools:listitem="@layout/adapter_liturgia">
+                            app:layout_constraintLeft_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="parent"
+                            app:srcCompat="@drawable/ic_santo"
+                            android:scaleType="fitXY"/>
 
 
-                        </android.support.v7.widget.RecyclerView>
                     </android.support.constraint.ConstraintLayout>
                 </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -72,7 +71,8 @@
                     app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/red"
-                    app:tabTextColor="@android:color/black" />
+                    app:tabTextColor="@android:color/black"
+                    android:layout_marginTop="05dp"/>
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v4.view.ViewPager

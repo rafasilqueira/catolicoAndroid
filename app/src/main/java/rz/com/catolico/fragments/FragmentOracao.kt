@@ -3,16 +3,17 @@ package rz.com.catolico.fragments
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_oracao), IFavorite<Oracao> {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -40,13 +41,13 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
         }
     }
 
-    override fun itemClickListenr(type: Oracao) {
+    override fun itemClickListener(type: Oracao) {
         println("Aqui porra!!!")
     }
 
     override fun loadData() {
         changeView(R.layout.load_screen_fragment)
-        val call: Call<MutableList<Oracao>> = RetrofitConfig().OracaoService().getOracoes()
+        val call: Call<MutableList<Oracao>> = RetrofitConfig().oracaoService().getOracoes()
         call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao) {
 
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
@@ -86,31 +87,31 @@ class FragmentOracao : FragmentAbstract<Oracao>(R.layout.recycler_view_adapter_o
 
     fun showSelectedORacao(oracao: Oracao, selectedAdapter: AdapterOracao) {
         this.selectedAdapter = selectedAdapter
-        val fragment = FragmentOracaoContent.instance(oracao)
-        swapFragment(fragment, ORACAO_FRAGMENT_CONTENT_TAG)
+        val fragment = FragmentSelectedOracao.instance(oracao)
+        swapFragment(fragment, SELECTED_ORACAO_FRAGMENT_TAG)
     }
 
     private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
         return mItems.map { it.categoriaOracao }
                 .distinct()
-                .sortedBy { it?.nome }
+                .sortedBy { it?.name }
                 .map {
-                    it!!.nome to mItems
+                    it!!.name to mItems
                             .filter { oracao -> oracao.categoriaOracao == it }
-                            .sortedBy { it.nome }
+                            .sortedBy { it.name }
                             .toMutableList()
                 }
                 .toMap()
     }
 
     private fun setupPrayAlphabetical(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.nome[0] }
+        return mItems.map { it.name[0] }
                 .distinct()
                 .sorted()
                 .map {
                     it.toString() to mItems
-                            .filter { oracao -> oracao.nome[0] == it }
-                            .sortedBy { it.nome }
+                            .filter { oracao -> oracao.name[0] == it }
+                            .sortedBy { it.name }
                             .toMutableList()
                 }
                 .toMap()

@@ -3,6 +3,7 @@ package rz.com.catolico.retrofit
 import com.google.gson.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import rz.com.catolico.interfaces.LiturgiaService
 import rz.com.catolico.interfaces.OracaoService
 import rz.com.catolico.interfaces.SantoService
 import rz.com.catolico.interfaces.UsuarioService
@@ -17,9 +18,9 @@ class RetrofitConfig {
 
     var builder = setupGsonBuilder()
 
-  private  fun setupGsonBuilder(): GsonBuilder {
+    private fun setupGsonBuilder(): GsonBuilder {
 
-      return GsonBuilder().registerTypeAdapter(Date::class.java, object : JsonSerializer<Date> {
+        return GsonBuilder().registerTypeAdapter(Date::class.java, object : JsonSerializer<Date> {
             override fun serialize(date: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
                 return JsonPrimitive(date?.time)
             }
@@ -47,8 +48,12 @@ class RetrofitConfig {
         return retrofit.create(SantoService::class.java)
     }
 
-    fun OracaoService(): OracaoService {
+    fun oracaoService(): OracaoService {
         return retrofit.create(OracaoService::class.java)
+    }
+
+    fun liturgiaService(): LiturgiaService {
+        return retrofit.create(LiturgiaService::class.java)
     }
 
 }

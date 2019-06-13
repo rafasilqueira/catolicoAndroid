@@ -57,7 +57,7 @@ class AcitivityInsertEditUser : AppCompatActivity() {
     }
 
     private fun setupChangePasswordView() {
-        edtNome.setText(usuario?.nome)
+        edtNome.setText(usuario?.name)
         edtEmail.setText(usuario?.email)
         textInputLayoutPassword.visibility = View.VISIBLE
         edtPassword.visibility = View.VISIBLE
@@ -73,7 +73,7 @@ class AcitivityInsertEditUser : AppCompatActivity() {
     }
 
     private fun setupEditUserView() {
-        edtNome.setText(usuario?.nome)
+        edtNome.setText(usuario?.name)
         edtEmail.setText(usuario?.email)
         edtEmail.isEnabled = false
         edtEmail.setTextColor(resources.getColor(R.color.red))
@@ -134,7 +134,7 @@ class AcitivityInsertEditUser : AppCompatActivity() {
                             return@setOnClickListener
                     }
                 }
-                usuario?.nome = nome
+                usuario?.name = nome
                 usuario?.email = email
                 //println(GsonBuilder().setPrettyPrinting().create().toJson(usuario))
                 saveUpdateUser(usuario!!)

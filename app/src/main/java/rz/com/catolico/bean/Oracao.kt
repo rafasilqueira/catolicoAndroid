@@ -12,6 +12,5 @@ class Oracao : BaseEntityFavorite(), Serializable, Cloneable {
             println("Cloning not allowed.")
             this
         }
-
     }
 }

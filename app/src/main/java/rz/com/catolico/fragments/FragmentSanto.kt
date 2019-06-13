@@ -12,6 +12,7 @@ import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Oracao
@@ -24,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_santo) {
+class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layout.fragment_santo) {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
@@ -140,7 +141,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
         dialogDatePicker?.setCanceledOnTouchOutside(true)
     }
 
-    override fun itemClickListenr(type: Santo) {
+    override fun itemClickListener(type: Santo) {
 
     }
 
@@ -157,7 +158,7 @@ class FragmentSanto : FragmentAbstract<Santo>(R.layout.recycler_view_adapter_san
         window.attributes = lp
         val recyclerView = dialgoSayntPray?.findViewById(R.id.recyclerview) as RecyclerView
         val map = HashMap<String, MutableList<Oracao>>()
-        map[santo.nome] = santo.oracoes.sortedBy { it.nome }.toMutableList()
+        map[santo.name] = santo.oracoes.sortedBy { it.name }.toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
         dialgoSayntPray?.show()

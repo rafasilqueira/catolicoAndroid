@@ -1,90 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contact_card_view"
+    android:id="@+id/fragment_santo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:animateLayoutChanges="true"
-    android:clickable="true"
-    android:focusable="true"
-    android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="9dp"
-    app:cardElevation="3dp"
-    app:cardUseCompatPadding="true"
-    tools:ignore="MissingDefaultResource">
+    tools:context="rz.com.catolico.fragments.FragmentOracao"
+    android:layout_marginTop="@dimen/activity_vertical_margin">
 
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/txtOracao"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="@dimen/activity_vertical_margin">
+            android:lines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@sample/oracoes.json/names/short_names/name" />
 
-            <TextView
-                android:id="@+id/txt_oracao"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:lines="1"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@sample/oracoes.json/names/short_names/name" />
+        <TextView
+            android:id="@+id/txt_categoria"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtOracao"
+            tools:text="@sample/oracoes.json/names/categories_example/name" />
 
-            <TextView
-                android:id="@+id/txt_categoria"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:lines="1"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@android:color/darker_gray"
-                app:layout_constraintTop_toBottomOf="@+id/txt_oracao"
-                app:layout_constraintLeft_toLeftOf="parent"
-                tools:text="@sample/oracoes.json/names/categories_example/name" />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/favorite_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="?selectableItemBackground"
+            android:contentDescription="Favorite Pray"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_favorite_star_selected"
+            tools:ignore="HardcodedText" />
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/favorite_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:contentDescription="Favorite Pray"
-                android:scaleType="fitCenter"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                tools:ignore="HardcodedText"
-                app:srcCompat="@drawable/ic_favorite_star_selected"
-                android:background="?selectableItemBackground"/>
+        <View
+            android:id="@+id/divider_line"
+            android:layout_width="1dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="04dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/favorite_button"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/divider_line"
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="04dp"
-                android:background="@android:color/darker_gray"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@+id/favorite_button" />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/share_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="4dp"
+            android:background="?selectableItemBackground"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="@id/divider_line"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_share_gray_24dp" />
 
-            <android.support.v7.widget.AppCompatImageButton
-                android:id="@+id/share_button"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginEnd="4dp"
-                android:background="?selectableItemBackground"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:scaleType="fitCenter"
-                app:layout_constraintRight_toRightOf="@id/divider_line"
-                app:srcCompat="@drawable/ic_share_gray_24dp" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
-
-</android.support.v7.widget.CardView>
-
-
+    </android.support.constraint.ConstraintLayout>

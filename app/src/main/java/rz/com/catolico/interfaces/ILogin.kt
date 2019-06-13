@@ -1,4 +1,4 @@
-package rz.com.catolico.interfaces.Usuario
+package rz.com.catolico.interfaces
 
 import android.content.Context
 import retrofit2.Call
@@ -9,7 +9,7 @@ import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 
-interface Login {
+interface ILogin {
 
     fun doLoginSucess(usuario: Usuario)
 
@@ -35,7 +35,7 @@ interface Login {
 
             override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
                 super.onResponse(call, response)
-                if (response?.body() != null)
+                if (response.body() != null)
                     doLoginSucess(response.body()!!)
                 else
                     ToastMisc.userNotFound(context)

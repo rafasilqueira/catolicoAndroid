@@ -15,11 +15,11 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentOracao
-import rz.com.catolico.fragments.FragmentOracaoContent
+import rz.com.catolico.fragments.FragmentSelectedOracao
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_CONTENT_TAG
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems) , IFavorite<Oracao> {
 
@@ -46,8 +46,8 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         val view: VHOracao
         if (holder is VHOracao) {
             view = holder
-            view.txtOracao?.text = oracao.nome
-            view.txtCategoria?.text = oracao.categoriaOracao?.nome
+            view.txtOracao.text = oracao.name
+            view.txtCategoria.text = oracao.categoriaOracao?.name
 
             setupIcon(view, oracao)
 
@@ -83,8 +83,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.swapFragment(FragmentOracaoContent.instance(oracao), ORACAO_FRAGMENT_CONTENT_TAG)
-
+                fragmentAbstract?.swapFragment(FragmentSelectedOracao.instance(oracao), SELECTED_ORACAO_FRAGMENT_TAG)
                 when (fragmentAbstract) {
                     is FragmentOracao -> {
                         (fragmentAbstract as FragmentOracao).selectedAdapter = this@AdapterOracao

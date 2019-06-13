@@ -2,7 +2,6 @@ package rz.com.catolico.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,18 +15,17 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentOracaoContent : Fragment() {
+class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_oracao) {
 
     private var parentContext: ActivityCatolicoMain? = null
     private var txtOracao: TextView? = null
     private var txtDescricao: TextView? = null
     private var oracao: Oracao? = null
-    private var usuario: Usuario? = null
 
     companion object {
-        fun instance(oracao: Oracao): FragmentOracaoContent {
-            var fragmentOracaoContent = FragmentOracaoContent()
-            var bundle = Bundle()
+        fun instance(oracao: Oracao): FragmentSelectedOracao {
+            val fragmentOracaoContent = FragmentSelectedOracao()
+            val bundle = Bundle()
             bundle.putSerializable("oracao", oracao)
             fragmentOracaoContent.arguments = bundle
             return fragmentOracaoContent
@@ -38,17 +36,17 @@ class FragmentOracaoContent : Fragment() {
         super.onAttach(context)
         parentContext = context as ActivityCatolicoMain
         usuario = parentContext!!.getIntentUser()
-        parentContext!!.showIconsOracaoContent()
+        parentContext!!.showIconsSelectedContent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_oracao_content, container, false) as ViewGroup
+        val view = inflater.inflate(R.layout.fragment_selected_oracao, container, false) as ViewGroup
         oracao = arguments?.getSerializable("oracao") as Oracao
-        txtOracao = view.findViewById(R.id.txt_oracao)
-        txtDescricao = view.findViewById(R.id.txt_descricao_oracao)
-        txtOracao?.text = oracao?.nome
+        txtOracao = view.findViewById(R.id.txtOracao)
+        txtDescricao = view.findViewById(R.id.txtDescricao)
+        txtOracao?.text = oracao?.name
         txtDescricao?.text = oracao?.descricao
-        parentContext?.isPrayFavorite(oracao!!.favorite)
+        parentContext?.isFavorite(oracao!!.favorite)
         return view
     }
 
@@ -73,7 +71,7 @@ class FragmentOracaoContent : Fragment() {
                         }else{
                             usuario!!.removeOracao(oracao!!)
                         }
-                        parentContext?.isPrayFavorite(oracao!!.favorite)
+                        parentContext?.isFavorite(oracao!!.favorite)
                     }
                 }
 

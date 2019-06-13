@@ -10,20 +10,22 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.fragments.FragmentSelectedSanto
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
+import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
-import rz.com.catolico.utils.SantoUtils.Companion.getDaysToDate
 import rz.com.catolico.utils.ToastMisc
 
 class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavorite<Santo> {
 
-    private var fragmentAbstract: FragmentAbstract<Santo>? = null
+    private var fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>? = null
 
     init {
         if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
@@ -31,7 +33,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         }
     }
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<Santo>, mItems: MutableList<Santo>) : this(context, mItems) {
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
     }
 
@@ -45,10 +47,8 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         holder.setIsRecyclable(false)
         if (holder is VHSanto) {
             view = holder
-            view.txtSantoNome.text = genericType.nome
+            view.txtSantoNome.text = genericType.name
             view.txtComemoracao.text = formatterComemoracao.format(genericType.comemoracao)
-            view.txtDiaData.text = getDaysToDate(context, genericType.diasData!!)
-            view.txtDescricao.text = genericType.descricao
             if (genericType.favorite) {
                 view.favoriteButton?.setImageResource(R.drawable.ic_favorite_star_selected)
             }
@@ -60,7 +60,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             }
 
             view.setOnClickListener(View.OnClickListener {
-                view.txtDescricao.visibility = if (view.txtDescricao.visibility == View.GONE) View.VISIBLE else View.GONE
+                fragmentAbstract?.swapFragment(FragmentSelectedSanto.instance(genericType), SELECTED_SANTO_FRAGMENT_TAG)
             })
 
             view.prayButton.setOnClickListener {
@@ -125,9 +125,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     private fun setupSantoDia(view: VHSanto, santo: Santo) {
-        if (santo.diasData == 0) {
-            view.txtIsSantoDia.visibility = View.VISIBLE
-        }
+        view.txtAsterisco.visibility = if (santo.diasData == 0) View.VISIBLE else View.GONE
     }
 
     private fun getOracoesQty(santo: Santo): String {
