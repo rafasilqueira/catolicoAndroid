@@ -9,11 +9,12 @@ import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
+import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> , ISortOracao{
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -35,7 +36,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
     override fun setupAdapter(mItems: MutableList<Oracao>) {
         if (mItems.isNotEmpty()) {
             setupRecyclerView()
-            var map = if (showByCategory) setupPrayByCategory(mItems) else setupPrayAlphabetical(mItems)
+            val map = if (showByCategory) sortByCategory(mItems) else sortAlphabeticalMap(mItems)
             adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
@@ -63,7 +64,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
 
             override fun onFailure(call: Call<MutableList<Oracao>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentOracao.changeView(R.layout.erro_screen_top)
+                this@FragmentOracao.changeView(R.layout.fragment_erro_screen_top)
                 disableAllIcons()
             }
         })
@@ -89,32 +90,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
         this.selectedAdapter = selectedAdapter
         val fragment = FragmentSelectedOracao.instance(oracao)
         swapFragment(fragment, SELECTED_ORACAO_FRAGMENT_TAG)
-    }
-
-    private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.categoriaOracao }
-                .distinct()
-                .sortedBy { it?.name }
-                .map {
-                    it!!.name to mItems
-                            .filter { oracao -> oracao.categoriaOracao == it }
-                            .sortedBy { it.name }
-                            .toMutableList()
-                }
-                .toMap()
-    }
-
-    private fun setupPrayAlphabetical(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.name[0] }
-                .distinct()
-                .sorted()
-                .map {
-                    it.toString() to mItems
-                            .filter { oracao -> oracao.name[0] == it }
-                            .sortedBy { it.name }
-                            .toMutableList()
-                }
-                .toMap()
     }
 
 }

@@ -29,7 +29,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
-    var dialgoSayntPray: Dialog? = null
+    var dialgoSantoOracoes: Dialog? = null
 
     companion object {
         fun instance(): FragmentSanto {
@@ -52,7 +52,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
             override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentSanto.changeView(R.layout.erro_screen_top)
+                this@FragmentSanto.changeView(R.layout.fragment_erro_screen_top)
                 disableAllIcons()
             }
         })
@@ -145,24 +145,24 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
     }
 
-    fun showDialogSayntPrays(santo: Santo) {
-        dialgoSayntPray = Dialog(activity!!)
-        dialgoSayntPray?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialgoSayntPray?.setCancelable(true)
-        dialgoSayntPray?.setContentView(R.layout.dialog_saynt_prays)
+    fun showDialogSantoOracoes(santo: Santo) {
+        dialgoSantoOracoes = Dialog(activity!!)
+        dialgoSantoOracoes?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialgoSantoOracoes?.setCancelable(true)
+        dialgoSantoOracoes?.setContentView(R.layout.dialog_saynt_prays)
         val lp = WindowManager.LayoutParams()
-        val window = dialgoSayntPray?.window
+        val window = dialgoSantoOracoes?.window
         lp.copyFrom(window!!.attributes)
         lp.width = WindowManager.LayoutParams.MATCH_PARENT
         lp.height = WindowManager.LayoutParams.WRAP_CONTENT
         window.attributes = lp
-        val recyclerView = dialgoSayntPray?.findViewById(R.id.recyclerview) as RecyclerView
+        val recyclerView = dialgoSantoOracoes?.findViewById(R.id.recyclerview) as RecyclerView
         val map = HashMap<String, MutableList<Oracao>>()
         map[santo.name] = santo.oracoes.sortedBy { it.name }.toMutableList()
         recyclerView.layoutManager = LinearLayoutManager(activity)
         recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
-        dialgoSayntPray?.show()
-        dialgoSayntPray?.setCanceledOnTouchOutside(true)
+        dialgoSantoOracoes?.show()
+        dialgoSantoOracoes?.setCanceledOnTouchOutside(true)
     }
 
 }

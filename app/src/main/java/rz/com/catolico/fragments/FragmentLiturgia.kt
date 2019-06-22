@@ -38,7 +38,7 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia,ActivityCatolicoMain
 
             override fun onFailure(call: Call<MutableList<Liturgia>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentLiturgia.changeView(R.layout.erro_screen_top)
+                this@FragmentLiturgia.changeView(R.layout.fragment_erro_screen_top)
                 disableAllIcons()
             }
         })

@@ -19,7 +19,7 @@ open class CallBackFragment<T>(fragment: FragmentAbstract<*>) : Callback<T> {
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         t.printStackTrace()
-        fragmentAbstract.changeView(R.layout.erro_screen_top)
+        fragmentAbstract.changeView(R.layout.fragment_erro_screen_top)
     }
 
     init {

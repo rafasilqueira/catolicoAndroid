@@ -4,10 +4,9 @@ import android.support.v4.app.FragmentManager
 import rz.com.catolico.bean.Leitura
 import rz.com.catolico.fragments.FragmentLeitura
 
-class AdapterViewPagerLeitura(manager: FragmentManager) : AdapterAbstractViewPager<Leitura>(manager) {
+class AdapterViewPagerLeitura(manager: FragmentManager) : AdapterAbstractViewPager(manager) {
 
-    override fun addAllFrags(mItems: MutableList<Leitura>) {
+    fun addAllFrags(mItems: MutableList<Leitura>) {
         mItems.forEach { addFrag(FragmentLeitura.instance(it), it.tipoLeitura.name) }
-        //notifyDataSetChanged()
     }
 }

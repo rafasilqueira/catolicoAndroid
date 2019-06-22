@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -49,12 +48,11 @@
                             android:id="@+id/imgSanto"
                             android:layout_width="match_parent"
                             android:layout_height="250dp"
+                            android:scaleType="fitXY"
                             app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintLeft_toRightOf="parent"
                             app:layout_constraintTop_toBottomOf="parent"
-                            app:srcCompat="@drawable/ic_santo"
-                            android:scaleType="fitXY"/>
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
                     </android.support.constraint.ConstraintLayout>
@@ -65,22 +63,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_marginTop="05dp"
                     android:background="@android:color/white"
                     app:tabIndicatorColor="@color/red"
                     app:tabIndicatorHeight="6dp"
-                    app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
                     app:tabMode="scrollable"
                     app:tabSelectedTextColor="@color/red"
-                    app:tabTextColor="@android:color/black"
-                    android:layout_marginTop="05dp"/>
+                    app:tabTextAppearance="@style/TextAppearance.AppCompat.Body2"
+                    app:tabTextColor="@android:color/black" />
             </android.support.design.widget.AppBarLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:layout_marginTop="05dp"/>
+                android:layout_marginTop="05dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </android.support.design.widget.CoordinatorLayout>
     </android.support.v7.widget.CardView>

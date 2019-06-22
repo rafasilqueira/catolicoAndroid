@@ -64,7 +64,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             })
 
             view.prayButton.setOnClickListener {
-                (fragmentAbstract as FragmentSanto).showDialogSayntPrays(genericType)
+                (fragmentAbstract as FragmentSanto).showDialogSantoOracoes(genericType)
             }
 
             view.shareButton?.setOnClickListener {

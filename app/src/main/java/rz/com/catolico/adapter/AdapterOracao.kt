@@ -13,10 +13,7 @@ import rz.com.catolico.adapter.ViewHolder.VHOracao
 import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.fragments.FragmentAbstract
-import rz.com.catolico.fragments.FragmentOracao
-import rz.com.catolico.fragments.FragmentSelectedOracao
-import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.fragments.*
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
@@ -84,15 +81,14 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
             view.setOnClickListener(View.OnClickListener {
                 fragmentAbstract?.swapFragment(FragmentSelectedOracao.instance(oracao), SELECTED_ORACAO_FRAGMENT_TAG)
-                when (fragmentAbstract) {
-                    is FragmentOracao -> {
-                        (fragmentAbstract as FragmentOracao).selectedAdapter = this@AdapterOracao
-                    }
-
-                    is FragmentSanto -> {
-                        (fragmentAbstract as FragmentSanto).dialgoSayntPray?.dismiss()
+                fragmentAbstract?.let {
+                    when (fragmentAbstract) {
+                        is FragmentOracao -> (it as FragmentOracao).selectedAdapter = this@AdapterOracao
+                        is FragmentSanto -> (it as FragmentSanto).dialgoSantoOracoes?.dismiss()
+                        else -> {}
                     }
                 }
+
             })
 
         }

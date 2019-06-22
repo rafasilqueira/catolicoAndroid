@@ -7,27 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import rz.com.catolico.R
-import rz.com.catolico.bean.Leitura
-import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_CONTENT_TAG
+import rz.com.catolico.bean.Santo
 import rz.com.catolico.utils.Constantes.Companion.SAYNT_HISTORY
 
 class FragmentSantoHistory : Fragment() {
 
 
     companion object {
-        fun instance(history : String): FragmentSantoHistory {
+        fun instance(santo: Santo): FragmentSantoHistory {
             val fragmentSantoHistory = FragmentSantoHistory()
             val bundle = Bundle()
-            bundle.putSerializable(SAYNT_HISTORY, history)
+            bundle.putSerializable("santo", santo)
             fragmentSantoHistory.arguments = bundle
             return fragmentSantoHistory
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_leitura, container, false)
-        val leitura = arguments?.getSerializable(LITURGIA_FRAGMENT_CONTENT_TAG) as Leitura
-        view.findViewById<TextView>(R.id.txtDescricao).text = leitura.descricao
+        val view = inflater.inflate(R.layout.fragment_santo_history, container, false)
+        val santo = arguments?.getSerializable("santo") as Santo
+        view.findViewById<TextView>(R.id.txtName).text = santo.name
+        view.findViewById<TextView>(R.id.txtHistory).text = santo.descricao
         return view
     }
 
