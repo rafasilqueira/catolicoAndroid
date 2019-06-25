@@ -29,7 +29,6 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
-    var dialgoSantoOracoes: Dialog? = null
 
     companion object {
         fun instance(): FragmentSanto {
@@ -143,26 +142,6 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
     override fun itemClickListener(type: Santo) {
 
-    }
-
-    fun showDialogSantoOracoes(santo: Santo) {
-        dialgoSantoOracoes = Dialog(activity!!)
-        dialgoSantoOracoes?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialgoSantoOracoes?.setCancelable(true)
-        dialgoSantoOracoes?.setContentView(R.layout.dialog_saynt_prays)
-        val lp = WindowManager.LayoutParams()
-        val window = dialgoSantoOracoes?.window
-        lp.copyFrom(window!!.attributes)
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window.attributes = lp
-        val recyclerView = dialgoSantoOracoes?.findViewById(R.id.recyclerview) as RecyclerView
-        val map = HashMap<String, MutableList<Oracao>>()
-        map[santo.name] = santo.oracoes.sortedBy { it.name }.toMutableList()
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
-        dialgoSantoOracoes?.show()
-        dialgoSantoOracoes?.setCanceledOnTouchOutside(true)
     }
 
 }

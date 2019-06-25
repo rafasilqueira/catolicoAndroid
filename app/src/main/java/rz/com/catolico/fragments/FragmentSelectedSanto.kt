@@ -22,13 +22,13 @@ import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
 class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_santo) {
 
-    private var santo: Santo? = null
     private var tabLayout: TabLayout? = null
-    private var viewPager : ViewPager? = null
-    private var imgSanto : AppCompatImageView? = null
+    private var viewPager: ViewPager? = null
+    private var imgSanto: AppCompatImageView? = null
+    private var santo : Santo? = null
+    private var celebrationDay : String? = null
 
-    private fun getArguments(key :String ) = arguments?.getSerializable(key) as Santo?
-
+    private fun getArguments(key: String) = arguments?.getSerializable(key) as Santo?
 
     companion object {
         fun instance(santo: Santo): FragmentSelectedSanto {
@@ -42,17 +42,12 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        usuario = parentActivity!!.getIntentUser()
-        parentActivity!!.disableAllIcons()
-        parentActivity!!.showIconsSelectedContent()
-        val santo = getArguments("santo")
-        val celebrationDay = santo?.let { formatterComemoracao.format(it.comemoracao) }
-        parentActivity?.title = celebrationDay?.let { celebrationDay }
+        santo = getArguments("santo")
+        celebrationDay = formatterComemoracao.format(santo?.comemoracao)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_selected_santo, container, false) as ViewGroup
-        santo = getArguments("santo")
         parentActivity?.isFavorite(santo!!.favorite)
         imgSanto = view.findViewById<AppCompatImageView>(R.id.imgSanto)
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
@@ -62,17 +57,18 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
         return view
     }
 
-    fun setupViewPager(santo: Santo) {
+    private fun setupViewPager(santo: Santo) {
         val viewPagerAdapter = AdapterAbstractViewPager(childFragmentManager)
         tabLayout?.tabMode = TabLayout.MODE_FIXED
         viewPagerAdapter.addFrag(FragmentSantoHistory.instance(santo), getString(R.string.historia))
         viewPagerAdapter.addFrag(FragmentSantoRelated.instance(santo), getString(R.string.related))
         tabLayout?.setupWithViewPager(viewPager)
         viewPager?.adapter = viewPagerAdapter
+        parentActivity?.setActionBarTitle(celebrationDay ?: getString(R.string.app_name))
     }
 
 
-    fun favoriteButtonListener() {
+    private fun favoriteButtonListener() {
         if (usuario != null) {
             val userClone = usuario?.clone() as Usuario
 

@@ -15,7 +15,6 @@ import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
-import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.fragments.FragmentSelectedSanto
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
@@ -60,11 +59,11 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.swapFragment(FragmentSelectedSanto.instance(genericType), SELECTED_SANTO_FRAGMENT_TAG)
+                showSelectedSanto(genericType)
             })
 
             view.prayButton.setOnClickListener {
-                (fragmentAbstract as FragmentSanto).showDialogSantoOracoes(genericType)
+                showSelectedSanto(genericType)
             }
 
             view.shareButton?.setOnClickListener {
@@ -97,6 +96,10 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
                 }
             }
         }
+    }
+
+    private fun showSelectedSanto(santo: Santo) {
+        fragmentAbstract?.swapFragment(FragmentSelectedSanto.instance(santo), SELECTED_SANTO_FRAGMENT_TAG)
     }
 
     private fun setupIcons(view: VHSanto, santo: Santo) {

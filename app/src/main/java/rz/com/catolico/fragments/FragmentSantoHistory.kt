@@ -12,7 +12,6 @@ import rz.com.catolico.utils.Constantes.Companion.SAYNT_HISTORY
 
 class FragmentSantoHistory : Fragment() {
 
-
     companion object {
         fun instance(santo: Santo): FragmentSantoHistory {
             val fragmentSantoHistory = FragmentSantoHistory()

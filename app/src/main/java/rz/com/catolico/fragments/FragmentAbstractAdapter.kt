@@ -8,9 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.interfaces.IBaseFragmentActivty
 
-abstract class FragmentAbstractAdapter<T, A : IBaseFragmentActivty>(initialView: Int) : FragmentAbstract<A>(initialView) {
+abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(initialView: Int) : FragmentAbstract<A>(initialView) {
 
     protected var recyclerView: RecyclerView? = null
     protected var mList: MutableList<T> = ArrayList()

@@ -23,10 +23,7 @@ import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.ActivitiesEnum
-import rz.com.catolico.fragments.FragmentLiturgia
-import rz.com.catolico.fragments.FragmentOracao
-import rz.com.catolico.fragments.FragmentSanto
-import rz.com.catolico.fragments.FragmentSelectedOracao
+import rz.com.catolico.fragments.*
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -55,6 +52,10 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     private var doubleBackToExitPressedOnce: Boolean = false
     private var selectedFragment: Fragment? = null
 
+    fun setActionBarTitle(title: String) {
+        supportActionBar?.title = title
+    }
+
     override fun getIntentUser(): Usuario? {
         return intent.getSerializableExtra(USER_KEY) as? Usuario
     }
@@ -70,7 +71,6 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
             txtUserName?.text = usuario?.name
             txtUserEmail?.text = usuario?.email
             if (StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain)) {
-                //println(StatusFacebookLogin.isFacebookLoggedIn(this@ActivityCatolicoMain))
                 val profile = Profile.getCurrentProfile()
                 Picasso.with(this@ActivityCatolicoMain)
                         .load(profile?.getProfilePictureUri(200, 200).toString())
@@ -214,6 +214,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         when (fragment) {
             is FragmentSanto -> showIconsFragmentSanto()
             is FragmentOracao -> showIconsFragmentOracao()
+            is FragmentSelectedSanto -> showIconsSelectedContent()
         }
     }
 

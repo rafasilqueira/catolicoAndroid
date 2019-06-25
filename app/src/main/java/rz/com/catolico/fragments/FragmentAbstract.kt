@@ -9,10 +9,9 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.interfaces.IBaseFragmentActivty
 
 @Suppress("UNCHECKED_CAST")
-abstract class FragmentAbstract< A : IBaseFragmentActivty>(val initialView: Int) : Fragment() {
+abstract class FragmentAbstract<A : ActivityBaseFragment>(val initialView: Int) : Fragment() {
 
     protected var parentActivity: A? = null
     protected var view: ViewGroup? = null
@@ -39,6 +38,8 @@ abstract class FragmentAbstract< A : IBaseFragmentActivty>(val initialView: Int)
         parentActivity = context as A
         parentActivity?.actionAttachFragment(this@FragmentAbstract)
         usuario = parentActivity?.getIntentUser()
+        parentActivity?.let { it.supportActionBar?.title = getString(R.string.app_name) }
+        println("abstract")
     }
 
     fun changeView(layout: Int) {

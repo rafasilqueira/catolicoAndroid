@@ -1,7 +1,7 @@
 package rz.com.catolico.fragments
 
-import rz.com.catolico.interfaces.IBaseFragmentActivty
+import rz.com.catolico.activiy.ActivityBaseFragment
 
-abstract class FragmentAbstractViewPager<T,A:IBaseFragmentActivty>(initialView : Int) : FragmentAbstractAdapter<T,A>(initialView){
-     abstract fun setupViewPager()
+abstract class FragmentAbstractViewPager<T, A : ActivityBaseFragment>(initialView: Int) : FragmentAbstractAdapter<T, A>(initialView) {
+    abstract fun setupViewPager()
 }

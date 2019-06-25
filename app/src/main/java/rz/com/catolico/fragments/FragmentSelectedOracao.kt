@@ -32,13 +32,6 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.f
         }
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        parentContext = context as ActivityCatolicoMain
-        usuario = parentContext!!.getIntentUser()
-        parentContext!!.showIconsSelectedContent()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_selected_oracao, container, false) as ViewGroup
         oracao = arguments?.getSerializable("oracao") as Oracao
