@@ -57,7 +57,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     }
 
     override fun getIntentUser(): Usuario? {
-        return intent.getSerializableExtra(USER_KEY) as? Usuario
+        return intent.getSerializableExtra(USER_KEY) as Usuario
     }
 
     private fun setupMenuItemDV() {
@@ -209,8 +209,9 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         finish()
     }
 
-    override fun actionAttachFragment(fragment: Fragment) {
+    fun setupFragmentIcons(fragment: Fragment) {
         disableAllIcons()
+        setActionBarTitle(getString(R.string.app_name))
         when (fragment) {
             is FragmentSanto -> showIconsFragmentSanto()
             is FragmentOracao -> showIconsFragmentOracao()
@@ -235,11 +236,11 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         }
     }
 
-    private fun showIconsFragmentSanto() {
+    fun showIconsFragmentSanto() {
         menuItemSearch?.isVisible = true
     }
 
-    private fun showIconsFragmentOracao() {
+    fun showIconsFragmentOracao() {
         menuItemSearch?.isVisible = true
         menuItemFilter?.isVisible = true
     }
@@ -266,16 +267,16 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            disableAllIcons()
 
             val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
-
 
             val current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
                 supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG)
             } else {
                 supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
             }
+
+           current?.let {setupFragmentIcons(it) }
 
             when (oldFragment?.tag) {
                 SELECTED_ORACAO_FRAGMENT_TAG -> {

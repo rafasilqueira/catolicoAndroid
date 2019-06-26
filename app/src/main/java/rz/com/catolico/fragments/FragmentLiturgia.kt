@@ -14,7 +14,11 @@ import rz.com.catolico.bean.Liturgia
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentLiturgia : FragmentAbstractViewPager<Liturgia,ActivityCatolicoMain>(R.layout.fragment_liturgia) {
+class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMain>(R.layout.fragment_liturgia) {
+
+    override fun actionAfterAttachFragment() {
+        getParentActivity().setupFragmentIcons(this)
+    }
 
     private var adapterLiturgia: AdapterLiturgia? = null
     private var viewPagerAdapter: AdapterViewPagerLeitura? = null
@@ -45,8 +49,8 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia,ActivityCatolicoMain
     }
 
     override fun setupAdapter(list: MutableList<Liturgia>) {
-        setupRecyclerView(LinearLayoutManager(parentActivity, LinearLayoutManager.HORIZONTAL, false))
-        adapterLiturgia = AdapterLiturgia(parentActivity!!, list, this)
+        setupRecyclerView(LinearLayoutManager(getParentActivity(), LinearLayoutManager.HORIZONTAL, false))
+        adapterLiturgia = AdapterLiturgia(getParentActivity(), list, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()
         try {

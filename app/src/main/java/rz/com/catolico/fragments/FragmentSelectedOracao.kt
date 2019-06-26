@@ -44,8 +44,8 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.f
     }
 
     fun favoriteButtonListener() {
-        if (usuario != null) {
-            val userClone = usuario?.clone() as Usuario
+        if (getUser() != null) {
+            val userClone = getUser()?.clone() as Usuario
 
             if (oracao?.favorite!!) {
                 userClone.removeOracao(oracao!!)
@@ -60,9 +60,9 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.f
                     if(response.isSuccessful){
                         oracao?.favorite = !oracao?.favorite!!
                         if(oracao?.favorite!!){
-                            usuario!!.addOracao(oracao!!.clone() as Oracao)
+                            getUser()!!.addOracao(oracao!!.clone() as Oracao)
                         }else{
-                            usuario!!.removeOracao(oracao!!)
+                            getUser()!!.removeOracao(oracao!!)
                         }
                         parentContext?.isFavorite(oracao!!.favorite)
                     }

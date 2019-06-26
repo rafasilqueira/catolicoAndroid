@@ -14,7 +14,11 @@ import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> , ISortOracao{
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao>, ISortOracao {
+
+    override fun actionAfterAttachFragment() {
+        getParentActivity().setupFragmentIcons(this)
+    }
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -22,7 +26,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
 
 
     fun updateAdapter() {
-        syncronizeFavorites(mList)
+        getUser()?.let { super.syncronizeFavorites(mList, it.oracoes) }
         recyclerView?.adapter?.notifyDataSetChanged()
         selectedAdapter?.notifyDataSetChanged()
     }
@@ -37,7 +41,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
         if (mItems.isNotEmpty()) {
             setupRecyclerView()
             val map = if (showByCategory) sortByCategory(mItems) else sortAlphabeticalMap(mItems)
-            adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentOracao, map)
+            adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
     }
@@ -71,10 +75,9 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
     }
 
     fun syncronizeFavorites(mItems: MutableList<Oracao>) {
-        if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
-            super.syncronizeFavorites(mItems, usuario?.oracoes!!)
-        }
+        getUser()?.let { super.syncronizeFavorites(mItems, it.oracoes) }
     }
+
 
     fun showByCategory() {
         showByCategory = true

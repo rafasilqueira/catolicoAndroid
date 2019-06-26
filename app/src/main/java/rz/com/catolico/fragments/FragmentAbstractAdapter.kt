@@ -1,6 +1,5 @@
 package rz.com.catolico.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
-import rz.com.catolico.interfaces.IBaseFragmentActivty
 
 abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(initialView: Int) : FragmentAbstract<A>(initialView) {
 
@@ -21,7 +19,7 @@ abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(initialView:
     abstract fun itemClickListener(type: T)
 
 
-    protected fun setupRecyclerView(linearLayoutManager: LinearLayoutManager = LinearLayoutManager((parentActivity as Context), LinearLayoutManager.VERTICAL, false)) {
+    protected fun setupRecyclerView(linearLayoutManager: LinearLayoutManager = LinearLayoutManager(getParentActivity().applicationContext, LinearLayoutManager.VERTICAL, false)) {
         recyclerView = view?.findViewById(R.id.recyclerview)
         recyclerView?.layoutManager = linearLayoutManager
     }

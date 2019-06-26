@@ -1,7 +1,6 @@
 package rz.com.catolico.fragments
 
 import android.app.Dialog
-import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -13,22 +12,24 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
-import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.adapter.AdapterSanto
-import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layout.fragment_santo) {
+class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.layout.fragment_santo), IFavorite<Santo> {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
+
+    override fun actionAfterAttachFragment() {
+        getParentActivity().setupFragmentIcons(this)
+    }
 
     companion object {
         fun instance(): FragmentSanto {
@@ -59,7 +60,8 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
 
     override fun setupAdapter(list: MutableList<Santo>) {
         setupRecyclerView()
-        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list)
+        getUser()?.let { super.syncronizeFavorites(list, it.santos) }
+        adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, list)
         recyclerView?.adapter = adapterSanto
     }
 
@@ -76,7 +78,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         window.attributes = lp
         val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterSanto(parentActivity!!, this, list)
+        recyclerView.adapter = AdapterSanto(getParentActivity(), this, list)
         dialogResult.show()
         dialogResult.setCanceledOnTouchOutside(true)
     }
@@ -116,7 +118,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         dialogDatePicker!!.findViewById<View>(R.id.btn_search_liturgia).setOnClickListener {
             val dateToSearch = calendar.timeInMillis
             val call = RetrofitConfig().santoService().getByCelebrationDate(dateToSearch)
-            call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivity as Context) {
+            call.enqueue(object : CallBackDialog<MutableList<Santo>>(getParentActivity().applicationContext) {
 
                 override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                     super.onResponse(call, response)
@@ -125,12 +127,12 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
                         showDialogDatePickerResult(response.body()!!)
                         dialogDatePicker?.dismiss()
                     } else {
-                        Toast.makeText(parentActivity!!, R.string.santo_search_result, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getParentActivity(), R.string.santo_search_result, Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
-                    ToastMisc.generalError(parentActivity!!)
+                    ToastMisc.generalError(getParentActivity())
                     super.onFailure(call, t)
                 }
             })

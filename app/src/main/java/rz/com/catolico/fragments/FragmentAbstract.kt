@@ -1,5 +1,6 @@
 package rz.com.catolico.fragments
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,16 +14,20 @@ import rz.com.catolico.bean.Usuario
 @Suppress("UNCHECKED_CAST")
 abstract class FragmentAbstract<A : ActivityBaseFragment>(val initialView: Int) : Fragment() {
 
-    protected var parentActivity: A? = null
     protected var view: ViewGroup? = null
     protected var mInflater: LayoutInflater? = null
     protected var mContainer: ViewGroup? = null
-    protected var usuario: Usuario? = null
 
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
+    open fun actionAfterAttachFragment() {}
+
+    protected fun getParentActivity() = activity as A
+
+    protected fun getUser() : Usuario? = getParentActivity().getIntentUser()
+
     fun disableAllIcons() {
-        parentActivity?.disableAllIcons()
+        getParentActivity().disableAllIcons()
     }
 
     fun swapFragment(fragment: Fragment, TAG: String) {
@@ -35,12 +40,9 @@ abstract class FragmentAbstract<A : ActivityBaseFragment>(val initialView: Int) 
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentActivity = context as A
-        parentActivity?.actionAttachFragment(this@FragmentAbstract)
-        usuario = parentActivity?.getIntentUser()
-        parentActivity?.let { it.supportActionBar?.title = getString(R.string.app_name) }
-        println("abstract")
+        actionAfterAttachFragment()
     }
+
 
     fun changeView(layout: Int) {
         val newView = mInflater?.inflate(layout, mContainer, false)

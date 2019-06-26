@@ -16,7 +16,7 @@ import rz.com.catolico.bean.Santo
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.interfaces.ISortOracao
 
-class FragmentSantoRelated : Fragment(), IFavorite<Oracao>, ISortOracao {
+class FragmentSantoRelated : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao>, ISortOracao {
 
     private var recyclerview : RecyclerView? = null
 

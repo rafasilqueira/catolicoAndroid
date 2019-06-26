@@ -48,7 +48,7 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_selected_santo, container, false) as ViewGroup
-        parentActivity?.isFavorite(santo!!.favorite)
+        getParentActivity().isFavorite(santo!!.favorite)
         imgSanto = view.findViewById<AppCompatImageView>(R.id.imgSanto)
         tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
         viewPager = view.findViewById<ViewPager>(R.id.viewPager)
@@ -64,11 +64,11 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
         viewPagerAdapter.addFrag(FragmentSantoRelated.instance(santo), getString(R.string.related))
         tabLayout?.setupWithViewPager(viewPager)
         viewPager?.adapter = viewPagerAdapter
-        parentActivity?.setActionBarTitle(celebrationDay ?: getString(R.string.app_name))
+        getParentActivity().setActionBarTitle(celebrationDay ?: getString(R.string.app_name))
     }
 
 
-    private fun favoriteButtonListener() {
+    /*private fun favoriteButtonListener() {
         if (usuario != null) {
             val userClone = usuario?.clone() as Usuario
 
@@ -89,7 +89,7 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
                         } else {
                             usuario!!.removeSanto(santo!!)
                         }
-                        parentActivity?.isFavorite(santo!!.favorite)
+                        getParentActivity().isFavorite(santo!!.favorite)
                     }
                 }
 
@@ -100,6 +100,6 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fr
             })
         }
 
-    }
+    }*/
 
 }
