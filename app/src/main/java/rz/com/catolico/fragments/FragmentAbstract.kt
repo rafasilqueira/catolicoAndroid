@@ -46,7 +46,8 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
         val mContainer = (view?.parent as ViewGroup)
         val view = view as ViewGroup
         val newView = layoutInflater?.inflate(layout, mContainer, false)
-        view.removeAllViews()        view.addView(newView)
+        view.removeAllViews()
+        view.addView(newView)
     }
 
 
