@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
 
-abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(initialView: Int) : FragmentAbstract<A>(initialView) {
+abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(private val initialView: Int) : FragmentAbstract<A>() {
 
     protected var recyclerView: RecyclerView? = null
     protected var mList: MutableList<T> = ArrayList()
@@ -25,9 +25,9 @@ abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(initialView:
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        view = inflater.inflate(initialView, container, false) as ViewGroup
-        mInflater = inflater
-        mContainer = container
+        val view = inflater.inflate(initialView, container, false) as ViewGroup
+       /* mInflater = inflater
+        mContainer = container*/
         loadData()
         return view
     }

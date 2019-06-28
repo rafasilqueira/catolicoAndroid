@@ -1,6 +1,5 @@
 package rz.com.catolico.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -12,19 +11,18 @@ import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
 
 @Suppress("UNCHECKED_CAST")
-abstract class FragmentAbstract<A : ActivityBaseFragment>(val initialView: Int) : Fragment() {
+abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
 
-    protected var view: ViewGroup? = null
+    /*protected var view: ViewGroup? = null
     protected var mInflater: LayoutInflater? = null
-    protected var mContainer: ViewGroup? = null
+    protected var mContainer: ViewGroup? = null*/
 
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-
     open fun actionAfterAttachFragment() {}
 
     protected fun getParentActivity() = activity as A
 
-    protected fun getUser() : Usuario? = getParentActivity().getIntentUser()
+    protected fun getUser(): Usuario? = getParentActivity().getIntentUser()
 
     fun disableAllIcons() {
         getParentActivity().disableAllIcons()
@@ -45,9 +43,10 @@ abstract class FragmentAbstract<A : ActivityBaseFragment>(val initialView: Int) 
 
 
     fun changeView(layout: Int) {
-        val newView = mInflater?.inflate(layout, mContainer, false)
-        view?.removeAllViews()
-        view?.addView(newView)
+        val mContainer = (view?.parent as ViewGroup)
+        val view = view as ViewGroup
+        val newView = layoutInflater?.inflate(layout, mContainer, false)
+        view.removeAllViews()        view.addView(newView)
     }
 
 

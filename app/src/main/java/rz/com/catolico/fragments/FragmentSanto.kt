@@ -1,11 +1,10 @@
 package rz.com.catolico.fragments
 
 import android.app.Dialog
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.DatePicker
 import android.widget.Toast
 import retrofit2.Call
@@ -37,11 +36,20 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.lay
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_santo, container, false) as ViewGroup
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadData()
+    }
+
     override fun loadData() {
-        changeView(R.layout.load_screen_fragment)
+        //changeView(R.layout.fragment_load_screen)
         val call: Call<MutableList<Santo>> = RetrofitConfig().santoService().getLatests()
 
-        call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto) {
+        call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto, R.layout.fragment_santo) {
 
             override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)

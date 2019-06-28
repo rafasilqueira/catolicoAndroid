@@ -1,5 +1,9 @@
 package rz.com.catolico.fragments
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
@@ -11,7 +15,6 @@ import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
 class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao>, ISortOracao {
@@ -37,10 +40,10 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
         }
     }
 
-    override fun setupAdapter(mItems: MutableList<Oracao>) {
-        if (mItems.isNotEmpty()) {
+    override fun setupAdapter(list: MutableList<Oracao>) {
+        if (list.isNotEmpty()) {
             setupRecyclerView()
-            val map = if (showByCategory) sortByCategory(mItems) else sortAlphabeticalMap(mItems)
+            val map = if (showByCategory) sortByCategory(list) else sortAlphabeticalMap(list)
             adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
@@ -50,10 +53,18 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
         println("Aqui porra!!!")
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_oracao, container, false) as ViewGroup
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadData()
+    }
+
     override fun loadData() {
-        changeView(R.layout.load_screen_fragment)
+//        changeView(R.layout.fragment_load_screen)
         val call: Call<MutableList<Oracao>> = RetrofitConfig().oracaoService().getOracoes()
-        call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao) {
+        call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao, R.layout.fragment_oracao) {
 
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
                 super.onResponse(call, response)
@@ -87,12 +98,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
     fun showAlphabetical() {
         showByCategory = false
         setupAdapter(mList)
-    }
-
-    fun showSelectedORacao(oracao: Oracao, selectedAdapter: AdapterOracao) {
-        this.selectedAdapter = selectedAdapter
-        val fragment = FragmentSelectedOracao.instance(oracao)
-        swapFragment(fragment, SELECTED_ORACAO_FRAGMENT_TAG)
     }
 
 }

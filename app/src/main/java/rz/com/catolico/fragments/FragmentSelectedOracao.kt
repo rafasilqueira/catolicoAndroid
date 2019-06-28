@@ -1,6 +1,5 @@
 package rz.com.catolico.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,7 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_oracao) {
+class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
 
     private var parentContext: ActivityCatolicoMain? = null
     private var txtOracao: TextView? = null
@@ -57,11 +56,11 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(R.layout.f
             call.enqueue(object : Callback<Boolean> {
 
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    if(response.isSuccessful){
+                    if (response.isSuccessful) {
                         oracao?.favorite = !oracao?.favorite!!
-                        if(oracao?.favorite!!){
+                        if (oracao?.favorite!!) {
                             getUser()!!.addOracao(oracao!!.clone() as Oracao)
-                        }else{
+                        } else {
                             getUser()!!.removeOracao(oracao!!)
                         }
                         parentContext?.isFavorite(oracao!!.favorite)

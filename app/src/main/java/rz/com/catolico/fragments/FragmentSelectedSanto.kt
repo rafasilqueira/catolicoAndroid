@@ -9,24 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterAbstractViewPager
 import rz.com.catolico.bean.Santo
-import rz.com.catolico.bean.Usuario
-import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
-class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(R.layout.fragment_selected_santo) {
+class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>() {
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
     private var imgSanto: AppCompatImageView? = null
-    private var santo : Santo? = null
-    private var celebrationDay : String? = null
+    private var santo: Santo? = null
+    private var celebrationDay: String? = null
 
     private fun getArguments(key: String) = arguments?.getSerializable(key) as Santo?
 
