@@ -9,21 +9,22 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.interfaces.IBaseFragmentActivty
+import java.io.Serializable
 
 @Suppress("UNCHECKED_CAST")
-abstract class FragmentAbstract< A : IBaseFragmentActivty>(val initialView: Int) : Fragment() {
-
-    protected var parentActivity: A? = null
-    protected var view: ViewGroup? = null
-    protected var mInflater: LayoutInflater? = null
-    protected var mContainer: ViewGroup? = null
-    protected var usuario: Usuario? = null
+abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
 
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
+    protected fun getParentActivity() = activity as A
+    protected fun getUser(): Usuario? = getParentActivity().getIntentUser()
+    protected fun isUserLogged() = getUser() != null
+    protected fun getSerialiableArgumentExtra(key: String): Serializable? = arguments?.getSerializable(key)
+
+    open fun afterAttachFragment() {}
+
     fun disableAllIcons() {
-        parentActivity?.disableAllIcons()
+        getParentActivity().disableAllIcons()
     }
 
     fun swapFragment(fragment: Fragment, TAG: String) {
@@ -36,15 +37,16 @@ abstract class FragmentAbstract< A : IBaseFragmentActivty>(val initialView: Int)
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        parentActivity = context as A
-        parentActivity?.actionAttachFragment(this@FragmentAbstract)
-        usuario = parentActivity?.getIntentUser()
+        afterAttachFragment()
     }
 
+
     fun changeView(layout: Int) {
-        val newView = mInflater?.inflate(layout, mContainer, false)
-        view?.removeAllViews()
-        view?.addView(newView)
+        val mContainer = (view?.parent as ViewGroup)
+        val view = view as ViewGroup
+        val newView = layoutInflater?.inflate(layout, mContainer, false)
+        view.removeAllViews()
+        view.addView(newView)
     }
 
 

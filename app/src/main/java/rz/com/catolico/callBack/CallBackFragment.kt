@@ -7,23 +7,26 @@ import rz.com.catolico.R
 import rz.com.catolico.fragments.FragmentAbstract
 
 
-open class CallBackFragment<T>(fragment: FragmentAbstract<*>) : Callback<T> {
-
-    private var fragmentAbstract = fragment
+open class CallBackFragment<T>(
+        private val fragment: FragmentAbstract<*>,
+        private val onSucessView: Int,
+        private val onLoadView: Int = R.layout.fragment_load_screen,
+        private val onErrorView: Int = R.layout.fragment_erro_screen_top)
+    : Callback<T> {
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
-            fragmentAbstract.changeView(fragmentAbstract.initialView)
+            this.fragment.changeView(this.onSucessView)
         }
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         t.printStackTrace()
-        fragmentAbstract.changeView(R.layout.erro_screen_top)
+        this.fragment.changeView(R.layout.fragment_erro_screen_top)
     }
 
     init {
-        fragmentAbstract.changeView(R.layout.load_screen_fragment)
+        this.fragment.changeView(R.layout.fragment_load_screen)
     }
 
 }

@@ -1,35 +1,30 @@
 package rz.com.catolico.fragments
 
 import android.app.Dialog
-import android.content.Context
+import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
+import android.view.*
 import android.widget.DatePicker
 import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
-import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.adapter.AdapterSanto
-import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
-class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layout.fragment_santo) {
+class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IFavorite<Santo> {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
-    var dialgoSayntPray: Dialog? = null
 
     companion object {
         fun instance(): FragmentSanto {
@@ -37,30 +32,46 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         }
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_santo, container, false) as ViewGroup
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadData()
+    }
+
     override fun loadData() {
-        changeView(R.layout.load_screen_fragment)
         val call: Call<MutableList<Santo>> = RetrofitConfig().santoService().getLatests()
 
-        call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto) {
-
+        call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto, R.layout.fragment_santo) {
             override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)
                 this@FragmentSanto.mList = response.body() ?: ArrayList()
                 //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
+                onSucessLoadData()
                 setupAdapter(mList)
             }
 
             override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentSanto.changeView(R.layout.erro_screen_top)
-                disableAllIcons()
+                onErrorLoadData()
             }
         })
     }
 
+    override fun onSucessLoadData() {
+        getParentActivity().setupFragmentIcons(this)
+    }
+
+    override fun onErrorLoadData() {
+        disableAllIcons()
+    }
+
     override fun setupAdapter(list: MutableList<Santo>) {
-        setupRecyclerView()
-        adapterSanto = AdapterSanto(parentActivity!!, this@FragmentSanto, list)
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
+        getUser()?.let { super.syncronizeFavorites(list, it.santos) }
+        adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, list)
         recyclerView?.adapter = adapterSanto
     }
 
@@ -77,7 +88,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         window.attributes = lp
         val recyclerView = dialogResult.findViewById(R.id.recyclerview) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterSanto(parentActivity!!, this, list)
+        recyclerView.adapter = AdapterSanto(getParentActivity(), this, list)
         dialogResult.show()
         dialogResult.setCanceledOnTouchOutside(true)
     }
@@ -117,7 +128,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         dialogDatePicker!!.findViewById<View>(R.id.btn_search_liturgia).setOnClickListener {
             val dateToSearch = calendar.timeInMillis
             val call = RetrofitConfig().santoService().getByCelebrationDate(dateToSearch)
-            call.enqueue(object : CallBackDialog<MutableList<Santo>>(parentActivity as Context) {
+            call.enqueue(object : CallBackDialog<MutableList<Santo>>(getParentActivity().applicationContext) {
 
                 override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                     super.onResponse(call, response)
@@ -126,12 +137,12 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
                         showDialogDatePickerResult(response.body()!!)
                         dialogDatePicker?.dismiss()
                     } else {
-                        Toast.makeText(parentActivity!!, R.string.santo_search_result, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(getParentActivity(), R.string.santo_search_result, Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
-                    ToastMisc.generalError(parentActivity!!)
+                    ToastMisc.generalError(getParentActivity())
                     super.onFailure(call, t)
                 }
             })
@@ -139,30 +150,6 @@ class FragmentSanto : FragmentAbstractAdapter<Santo,ActivityCatolicoMain>(R.layo
         }
         dialogDatePicker?.show()
         dialogDatePicker?.setCanceledOnTouchOutside(true)
-    }
-
-    override fun itemClickListener(type: Santo) {
-
-    }
-
-    fun showDialogSayntPrays(santo: Santo) {
-        dialgoSayntPray = Dialog(activity!!)
-        dialgoSayntPray?.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialgoSayntPray?.setCancelable(true)
-        dialgoSayntPray?.setContentView(R.layout.dialog_saynt_prays)
-        val lp = WindowManager.LayoutParams()
-        val window = dialgoSayntPray?.window
-        lp.copyFrom(window!!.attributes)
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT
-        window.attributes = lp
-        val recyclerView = dialgoSayntPray?.findViewById(R.id.recyclerview) as RecyclerView
-        val map = HashMap<String, MutableList<Oracao>>()
-        map[santo.name] = santo.oracoes.sortedBy { it.name }.toMutableList()
-        recyclerView.layoutManager = LinearLayoutManager(activity)
-        recyclerView.adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentSanto, map)
-        dialgoSayntPray?.show()
-        dialgoSayntPray?.setCanceledOnTouchOutside(true)
     }
 
 }

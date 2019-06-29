@@ -17,14 +17,14 @@ open class CallBackDialog<T>(context: Context) : Callback<T> {
 
     override fun onFailure(call: Call<T>, t: Throwable) { dissmissDialog() }
 
-    var dialog: Dialog? = null
-    var context : Context? =null
+    private var dialog: Dialog? = null
+    private var context : Context? =null
 
     init {
         this.context = context
         dialog = ProgressDialog.show(context, context.getString(R.string.aguarde), context.getString(R.string.dialog_wait_pt_br))
     }
 
-    fun dissmissDialog(){ if (dialog?.isShowing!!) dialog?.dismiss() }
+    private fun dissmissDialog(){ if (dialog?.isShowing!!) dialog?.dismiss() }
 
 }

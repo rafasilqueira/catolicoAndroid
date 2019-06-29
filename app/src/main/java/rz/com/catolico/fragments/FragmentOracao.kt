@@ -1,5 +1,10 @@
 package rz.com.catolico.fragments
 
+import android.os.Bundle
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
@@ -9,19 +14,19 @@ import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.interfaces.IFavorite
+import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.retrofit.RetrofitConfig
-import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.layout.fragment_oracao), IFavorite<Oracao> {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), IFavorite<Oracao>, ISortOracao {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
     var selectedAdapter: AdapterOracao? = null
-
+    private var recyclerView: RecyclerView? = null
 
     fun updateAdapter() {
-        syncronizeFavorites(mList)
+        getUser()?.let { super.syncronizeFavorites(mList, it.oracoes) }
         recyclerView?.adapter?.notifyDataSetChanged()
         selectedAdapter?.notifyDataSetChanged()
     }
@@ -32,26 +37,30 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
         }
     }
 
-    override fun setupAdapter(mItems: MutableList<Oracao>) {
-        if (mItems.isNotEmpty()) {
-            setupRecyclerView()
-            var map = if (showByCategory) setupPrayByCategory(mItems) else setupPrayAlphabetical(mItems)
-            adapter = AdapterOracaoCategory(parentActivity!!, this@FragmentOracao, map)
+    override fun setupAdapter(list: MutableList<Oracao>) {
+        if (list.isNotEmpty()) {
+            recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
+            recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
+            val map = if (showByCategory) sortByCategory(list) else sortAlphabeticalMap(list)
+            adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
     }
 
-    override fun itemClickListener(type: Oracao) {
-        println("Aqui porra!!!")
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_oracao, container, false) as ViewGroup
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadData()
     }
 
     override fun loadData() {
-        changeView(R.layout.load_screen_fragment)
         val call: Call<MutableList<Oracao>> = RetrofitConfig().oracaoService().getOracoes()
-        call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao) {
-
+        call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao, R.layout.fragment_oracao) {
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
                 super.onResponse(call, response)
+                onSucessLoadData()
                 if (response.isSuccessful) {
                     this@FragmentOracao.mList = response.body() ?: ArrayList()
                     if (mList.isNotEmpty()) {
@@ -63,17 +72,23 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
 
             override fun onFailure(call: Call<MutableList<Oracao>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentOracao.changeView(R.layout.erro_screen_top)
-                disableAllIcons()
+                onErrorLoadData()
             }
         })
     }
 
-    fun syncronizeFavorites(mItems: MutableList<Oracao>) {
-        if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
-            super.syncronizeFavorites(mItems, usuario?.oracoes!!)
-        }
+    override fun onSucessLoadData() {
+        getParentActivity().setupFragmentIcons(this)
     }
+
+    override fun onErrorLoadData() {
+        disableAllIcons()
+    }
+
+    fun syncronizeFavorites(mItems: MutableList<Oracao>) {
+        getUser()?.let { super.syncronizeFavorites(mItems, it.oracoes) }
+    }
+
 
     fun showByCategory() {
         showByCategory = true
@@ -83,38 +98,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(R.l
     fun showAlphabetical() {
         showByCategory = false
         setupAdapter(mList)
-    }
-
-    fun showSelectedORacao(oracao: Oracao, selectedAdapter: AdapterOracao) {
-        this.selectedAdapter = selectedAdapter
-        val fragment = FragmentSelectedOracao.instance(oracao)
-        swapFragment(fragment, SELECTED_ORACAO_FRAGMENT_TAG)
-    }
-
-    private fun setupPrayByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.categoriaOracao }
-                .distinct()
-                .sortedBy { it?.name }
-                .map {
-                    it!!.name to mItems
-                            .filter { oracao -> oracao.categoriaOracao == it }
-                            .sortedBy { it.name }
-                            .toMutableList()
-                }
-                .toMap()
-    }
-
-    private fun setupPrayAlphabetical(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
-        return mItems.map { it.name[0] }
-                .distinct()
-                .sorted()
-                .map {
-                    it.toString() to mItems
-                            .filter { oracao -> oracao.name[0] == it }
-                            .sortedBy { it.name }
-                            .toMutableList()
-                }
-                .toMap()
     }
 
 }
