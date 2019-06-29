@@ -30,6 +30,10 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         this.parentView = parentVH
     }
 
+    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>) : this(context, mItems) {
+        this.fragmentAbstract = fragmentAbstract
+    }
+
     init {
         if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
             syncronizeFavorites(mItems, usuario?.oracoes!!)
@@ -97,7 +101,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         setupFavoriteIcon(view, oracao)
         if (usuario == null) {
             view.favoriteButton!!.visibility = View.GONE
-            view.dividerLine!!.visibility = View.GONE
+            view.dividerLine.visibility = View.GONE
         }
     }
 

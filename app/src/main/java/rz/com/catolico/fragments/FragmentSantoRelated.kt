@@ -15,6 +15,8 @@ import rz.com.catolico.interfaces.ISortOracao
 
 class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), IFavorite<Oracao>, ISortOracao {
 
+    private lateinit var santo: Santo
+
     companion object {
         fun instance(santo: Santo): FragmentSantoRelated {
             val fragmentSantoRelated = FragmentSantoRelated()
@@ -23,6 +25,10 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
             fragmentSantoRelated.arguments = bundle
             return fragmentSantoRelated
         }
+    }
+
+    override fun afterAttachFragment() {
+        getSerialiableArgumentExtra("santo").let { santo = (it as Santo) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -34,18 +40,23 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
     }
 
     override fun loadData() {
-        val oracoes = (arguments?.getSerializable("santo") as Santo).oracoes
-        if (oracoes.isNotEmpty()) {
+        val oracoes = santo.oracoes
+        if (oracoes.isEmpty()) {
+            changeView(R.layout.fragment_santo_related_nothing)
+            return
+        }
+
+        if (isUserLogged()) {
             getUser()?.let { syncronizeFavorites(it.oracoes, oracoes) }
         }
-        setupAdapter(oracoes)
 
+        setupAdapter(oracoes)
     }
 
     override fun setupAdapter(list: MutableList<Oracao>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
-        val adapterOracao = activity?.let { AdapterOracao(it, sortAlphabetical(list)) }
+        val adapterOracao = AdapterOracao(getParentActivity(), this, list)
         adapterOracao?.let { recyclerView?.adapter = it }
     }
 

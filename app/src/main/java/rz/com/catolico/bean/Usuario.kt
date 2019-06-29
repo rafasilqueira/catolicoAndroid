@@ -2,7 +2,7 @@ package rz.com.catolico.bean
 
 import java.io.Serializable
 
-class Usuario : BaseEntityName(), Serializable,Cloneable {
+class Usuario : BaseEntityName(), Serializable, Cloneable {
 
     var idFacebook: String? = null
     var email: String? = null
@@ -21,11 +21,11 @@ class Usuario : BaseEntityName(), Serializable,Cloneable {
         santos.add(santo)
     }
 
-    fun removeSanto(santo: Santo){
+    fun removeSanto(santo: Santo) {
         santos.remove(santo)
     }
 
-    fun removeOracao(oracao: Oracao){
+    fun removeOracao(oracao: Oracao) {
         oracoes.remove(oracao)
     }
 

@@ -215,7 +215,8 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         when (fragment) {
             is FragmentSanto -> showIconsFragmentSanto()
             is FragmentOracao -> showIconsFragmentOracao()
-            is FragmentLiturgia -> {}
+            is FragmentLiturgia -> {
+            }
         }
     }
 
@@ -276,7 +277,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
                 supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
             }
 
-           current?.let {setupFragmentIcons(it) }
+            current?.let { setupFragmentIcons(it) }
 
             when (oldFragment?.tag) {
                 SELECTED_ORACAO_FRAGMENT_TAG -> {
@@ -287,6 +288,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
                         }
 
                         is FragmentSanto -> showIconsFragmentSanto()
+                        is FragmentSelectedSanto -> showIconsSelectedContent()
                     }
                 }
 
