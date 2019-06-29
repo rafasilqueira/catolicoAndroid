@@ -1,35 +1,30 @@
 package rz.com.catolico.fragments
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
+import rz.com.catolico.exception.CatolicoException
 
-abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment>(private val initialView: Int) : FragmentAbstract<A>() {
+abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAbstract<A>() {
 
-    protected var recyclerView: RecyclerView? = null
-    protected var mList: MutableList<T> = ArrayList()
-
-    abstract fun loadData()
-    abstract fun setupAdapter(list: MutableList<T>)
-    abstract fun itemClickListener(type: T)
-
-
-    protected fun setupRecyclerView(linearLayoutManager: LinearLayoutManager = LinearLayoutManager(getParentActivity().applicationContext, LinearLayoutManager.VERTICAL, false)) {
-        recyclerView = view?.findViewById(R.id.recyclerview)
-        recyclerView?.layoutManager = linearLayoutManager
+    companion object {
+        const val HORIZONTAL = LinearLayoutManager.HORIZONTAL
+        const val VERTICAL = LinearLayoutManager.VERTICAL
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(initialView, container, false) as ViewGroup
-       /* mInflater = inflater
-        mContainer = container*/
-        loadData()
-        return view
+    protected var mList: MutableList<T> = ArrayList()
+
+    abstract fun setupAdapter(list: MutableList<T>)
+    abstract fun loadData()
+
+    open fun onSucessLoadData() {}
+    open fun onErrorLoadData() {}
+    open fun itemClickListener(type: T) {}
+
+    protected fun getLinearLayoutManager(orientation: Int) = when (orientation) {
+        HORIZONTAL -> LinearLayoutManager(getParentActivity().applicationContext, HORIZONTAL, false)
+        VERTICAL -> LinearLayoutManager(getParentActivity().applicationContext, VERTICAL, false)
+        else -> throw CatolicoException(getString(R.string.invalid_orientation))
     }
 
 }

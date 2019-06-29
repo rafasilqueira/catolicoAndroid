@@ -115,4 +115,5 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="asterisco">*</string>
     <string name="historia">Hístoria</string>
     <string name="related">Relacionado</string>
+    <string name="invalid_orientation">invalid orientation</string>
 </resources>

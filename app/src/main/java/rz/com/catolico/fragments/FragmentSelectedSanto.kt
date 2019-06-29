@@ -52,6 +52,11 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        disableAllIcons()
+        getParentActivity().showIconsSelectedContent()
+    }
+
     private fun setupViewPager(santo: Santo) {
         val viewPagerAdapter = AdapterAbstractViewPager(childFragmentManager)
         tabLayout?.tabMode = TabLayout.MODE_FIXED

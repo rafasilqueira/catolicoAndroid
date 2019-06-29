@@ -1,16 +1,15 @@
 package rz.com.catolico.fragments
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Santo
-import rz.com.catolico.utils.Constantes.Companion.SAYNT_HISTORY
 
-class FragmentSantoHistory : Fragment() {
+class FragmentSantoHistory : FragmentAbstract<ActivityCatolicoMain>() {
 
     companion object {
         fun instance(santo: Santo): FragmentSantoHistory {

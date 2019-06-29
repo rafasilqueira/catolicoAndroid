@@ -2,7 +2,7 @@ package rz.com.catolico.fragments
 
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +18,7 @@ import rz.com.catolico.bean.Liturgia
 import rz.com.catolico.callBack.CallBackFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
-class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMain>(R.layout.fragment_liturgia) {
-
-    override fun actionAfterAttachFragment() {
-        getParentActivity().setupFragmentIcons(this)
-    }
+class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMain>() {
 
     private var adapterLiturgia: AdapterLiturgia? = null
     private var viewPagerAdapter: AdapterViewPagerLeitura? = null
@@ -35,21 +31,27 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
 
     override fun loadData() {
         val call: Call<MutableList<Liturgia>> = RetrofitConfig().liturgiaService().getLiturgias()
-
         call.enqueue(object : CallBackFragment<MutableList<Liturgia>>(this@FragmentLiturgia, R.layout.fragment_liturgia) {
-
             override fun onResponse(call: Call<MutableList<Liturgia>>, response: Response<MutableList<Liturgia>>) {
                 super.onResponse(call, response)
+                onSucessLoadData()
                 this@FragmentLiturgia.mList = response.body() ?: ArrayList()
                 setupAdapter(mList)
             }
 
             override fun onFailure(call: Call<MutableList<Liturgia>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentLiturgia.changeView(R.layout.fragment_erro_screen_top)
-                disableAllIcons()
+                onErrorLoadData()
             }
         })
+    }
+
+    override fun onSucessLoadData() {
+        getParentActivity().setupFragmentIcons(this)
+    }
+
+    override fun onErrorLoadData() {
+        disableAllIcons()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,7 +63,8 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
     }
 
     override fun setupAdapter(list: MutableList<Liturgia>) {
-        setupRecyclerView(LinearLayoutManager(getParentActivity(), LinearLayoutManager.HORIZONTAL, false))
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView?.layoutManager = getLinearLayoutManager(HORIZONTAL)
         adapterLiturgia = AdapterLiturgia(getParentActivity(), list, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()

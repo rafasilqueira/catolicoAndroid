@@ -16,11 +16,6 @@ import rz.com.catolico.retrofit.RetrofitConfig
 
 class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
 
-    private var parentContext: ActivityCatolicoMain? = null
-    private var txtOracao: TextView? = null
-    private var txtDescricao: TextView? = null
-    private var oracao: Oracao? = null
-
     companion object {
         fun instance(oracao: Oracao): FragmentSelectedOracao {
             val fragmentOracaoContent = FragmentSelectedOracao()
@@ -33,23 +28,33 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_selected_oracao, container, false) as ViewGroup
-        oracao = arguments?.getSerializable("oracao") as Oracao
-        txtOracao = view.findViewById(R.id.txtOracao)
-        txtDescricao = view.findViewById(R.id.txtDescricao)
-        txtOracao?.text = oracao?.name
-        txtDescricao?.text = oracao?.descricao
-        parentContext?.isFavorite(oracao!!.favorite)
+        val oracao = getOracao("oracao")
+
+        oracao?.let {
+            view.findViewById<TextView>(R.id.txtOracao)?.text = it.name
+            view.findViewById<TextView>(R.id.txtDescricao)?.text = it.descricao
+            getParentActivity().isFavorite(it.favorite)
+        }
+
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        disableAllIcons()
+        getParentActivity().showIconsSelectedContent()
+    }
+
+    private fun getOracao(key: String): Oracao? = getSerialiableArgumentExtra(key) as Oracao?
+
     fun favoriteButtonListener() {
-        if (getUser() != null) {
+        val oracao = getOracao("oracao")
+        if (getUser() != null && oracao != null) {
             val userClone = getUser()?.clone() as Usuario
 
-            if (oracao?.favorite!!) {
-                userClone.removeOracao(oracao!!)
+            if (oracao.favorite) {
+                userClone.removeOracao(oracao)
             } else {
-                userClone.addOracao(oracao!!)
+                userClone.addOracao(oracao)
             }
 
             val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
@@ -57,13 +62,13 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
 
                 override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                     if (response.isSuccessful) {
-                        oracao?.favorite = !oracao?.favorite!!
-                        if (oracao?.favorite!!) {
-                            getUser()!!.addOracao(oracao!!.clone() as Oracao)
+                        oracao.favorite = !oracao.favorite
+                        if (oracao.favorite) {
+                            getUser()!!.addOracao(oracao.clone() as Oracao)
                         } else {
-                            getUser()!!.removeOracao(oracao!!)
+                            getUser()!!.removeOracao(oracao)
                         }
-                        parentContext?.isFavorite(oracao!!.favorite)
+                        getParentActivity().isFavorite(oracao.favorite)
                     }
                 }
 

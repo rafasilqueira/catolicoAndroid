@@ -9,20 +9,19 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
 import rz.com.catolico.bean.Usuario
+import java.io.Serializable
 
 @Suppress("UNCHECKED_CAST")
 abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
 
-    /*protected var view: ViewGroup? = null
-    protected var mInflater: LayoutInflater? = null
-    protected var mContainer: ViewGroup? = null*/
-
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    open fun actionAfterAttachFragment() {}
 
     protected fun getParentActivity() = activity as A
-
     protected fun getUser(): Usuario? = getParentActivity().getIntentUser()
+    protected fun isUserLogged() = getUser() != null
+    protected fun getSerialiableArgumentExtra(key: String): Serializable? = arguments?.getSerializable(key)
+
+    open fun afterAttachFragment() {}
 
     fun disableAllIcons() {
         getParentActivity().disableAllIcons()
@@ -38,7 +37,7 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        actionAfterAttachFragment()
+        afterAttachFragment()
     }
 
 

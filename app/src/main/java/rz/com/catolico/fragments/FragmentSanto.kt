@@ -21,14 +21,10 @@ import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.layout.fragment_santo), IFavorite<Santo> {
+class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IFavorite<Santo> {
 
     private var adapterSanto: AdapterSanto? = null
     private var dialogDatePicker: Dialog? = null
-
-    override fun actionAfterAttachFragment() {
-        getParentActivity().setupFragmentIcons(this)
-    }
 
     companion object {
         fun instance(): FragmentSanto {
@@ -37,8 +33,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.lay
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_santo, container, false) as ViewGroup
-        return view
+        return inflater.inflate(R.layout.fragment_santo, container, false) as ViewGroup
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,28 +41,35 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.lay
     }
 
     override fun loadData() {
-        //changeView(R.layout.fragment_load_screen)
         val call: Call<MutableList<Santo>> = RetrofitConfig().santoService().getLatests()
 
         call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto, R.layout.fragment_santo) {
-
             override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)
                 this@FragmentSanto.mList = response.body() ?: ArrayList()
                 //println(GsonBuilder().setPrettyPrinting().create().toJson(response.body()))
+                onSucessLoadData()
                 setupAdapter(mList)
             }
 
             override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
                 super.onFailure(call, t)
-                this@FragmentSanto.changeView(R.layout.fragment_erro_screen_top)
-                disableAllIcons()
+                onErrorLoadData()
             }
         })
     }
 
+    override fun onSucessLoadData() {
+        getParentActivity().setupFragmentIcons(this)
+    }
+
+    override fun onErrorLoadData() {
+        disableAllIcons()
+    }
+
     override fun setupAdapter(list: MutableList<Santo>) {
-        setupRecyclerView()
+        val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
+        recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
         getUser()?.let { super.syncronizeFavorites(list, it.santos) }
         adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, list)
         recyclerView?.adapter = adapterSanto
@@ -148,10 +150,6 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(R.lay
         }
         dialogDatePicker?.show()
         dialogDatePicker?.setCanceledOnTouchOutside(true)
-    }
-
-    override fun itemClickListener(type: Santo) {
-
     }
 
 }

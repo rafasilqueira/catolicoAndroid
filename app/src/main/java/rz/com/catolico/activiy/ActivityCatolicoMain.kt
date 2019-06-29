@@ -215,7 +215,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         when (fragment) {
             is FragmentSanto -> showIconsFragmentSanto()
             is FragmentOracao -> showIconsFragmentOracao()
-            is FragmentSelectedSanto -> showIconsSelectedContent()
+            is FragmentLiturgia -> {}
         }
     }
 
