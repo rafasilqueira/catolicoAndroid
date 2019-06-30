@@ -14,8 +14,9 @@ import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterAbstractViewPager
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
+import java.io.Serializable
 
-class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>() {
+class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(), Serializable {
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
@@ -61,7 +62,7 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>() {
         val viewPagerAdapter = AdapterAbstractViewPager(childFragmentManager)
         tabLayout?.tabMode = TabLayout.MODE_FIXED
         viewPagerAdapter.addFrag(FragmentSantoHistory.instance(santo), getString(R.string.historia))
-        viewPagerAdapter.addFrag(FragmentSantoRelated.instance(santo), getString(R.string.related))
+        viewPagerAdapter.addFrag(FragmentSantoRelated.instance(santo, this), getString(R.string.related))
         tabLayout?.setupWithViewPager(viewPager)
         viewPager?.adapter = viewPagerAdapter
         getParentActivity().setActionBarTitle(celebrationDay ?: getString(R.string.app_name))

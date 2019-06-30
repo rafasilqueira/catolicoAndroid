@@ -12,10 +12,17 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.interfaces.ISortOracao
+import rz.com.catolico.utils.Constantes
 
 class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), IFavorite<Oracao>, ISortOracao {
 
     private lateinit var santo: Santo
+    var fragmentParent: FragmentSelectedSanto? = null
+
+
+    fun mudar(oracao: Oracao) {
+        fragmentParent?.swapFragment(FragmentSelectedOracao.instance(oracao), Constantes.SELECTED_ORACAO_FRAGMENT_TAG)
+    }
 
     companion object {
         fun instance(santo: Santo): FragmentSantoRelated {
@@ -25,10 +32,20 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
             fragmentSantoRelated.arguments = bundle
             return fragmentSantoRelated
         }
+
+        fun instance(santo: Santo, parentFragment: FragmentSelectedSanto): FragmentSantoRelated {
+            val fragmentSantoRelated = FragmentSantoRelated()
+            val bundle = Bundle()
+            bundle.putSerializable("santo", santo)
+            bundle.putSerializable("parent", parentFragment)
+            fragmentSantoRelated.arguments = bundle
+            return fragmentSantoRelated
+        }
     }
 
     override fun afterAttachFragment() {
         getSerialiableArgumentExtra("santo").let { santo = (it as Santo) }
+        fragmentParent = getSerialiableArgumentExtra("parent") as FragmentSelectedSanto
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,10 +70,10 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
         setupAdapter(oracoes)
     }
 
-    override fun setupAdapter(list: MutableList<Oracao>) {
+    override fun setupAdapter(mList: MutableList<Oracao>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
-        val adapterOracao = AdapterOracao(getParentActivity(), this, list)
+        val adapterOracao = AdapterOracao(getParentActivity(), this, mList)
         adapterOracao?.let { recyclerView?.adapter = it }
     }
 

@@ -51,13 +51,20 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     private var menuItemSearch: MenuItem? = null
     private var doubleBackToExitPressedOnce: Boolean = false
     private var selectedFragment: Fragment? = null
+    var fragmentSantoSavedInstance: FragmentSanto? = null
+    var fragmentOracaoSavedInstance: FragmentOracao? = null
+    var fragmentLiturgiaSavedInstace: FragmentLiturgia? = null
 
     fun setActionBarTitle(title: String) {
         supportActionBar?.title = title
     }
 
     override fun getIntentUser(): Usuario? {
-        return intent.getSerializableExtra(USER_KEY) as Usuario
+        if (intent.getSerializableExtra(USER_KEY) != null) {
+            intent.getSerializableExtra(USER_KEY) as Usuario
+        }
+
+        return null
     }
 
     private fun setupMenuItemDV() {
@@ -113,7 +120,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         }
     }
 
-    private fun setFragment(selectedFragment: Fragment, tag: String) {
+    private fun setFragment(selectedFragment: Fragment, tag: String?) {
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
     }
 
@@ -344,31 +351,32 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
             disableAllIcons()
-            var TAG: String? = null
-            var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+            var tag: String? = null
+//            var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {
                 R.id.action_load_saynts -> {
-                    selectedFragment = FragmentSanto.instance()
-                    TAG = SANTO_FRAGMENT_TAG
+                    tag = SANTO_FRAGMENT_TAG
+                    selectedFragment = if (fragmentSantoSavedInstance != null) fragmentSantoSavedInstance else FragmentSanto.instance()
                 }
 
                 R.id.action_load_liturgia -> {
-                    selectedFragment = FragmentLiturgia.instance()
-                    TAG = LITURGIA_FRAGMENT_TAG
+                    tag = LITURGIA_FRAGMENT_TAG
+                    selectedFragment = if (fragmentLiturgiaSavedInstace != null) fragmentLiturgiaSavedInstace else FragmentLiturgia.instance()
                 }
 
                 R.id.action_load_prays -> {
-                    selectedFragment = FragmentOracao.instance()
-                    TAG = ORACAO_FRAGMENT_TAG
+                    tag = ORACAO_FRAGMENT_TAG
+                    selectedFragment = if (fragmentOracaoSavedInstance != null) fragmentOracaoSavedInstance else FragmentOracao.instance()
                 }
-
-
             }
+
             val fm = supportFragmentManager
-            /*for (i in 0 until fm.backStackEntryCount) {
-                fm.popBackStack()
-            }*/
-            setFragment(selectedFragment!!, TAG!!)
+            for (i in 0 until fm.backStackEntryCount) fm.popBackStack()
+
+            selectedFragment?.let {
+                setFragment(it, tag)
+            }
+//            setFragment(selectedFragment!!, TAG!!)
             true
         }
 

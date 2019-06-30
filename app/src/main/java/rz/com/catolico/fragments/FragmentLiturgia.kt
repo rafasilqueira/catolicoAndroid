@@ -46,8 +46,13 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
         })
     }
 
+    override fun saveInstance() {
+        getParentActivity().fragmentLiturgiaSavedInstace = this
+    }
+
     override fun onSucessLoadData() {
         getParentActivity().setupFragmentIcons(this)
+        saveInstance()
     }
 
     override fun onErrorLoadData() {
@@ -59,17 +64,22 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadData()
+        if (getParentActivity().fragmentLiturgiaSavedInstace != null) {
+            setupAdapter(mList)
+            getParentActivity().setupFragmentIcons(this)
+        } else {
+            loadData()
+        }
     }
 
-    override fun setupAdapter(list: MutableList<Liturgia>) {
+    override fun setupAdapter(mList: MutableList<Liturgia>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(HORIZONTAL)
-        adapterLiturgia = AdapterLiturgia(getParentActivity(), list, this)
+        adapterLiturgia = AdapterLiturgia(getParentActivity(), mList, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()
         try {
-            setLiturgiaViewPagerContent(list.first { it.today }.leituras)
+            setLiturgiaViewPagerContent(mList.first { it.today }.leituras)
         } catch (e: Exception) {
             e.printStackTrace()
         }

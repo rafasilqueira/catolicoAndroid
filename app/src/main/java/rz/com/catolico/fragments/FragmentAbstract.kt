@@ -22,6 +22,7 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
     protected fun getSerialiableArgumentExtra(key: String): Serializable? = arguments?.getSerializable(key)
 
     open fun afterAttachFragment() {}
+    open fun saveInstance() {}
 
     fun disableAllIcons() {
         getParentActivity().disableAllIcons()

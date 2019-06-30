@@ -37,11 +37,11 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         }
     }
 
-    override fun setupAdapter(list: MutableList<Oracao>) {
-        if (list.isNotEmpty()) {
+    override fun setupAdapter(mList: MutableList<Oracao>) {
+        if (mList.isNotEmpty()) {
             recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
             recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
-            val map = if (showByCategory) sortByCategory(list) else sortAlphabeticalMap(list)
+            val map = if (showByCategory) sortByCategory(mList) else sortAlphabeticalMap(mList)
             adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
         }
@@ -52,7 +52,12 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadData()
+        if (getParentActivity().fragmentOracaoSavedInstance != null) {
+            setupAdapter(mList)
+            getParentActivity().setupFragmentIcons(this)
+        } else {
+            loadData()
+        }
     }
 
     override fun loadData() {
@@ -77,8 +82,13 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         })
     }
 
+    override fun saveInstance() {
+        getParentActivity().fragmentOracaoSavedInstance = this
+    }
+
     override fun onSucessLoadData() {
         getParentActivity().setupFragmentIcons(this)
+        saveInstance()
     }
 
     override fun onErrorLoadData() {

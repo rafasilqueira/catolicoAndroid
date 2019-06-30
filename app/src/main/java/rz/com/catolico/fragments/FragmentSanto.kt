@@ -37,7 +37,12 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IF
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        loadData()
+        if (getParentActivity().fragmentSantoSavedInstance != null) {
+            setupAdapter(mList)
+            getParentActivity().setupFragmentIcons(this)
+        } else {
+            loadData()
+        }
     }
 
     override fun loadData() {
@@ -59,19 +64,24 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IF
         })
     }
 
+    override fun saveInstance() {
+        getParentActivity().fragmentSantoSavedInstance = this
+    }
+
     override fun onSucessLoadData() {
         getParentActivity().setupFragmentIcons(this)
+        saveInstance()
     }
 
     override fun onErrorLoadData() {
         disableAllIcons()
     }
 
-    override fun setupAdapter(list: MutableList<Santo>) {
+    override fun setupAdapter(mList: MutableList<Santo>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
-        getUser()?.let { super.syncronizeFavorites(list, it.santos) }
-        adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, list)
+        getUser()?.let { super.syncronizeFavorites(mList, it.santos) }
+        adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, mList)
         recyclerView?.adapter = adapterSanto
     }
 

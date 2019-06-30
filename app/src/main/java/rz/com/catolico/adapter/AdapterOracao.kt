@@ -15,6 +15,7 @@ import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentOracao
+import rz.com.catolico.fragments.FragmentSantoRelated
 import rz.com.catolico.fragments.FragmentSelectedOracao
 import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.retrofit.RetrofitConfig
@@ -87,9 +88,14 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
             view.setOnClickListener(View.OnClickListener {
                 fragmentAbstract?.let {
-                    it.swapFragment(FragmentSelectedOracao.instance(oracao), SELECTED_ORACAO_FRAGMENT_TAG)
                     when (fragmentAbstract) {
-                        is FragmentOracao -> (it as FragmentOracao).selectedAdapter = this@AdapterOracao
+                        is FragmentOracao -> {
+                            it.swapFragment(FragmentSelectedOracao.instance(oracao), SELECTED_ORACAO_FRAGMENT_TAG)
+                            (it as FragmentOracao).selectedAdapter = this@AdapterOracao
+                        }
+                        is FragmentSantoRelated -> {
+                            (it as FragmentSantoRelated).mudar(oracao)
+                        }
                     }
                 }
             })

@@ -23,6 +23,7 @@ class Constantes {
         const val LITURGIA_FRAGMENT_CONTENT_TAG = "leituraContentTag"
         const val ORACAO_FRAGMENT_TAG = "oracaoTag"
         const val SELECTED_ORACAO_FRAGMENT_TAG = "oracaoContentTag"
+        const val SELECTED_ORACAO_SANTO_RELATED_TAG = "santoRelatedTag"
         const val USER_KEY = "usuario"
         const val ORACAO_KEY = "oracao"
         const val SAYNT_HISTORY = "sayntHistory"

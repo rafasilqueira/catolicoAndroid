@@ -14,7 +14,7 @@ abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAb
 
     protected var mList: MutableList<T> = ArrayList()
 
-    abstract fun setupAdapter(list: MutableList<T>)
+    abstract fun setupAdapter(mList: MutableList<T>)
     abstract fun loadData()
 
     open fun onSucessLoadData() {}
