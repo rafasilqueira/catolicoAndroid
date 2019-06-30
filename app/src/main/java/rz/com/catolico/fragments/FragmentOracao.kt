@@ -91,10 +91,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         saveInstance()
     }
 
-    override fun onErrorLoadData() {
-        disableAllIcons()
-    }
-
     fun syncronizeFavorites(mItems: MutableList<Oracao>) {
         getUser()?.let { super.syncronizeFavorites(mItems, it.oracoes) }
     }

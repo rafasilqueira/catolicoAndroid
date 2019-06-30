@@ -16,17 +16,15 @@ open class CallBackFragment<T>(
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
-            this.fragment.changeView(this.onSucessView)
+            this.fragment.changeView(onSucessView)
         }
     }
 
     override fun onFailure(call: Call<T>, t: Throwable) {
         t.printStackTrace()
-        this.fragment.changeView(R.layout.fragment_erro_screen_top)
+        this.fragment.changeView(onErrorView)
     }
 
-    init {
-        this.fragment.changeView(R.layout.fragment_load_screen)
-    }
+    init { this.fragment.changeView(onLoadView) }
 
 }

@@ -73,10 +73,6 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IF
         saveInstance()
     }
 
-    override fun onErrorLoadData() {
-        disableAllIcons()
-    }
-
     override fun setupAdapter(mList: MutableList<Santo>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
