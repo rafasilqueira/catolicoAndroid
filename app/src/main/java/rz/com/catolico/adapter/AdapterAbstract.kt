@@ -14,7 +14,7 @@ import kotlin.collections.MutableList
 
 abstract class AdapterAbstract<T>(val context: Context, private var mItems: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as? Usuario
+    protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as Usuario?
 
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
 

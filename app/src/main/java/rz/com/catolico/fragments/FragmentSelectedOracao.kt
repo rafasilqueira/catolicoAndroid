@@ -5,24 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Oracao
-import rz.com.catolico.bean.Usuario
-import rz.com.catolico.retrofit.RetrofitConfig
+import rz.com.catolico.interfaces.IFavoriteOracao
+import rz.com.catolico.interfaces.ISelectableContent
 
-class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
+class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(), IFavoriteOracao, ISelectableContent {
 
     companion object {
         fun instance(oracao: Oracao): FragmentSelectedOracao {
-            val fragmentOracaoContent = FragmentSelectedOracao()
+            val fragmentSelectedOracao = FragmentSelectedOracao()
             val bundle = Bundle()
             bundle.putSerializable("oracao", oracao)
-            fragmentOracaoContent.arguments = bundle
-            return fragmentOracaoContent
+            fragmentSelectedOracao.arguments = bundle
+            return fragmentSelectedOracao
         }
     }
 
@@ -30,7 +27,7 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
         val view = inflater.inflate(R.layout.fragment_selected_oracao, container, false) as ViewGroup
         val oracao = getOracao("oracao")
 
-        oracao?.let {
+        oracao.let {
             view.findViewById<TextView>(R.id.txtOracao)?.text = it.name
             view.findViewById<TextView>(R.id.txtDescricao)?.text = it.descricao
             getParentActivity().isFavorite(it.favorite)
@@ -44,40 +41,20 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>() {
         getParentActivity().showIconsSelectedContent()
     }
 
-    private fun getOracao(key: String): Oracao? = getSerialiableArgumentExtra(key) as Oracao?
+    private fun getOracao(key: String): Oracao = getSerialiableArgumentExtra(key) as Oracao
 
-    fun favoriteButtonListener() {
-        val oracao = getOracao("oracao")
-        if (getUser() != null && oracao != null) {
-            val userClone = getUser()?.clone() as Usuario
-
-            if (oracao.favorite) {
-                userClone.removeOracao(oracao)
-            } else {
-                userClone.addOracao(oracao)
-            }
-
-            val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
-            call.enqueue(object : Callback<Boolean> {
-
-                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                    if (response.isSuccessful) {
-                        oracao.favorite = !oracao.favorite
-                        if (oracao.favorite) {
-                            getUser()!!.addOracao(oracao.clone() as Oracao)
-                        } else {
-                            getUser()!!.removeOracao(oracao)
-                        }
-                        getParentActivity().isFavorite(oracao.favorite)
-                    }
-                }
-
-                override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                    t.printStackTrace()
-                }
-
-            })
-        }
+    override fun onShareListener() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun onFavoriteListener() {
+        val oracao = getOracao("oracao")
+        getUser()?.let { onUpdateFavorite(oracao, it) }
+    }
+
+    override fun onSucessUpdateFavorite(type: Oracao) {
+        getParentActivity().isFavorite(type.favorite)
+    }
+
 
 }

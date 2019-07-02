@@ -13,12 +13,11 @@ import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
-import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.retrofit.RetrofitConfig
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), IFavorite<Oracao>, ISortOracao {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -26,7 +25,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     private var recyclerView: RecyclerView? = null
 
     fun updateAdapter() {
-        getUser()?.let { super.syncronizeFavorites(mList, it.oracoes) }
         recyclerView?.adapter?.notifyDataSetChanged()
         selectedAdapter?.notifyDataSetChanged()
     }
@@ -69,7 +67,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
                 if (response.isSuccessful) {
                     this@FragmentOracao.mList = response.body() ?: ArrayList()
                     if (mList.isNotEmpty()) {
-                        syncronizeFavorites(mList)
+                        //syncronizeFavorites(mList)
                         setupAdapter(mList)
                     }
                 }
@@ -90,11 +88,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         getParentActivity().setupFragmentIcons(this)
         saveInstance()
     }
-
-    fun syncronizeFavorites(mItems: MutableList<Oracao>) {
-        getUser()?.let { super.syncronizeFavorites(mItems, it.oracoes) }
-    }
-
 
     fun showByCategory() {
         showByCategory = true

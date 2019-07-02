@@ -10,11 +10,10 @@ import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
-import rz.com.catolico.interfaces.IFavorite
 import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.utils.Constantes
 
-class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), IFavorite<Oracao>, ISortOracao {
+class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao {
 
     private lateinit var santo: Santo
     var fragmentParent: FragmentSelectedSanto? = null
@@ -63,10 +62,6 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
             return
         }
 
-        if (isUserLogged()) {
-            getUser()?.let { syncronizeFavorites(it.oracoes, oracoes) }
-        }
-
         setupAdapter(oracoes)
     }
 
@@ -74,7 +69,7 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
         val adapterOracao = AdapterOracao(getParentActivity(), this, mList)
-        adapterOracao?.let { recyclerView?.adapter = it }
+        recyclerView?.adapter = adapterOracao
     }
 
 }

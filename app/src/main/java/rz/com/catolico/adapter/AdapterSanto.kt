@@ -6,23 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.squareup.picasso.Picasso
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
-import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstract
 import rz.com.catolico.fragments.FragmentSelectedSanto
-import rz.com.catolico.interfaces.IFavorite
-import rz.com.catolico.retrofit.RetrofitConfig
+import rz.com.catolico.interfaces.IFavoriteSanto
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
-import rz.com.catolico.utils.ToastMisc
 
-class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavorite<Santo> {
+class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavoriteSanto {
 
     private var fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>? = null
 
@@ -71,31 +65,13 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             }
 
             view.favoriteButton?.setOnClickListener {
-                if (usuario != null) {
-                    val userClone = usuario?.clone() as Usuario
-
-                    if (genericType.favorite) {
-                        userClone.removeSanto(genericType)
-                    } else {
-                        userClone.addSanto(genericType)
-                    }
-
-                    val call: Call<Boolean> = RetrofitConfig().usuarioService().saveUser(userClone)
-                    call.enqueue(object : Callback<Boolean> {
-
-                        override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
-                            genericType.favorite = !genericType.favorite
-                            notifyDataSetChanged()
-                        }
-
-                        override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                            t.printStackTrace()
-                            ToastMisc.generalError(this@AdapterSanto.context)
-                        }
-                    })
-                }
+                usuario?.let { onUpdateFavorite(genericType, it) }
             }
         }
+    }
+
+    override fun onSucessUpdateFavorite(type: Santo) {
+        notifyDataSetChanged()
     }
 
     private fun showSelectedSanto(santo: Santo) {

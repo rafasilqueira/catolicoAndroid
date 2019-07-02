@@ -23,7 +23,11 @@ import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.enumeration.ActivitiesEnum
-import rz.com.catolico.fragments.*
+import rz.com.catolico.fragments.FragmentLiturgia
+import rz.com.catolico.fragments.FragmentOracao
+import rz.com.catolico.fragments.FragmentSanto
+import rz.com.catolico.fragments.FragmentSelectedSanto
+import rz.com.catolico.interfaces.ISelectableContent
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
@@ -61,7 +65,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
     override fun getIntentUser(): Usuario? {
         if (intent.getSerializableExtra(USER_KEY) != null) {
-            intent.getSerializableExtra(USER_KEY) as Usuario
+            return intent.getSerializableExtra(USER_KEY) as Usuario
         }
 
         return null
@@ -158,15 +162,12 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         when (item?.itemId) {
 
 
-            R.id.ic_favorite -> {
-                when (fragment) {
-                    is FragmentSelectedOracao -> fragment.favoriteButtonListener()
-
-                }
+            R.id.ic_favorite -> when (fragment) {
+                is ISelectableContent -> fragment.onFavoriteListener()
             }
 
-            R.id.ic_share -> {
-
+            R.id.ic_share -> when (fragment) {
+                is ISelectableContent -> fragment.onShareListener()
             }
 
             R.id.ic_order_by_category -> {
@@ -275,7 +276,6 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-
             val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
 
             val current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
@@ -299,7 +299,10 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
                     }
                 }
 
-                SELECTED_SANTO_FRAGMENT_TAG -> showIconsFragmentSanto()
+                SELECTED_SANTO_FRAGMENT_TAG -> {
+                    showIconsFragmentSanto()
+                    (supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG) as FragmentSanto).updateAdapter()
+                }
             }
 
             if (supportFragmentManager.backStackEntryCount == 0) {

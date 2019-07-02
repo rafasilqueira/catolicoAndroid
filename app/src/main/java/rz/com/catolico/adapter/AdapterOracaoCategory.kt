@@ -26,7 +26,7 @@ class AdapterOracaoCategory(context: Context,  var fragmentAbstract: FragmentAbs
     override fun onBindData(holder: RecyclerView.ViewHolder, key: String) {
         val view: VHOracaoCategory
         if (holder is VHOracaoCategory) {
-            var oracoes = getMapValues(map, key)
+            val oracoes = getMapValues(map, key)
             view = holder
             view.txtName.text = key
             view.txtPrayQty.text = " %02d ".format(oracoes?.size)

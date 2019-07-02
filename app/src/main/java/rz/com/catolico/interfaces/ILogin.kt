@@ -56,7 +56,7 @@ interface ILogin {
         call.enqueue(object : Callback<Usuario> {
 
             override fun onResponse(call: Call<Usuario>, response: Response<Usuario>) {
-                if (response?.body() != null)
+                if (response.body() != null)
                     doLoginSucess(response.body()!!)
                 else
                     ToastMisc.userNotFound(context)
