@@ -13,18 +13,20 @@ import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IFiltered
 import rz.com.catolico.interfaces.ISortOracao
+import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao , IUpdatableFragment , IFiltered {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
     var selectedAdapter: AdapterOracao? = null
     private var recyclerView: RecyclerView? = null
 
-    fun updateAdapter() {
+    override fun update() {
         recyclerView?.adapter?.notifyDataSetChanged()
         selectedAdapter?.notifyDataSetChanged()
     }
@@ -67,7 +69,6 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
                 if (response.isSuccessful) {
                     this@FragmentOracao.mList = response.body() ?: ArrayList()
                     if (mList.isNotEmpty()) {
-                        //syncronizeFavorites(mList)
                         setupAdapter(mList)
                     }
                 }
@@ -89,14 +90,15 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         saveInstance()
     }
 
-    fun showByCategory() {
+    override fun alphabeticalFilter() {
+        showByCategory = false
+        setupAdapter(mList)
+    }
+
+    override fun categoryFilter() {
         showByCategory = true
         setupAdapter(mList)
     }
 
-    fun showAlphabetical() {
-        showByCategory = false
-        setupAdapter(mList)
-    }
 
 }

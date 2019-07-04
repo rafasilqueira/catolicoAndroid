@@ -9,9 +9,9 @@ import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.interfaces.IFavoriteOracao
-import rz.com.catolico.interfaces.ISelectableContent
+import rz.com.catolico.interfaces.ISelectable
 
-class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(), IFavoriteOracao, ISelectableContent {
+class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(), IFavoriteOracao, ISelectable {
 
     companion object {
         fun instance(oracao: Oracao): FragmentSelectedOracao {

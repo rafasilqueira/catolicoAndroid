@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
@@ -26,13 +27,12 @@ import rz.com.catolico.enumeration.ActivitiesEnum
 import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
-import rz.com.catolico.fragments.FragmentSelectedSanto
-import rz.com.catolico.interfaces.ISelectableContent
+import rz.com.catolico.interfaces.IFiltered
+import rz.com.catolico.interfaces.ISelectable
+import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.SANTO_FRAGMENT_TAG
-import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
-import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 import rz.com.catolico.utils.StatusFacebookLogin
 
@@ -64,10 +64,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     }
 
     override fun getIntentUser(): Usuario? {
-        if (intent.getSerializableExtra(USER_KEY) != null) {
-            return intent.getSerializableExtra(USER_KEY) as Usuario
-        }
-
+        intent.getSerializableExtra(USER_KEY)?.let { return it as Usuario }
         return null
     }
 
@@ -124,10 +121,6 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         }
     }
 
-    private fun setFragment(selectedFragment: Fragment, tag: String?) {
-        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, selectedFragment, tag).commit()
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
@@ -160,30 +153,10 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
         when (item?.itemId) {
-
-
-            R.id.ic_favorite -> when (fragment) {
-                is ISelectableContent -> fragment.onFavoriteListener()
-            }
-
-            R.id.ic_share -> when (fragment) {
-                is ISelectableContent -> fragment.onShareListener()
-            }
-
-            R.id.ic_order_by_category -> {
-                when (fragment) {
-                    is FragmentOracao -> fragment.showByCategory()
-                }
-            }
-
-            R.id.ic_order_by_alfabetical -> {
-                when (fragment) {
-                    is FragmentOracao -> {
-                        fragment.showAlphabetical()
-                    }
-                }
-
-            }
+            R.id.ic_favorite -> if (fragment is ISelectable) fragment.onFavoriteListener()
+            R.id.ic_share -> if (fragment is ISelectable) fragment.onShareListener()
+            R.id.ic_order_by_category -> if (fragment is IFiltered) fragment.categoryFilter()
+            R.id.ic_order_by_alfabetical -> if (fragment is IFiltered) fragment.alphabeticalFilter()
 
             R.id.ic_search -> {
                 when (fragment) {
@@ -245,11 +218,11 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         }
     }
 
-    fun showIconsFragmentSanto() {
+    private fun showIconsFragmentSanto() {
         menuItemSearch?.isVisible = true
     }
 
-    fun showIconsFragmentOracao() {
+    private fun showIconsFragmentOracao() {
         menuItemSearch?.isVisible = true
         menuItemFilter?.isVisible = true
     }
@@ -268,7 +241,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         menuItemFilter = menu?.findItem(R.id.ic_options_filter)
         menuItemSearch = menu?.findItem(R.id.ic_search)
         selectedFragment = FragmentSanto.instance()
-        setFragment(selectedFragment!!, SANTO_FRAGMENT_TAG)
+        replaceFragment(selectedFragment!!, SANTO_FRAGMENT_TAG)
         return true
     }
 
@@ -276,46 +249,32 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            val oldFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+            if (isBackStackEmpty()) {
 
-            val current = if (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) != null) {
-                supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG)
-            } else {
-                supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG)
-            }
+                val pressedBackFragment = getCurrentFragment()
+                val topFragment = getTopFragment()
 
-            current?.let { setupFragmentIcons(it) }
+                topFragment?.let { setupFragmentIcons(it) }
 
-            when (oldFragment?.tag) {
-                SELECTED_ORACAO_FRAGMENT_TAG -> {
-                    when (current) {
-                        is FragmentOracao -> {
-                            showIconsFragmentOracao()
-                            (supportFragmentManager.findFragmentByTag(ORACAO_FRAGMENT_TAG) as FragmentOracao).updateAdapter()
-                        }
-
-                        is FragmentSanto -> showIconsFragmentSanto()
-                        is FragmentSelectedSanto -> showIconsSelectedContent()
-                    }
+                when (pressedBackFragment) {
+                    is IUpdatableFragment -> pressedBackFragment.update()
                 }
 
-                SELECTED_SANTO_FRAGMENT_TAG -> {
-                    showIconsFragmentSanto()
-                    (supportFragmentManager.findFragmentByTag(SANTO_FRAGMENT_TAG) as FragmentSanto).updateAdapter()
-                }
-            }
-
-            if (supportFragmentManager.backStackEntryCount == 0) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
                 }
-                this.doubleBackToExitPressedOnce = true
-                Toast.makeText(this, "Aperte VOLTAR novamente para sair !", Toast.LENGTH_SHORT).show()
-                Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 1500)
+
+                showToastPressBackAgain()
             } else {
                 super.onBackPressed()
             }
         }
+    }
+
+    private fun showToastPressBackAgain() {
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, getString(R.string.press_back_again_to_exit), Toast.LENGTH_SHORT).show()
+        Handler().postDelayed({ doubleBackToExitPressedOnce = false }, 1500)
     }
 
     private fun getIntentUser(data: Intent?): Usuario {
@@ -325,7 +284,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
-            android.app.Activity.RESULT_OK -> {
+            RESULT_OK -> {
                 when (requestCode) {
                     ActivitiesEnum.LOGIN_SCREEN.code -> {
                         if (data?.getSerializableExtra(USER_KEY) != null) {
@@ -355,7 +314,6 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         bottom_navigation.setOnNavigationItemSelectedListener { menuItem ->
             disableAllIcons()
             var tag: String? = null
-//            var currentFragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
             when (menuItem.itemId) {
                 R.id.action_load_saynts -> {
                     tag = SANTO_FRAGMENT_TAG
@@ -373,13 +331,11 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
                 }
             }
 
-            val fm = supportFragmentManager
-            for (i in 0 until fm.backStackEntryCount) fm.popBackStack()
+            removeAllFragments()
 
             selectedFragment?.let {
-                setFragment(it, tag)
+                replaceFragment(it, tag)
             }
-//            setFragment(selectedFragment!!, TAG!!)
             true
         }
 
@@ -408,7 +364,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
     private fun setupToolbar() {
         setSupportActionBar(mToolbar)
-        mToolbar.setTitleTextColor(resources.getColor(android.R.color.white))
+        mToolbar.setTitleTextColor(ContextCompat.getColor(this, android.R.color.white))
         mToolbar.title = "Católico de Fé"
     }
 

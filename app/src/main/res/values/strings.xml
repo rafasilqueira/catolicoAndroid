@@ -117,4 +117,5 @@ lectus. Nam mattis, felis ut adipiscing."</string>
     <string name="related">Relacionado</string>
     <string name="invalid_orientation">invalid orientation</string>
     <string name="related_nothing">Nada relacionado</string>
+    <string name="press_back_again_to_exit">Aperte VOLTAR novamente para sair !</string>
 </resources>

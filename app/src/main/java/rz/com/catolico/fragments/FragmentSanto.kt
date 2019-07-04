@@ -15,23 +15,24 @@ import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>() {
-
+class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IUpdatableFragment {
     private var adapterSanto: AdapterSanto? = null
-    private var dialogDatePicker: Dialog? = null
 
+    private var dialogDatePicker: Dialog? = null
     companion object {
+
         fun instance(): FragmentSanto {
             return FragmentSanto()
         }
     }
 
-    fun updateAdapter() {
+    override fun update() {
         adapterSanto?.notifyDataSetChanged()
     }
 

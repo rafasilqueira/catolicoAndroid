@@ -1,6 +1,6 @@
 package rz.com.catolico.interfaces
 
-interface ISelectableContent {
+interface ISelectable {
 
     fun onShareListener()
     fun onFavoriteListener()

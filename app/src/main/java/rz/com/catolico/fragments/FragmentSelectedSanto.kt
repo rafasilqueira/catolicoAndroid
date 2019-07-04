@@ -15,11 +15,11 @@ import rz.com.catolico.adapter.AdapterAbstractViewPager
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IFavoriteSanto
-import rz.com.catolico.interfaces.ISelectableContent
+import rz.com.catolico.interfaces.ISelectable
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 import java.io.Serializable
 
-class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(), Serializable, IFavoriteSanto, ISelectableContent {
+class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(), Serializable, IFavoriteSanto, ISelectable {
 
     private var tabLayout: TabLayout? = null
     private var viewPager: ViewPager? = null
