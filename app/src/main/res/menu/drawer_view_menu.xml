@@ -15,6 +15,12 @@
             android:icon="@drawable/ic_hearth_drawer_menu_48dp"
             android:title="@string/minhas_oracoes" />
 
+
+        <item
+            android:id="@+id/menu_item_santo_favorites"
+            android:icon="@drawable/ic_santo"
+            android:title="@string/minhas_oracoes" />
+
         <item
             android:id="@+id/menu_item_sugerir_oracao"
             android:icon="@drawable/ic_homemrezando_black_48dp"

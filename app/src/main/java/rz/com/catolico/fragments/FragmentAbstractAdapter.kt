@@ -1,25 +1,18 @@
 package rz.com.catolico.fragments
 
-import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityBaseFragment
-import rz.com.catolico.exception.CatolicoException
+import rz.com.catolico.interfaces.IAdapter
 
-abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAbstract<A>() {
+abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAbstract<A>(), IAdapter<T> {
 
-    companion object {
-        const val HORIZONTAL = LinearLayoutManager.HORIZONTAL
-        const val VERTICAL = LinearLayoutManager.VERTICAL
-    }
 
     protected var mList: MutableList<T> = ArrayList()
 
-    abstract fun setupAdapter(mList: MutableList<T>)
-    abstract fun loadData()
+    abstract fun onItemClick(type: T)
 
-    open fun onSucessLoadData() {}
-    open fun onErrorLoadData() {
+    override fun onErrorLoadData() {
         disableAllIcons()
         val view: View? = view?.findViewById(R.id.root_layout)
         view?.let {
@@ -27,14 +20,6 @@ abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAb
                 loadData()
             }
         }
-    }
-
-    open fun itemClickListener(type: T) {}
-
-    protected fun getLinearLayoutManager(orientation: Int) = when (orientation) {
-        HORIZONTAL -> LinearLayoutManager(getParentActivity().applicationContext, HORIZONTAL, false)
-        VERTICAL -> LinearLayoutManager(getParentActivity().applicationContext, VERTICAL, false)
-        else -> throw CatolicoException(getString(R.string.invalid_orientation))
     }
 
 }

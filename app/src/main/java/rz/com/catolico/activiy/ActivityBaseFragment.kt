@@ -1,11 +1,11 @@
 package rz.com.catolico.activiy
 
 import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import rz.com.catolico.R
-import rz.com.catolico.interfaces.IBaseFragmentActivty
 
-abstract class ActivityBaseFragment : AppCompatActivity(), IBaseFragmentActivty {
+abstract class ActivityBaseFragment : ActivityAbstract() {
+
+   abstract fun disableAllIcons()
 
     protected fun getTopFragment(): Fragment? {
         supportFragmentManager.run {

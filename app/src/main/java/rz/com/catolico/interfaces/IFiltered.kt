@@ -1,6 +1,6 @@
 package rz.com.catolico.interfaces
 
 interface IFiltered {
-    fun alphabeticalFilter()
-    fun categoryFilter()
+    fun alphabeticalFilterListener(){}
+    fun categoryFilterListener(){}
 }

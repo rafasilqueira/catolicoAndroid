@@ -16,6 +16,7 @@ import rz.com.catolico.adapter.AdapterViewPagerLeitura
 import rz.com.catolico.bean.Leitura
 import rz.com.catolico.bean.Liturgia
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IAdapter.Companion.HORIZONTAL
 import rz.com.catolico.retrofit.RetrofitConfig
 
 class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMain>() {
@@ -70,7 +71,7 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
 
     override fun setupAdapter(mList: MutableList<Liturgia>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView?.layoutManager = getLinearLayoutManager(HORIZONTAL)
+        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),HORIZONTAL)
         adapterLiturgia = AdapterLiturgia(getParentActivity(), mList, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()

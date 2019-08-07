@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.orhanobut:hawk:2.0.1@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b598ab2fb0fd6f58b4c9344d8efc7cad/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/b598ab2fb0fd6f58b4c9344d8efc7cad/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a6b711a586dc1cbd2de504d11c995fec/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a6b711a586dc1cbd2de504d11c995fec/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

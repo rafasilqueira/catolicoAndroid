@@ -10,6 +10,7 @@ import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
+import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.utils.Constantes
 
@@ -67,7 +68,7 @@ class FragmentSantoRelated : FragmentAbstractAdapter<Oracao, ActivityCatolicoMai
 
     override fun setupAdapter(mList: MutableList<Oracao>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
+        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),VERTICAL)
         val adapterOracao = AdapterOracao(getParentActivity(), this, mList)
         recyclerView?.adapter = adapterOracao
     }

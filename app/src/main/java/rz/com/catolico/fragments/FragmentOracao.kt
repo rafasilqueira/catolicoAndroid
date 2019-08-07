@@ -13,13 +13,14 @@ import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.IFiltered
 import rz.com.catolico.interfaces.ISortOracao
 import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao , IUpdatableFragment , IFiltered {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao, IUpdatableFragment, IFiltered {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
@@ -32,15 +33,13 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     }
 
     companion object {
-        fun instance(): FragmentOracao {
-            return FragmentOracao()
-        }
+        fun instance(): FragmentOracao = FragmentOracao()
     }
 
     override fun setupAdapter(mList: MutableList<Oracao>) {
         if (mList.isNotEmpty()) {
             recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-            recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
+            recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),VERTICAL)
             val map = if (showByCategory) sortByCategory(mList) else sortAlphabeticalMap(mList)
             adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
@@ -90,12 +89,12 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         saveInstance()
     }
 
-    override fun alphabeticalFilter() {
+    override fun alphabeticalFilterListener() {
         showByCategory = false
         setupAdapter(mList)
     }
 
-    override fun categoryFilter() {
+    override fun categoryFilterListener() {
         showByCategory = true
         setupAdapter(mList)
     }

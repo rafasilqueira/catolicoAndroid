@@ -17,8 +17,8 @@ abstract class AdapterAbstract<T>(val context: Context, private var mItems: Muta
     protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as Usuario?
 
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
-
     abstract fun onBindData(holder: RecyclerView.ViewHolder, genericType: T)
+    abstract fun on
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return setupViewHolder(parent, viewType)

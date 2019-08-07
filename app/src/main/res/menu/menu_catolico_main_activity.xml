@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_favorite_star_unselected_action_bar"
         android:title="@string/favorite"
         android:visible="false"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:orderInCategory="2"/>
 
     <item
@@ -21,12 +21,12 @@
         android:icon="@drawable/ic_filter_action_bar"
         android:title="@string/filtro"
         android:visible="false"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         android:orderInCategory="3">
         <menu>
             <item
-                android:id="@+id/ic_order_by_alfabetical"
-                android:title="A - Z" />
+                android:id="@+id/ic_order_alfabetical"
+                android:title="@string/a_z" />
 
             <item
                 android:id="@+id/ic_order_by_category"

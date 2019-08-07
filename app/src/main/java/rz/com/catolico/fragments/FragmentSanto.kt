@@ -15,6 +15,7 @@ import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
@@ -25,8 +26,8 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
     private var adapterSanto: AdapterSanto? = null
 
     private var dialogDatePicker: Dialog? = null
-    companion object {
 
+    companion object {
         fun instance(): FragmentSanto {
             return FragmentSanto()
         }
@@ -77,7 +78,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
 
     override fun setupAdapter(mList: MutableList<Santo>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView?.layoutManager = getLinearLayoutManager(VERTICAL)
+        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),VERTICAL)
         adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, mList)
         recyclerView?.adapter = adapterSanto
     }

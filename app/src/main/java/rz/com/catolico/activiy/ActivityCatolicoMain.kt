@@ -63,10 +63,10 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         supportActionBar?.title = title
     }
 
-    override fun getIntentUser(): Usuario? {
+    /*override fun getIntentUser(): Usuario? {
         intent.getSerializableExtra(USER_KEY)?.let { return it as Usuario }
         return null
-    }
+    }*/
 
     private fun setupMenuItemDV() {
         if (usuario != null) {
@@ -151,12 +151,12 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        val fragment = supportFragmentManager.findFragmentById(R.id.frame_layout)
+        val fragment = getCurrentFragment()
         when (item?.itemId) {
             R.id.ic_favorite -> if (fragment is ISelectable) fragment.onFavoriteListener()
             R.id.ic_share -> if (fragment is ISelectable) fragment.onShareListener()
-            R.id.ic_order_by_category -> if (fragment is IFiltered) fragment.categoryFilter()
-            R.id.ic_order_by_alfabetical -> if (fragment is IFiltered) fragment.alphabeticalFilter()
+            R.id.ic_order_by_category -> if (fragment is IFiltered) fragment.categoryFilterListener()
+            R.id.ic_order_alfabetical -> if (fragment is IFiltered) fragment.alphabeticalFilterListener()
 
             R.id.ic_search -> {
                 when (fragment) {
@@ -213,7 +213,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
     fun showIconsSelectedContent() {
         menuItemShare?.isVisible = true
-        if (getIntentUser() != null) {
+        if (getIntentUser(this) != null) {
             menuItemFavoritar?.isVisible = true
         }
     }
@@ -306,7 +306,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_catolico_main)
         Hawk.init(applicationContext).build()
-        usuario = getIntentUser()
+        usuario = getIntentUser(this)
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()
@@ -356,7 +356,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         menuItemMinhasOracoesDV = menu?.findItem(R.id.menu_item_oracoes_favoritas)
         menuItemSugestaoDV = menu?.findItem(R.id.menu_item_sugerir_oracao)
         menuItemAutenticateDV = menu?.findItem(R.id.menu_item_autenticate)
-        if (getIntentUser() != null && intent.getBooleanExtra("drawer", false)) {
+        if (getIntentUser(this) != null && intent.getBooleanExtra("drawer", false)) {
             drawer_layout.openDrawer(GravityCompat.START)
         }
     }

@@ -11,6 +11,7 @@ import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.fragments.FragmentAbstract
+import rz.com.catolico.fragments.FragmentAbstractAdapter
 import rz.com.catolico.fragments.FragmentSelectedSanto
 import rz.com.catolico.interfaces.IFavoriteSanto
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
@@ -18,7 +19,7 @@ import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
 class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavoriteSanto {
 
-    private var fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>? = null
+    private var fragmentAbstract: FragmentAbstractAdapter<Santo,ActivityCatolicoMain>? = null
 
     init {
         if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
@@ -26,7 +27,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         }
     }
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
+    constructor(context: Context, fragmentAbstract: FragmentAbstractAdapter<Santo,ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
         this.fragmentAbstract = fragmentAbstract
     }
 

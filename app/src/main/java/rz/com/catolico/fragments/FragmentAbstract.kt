@@ -3,7 +3,6 @@ package rz.com.catolico.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
     protected fun getParentActivity() = activity as A
-    protected fun getUser(): Usuario? = getParentActivity().getIntentUser()
+    protected fun getUser(): Usuario? = getParentActivity().getIntentUser(activity!!)
     protected fun isUserLogged() = getUser() != null
     protected fun getSerialiableArgumentExtra(key: String): Serializable? = arguments?.getSerializable(key)
 
@@ -31,8 +30,6 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
 
     fun swapFragment(fragment: Fragment, TAG: String) {
         fragmentManager!!.beginTransaction()
-                //.hide(this)
-                //.add(R.id.frame_layout, fragment, TAG)
                 .replace(R.id.frame_layout, fragment, TAG)
                 .addToBackStack(null)
                 .commit()
