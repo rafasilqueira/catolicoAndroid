@@ -12,37 +12,30 @@ import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.fragments.FragmentSantoHistory
 import rz.com.catolico.fragments.FragmentSantoRelated
 import rz.com.catolico.interfaces.IFavoriteSanto
-import rz.com.catolico.interfaces.ISelectable
 import rz.com.catolico.utils.SantoUtils
 
-class ActivitySelectedSanto : ActivityAbstract(), IFavoriteSanto, ISelectable {
+class ActivitySelectedSanto : ActivitySelectable(), IFavoriteSanto {
 
+    private lateinit var santo: Santo
 
-    private fun setupToolbar() {
-        setSupportActionBar(mtoolbar)
-        mtoolbar.setTitleTextColor(resources.getColor(android.R.color.white))
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeButtonEnabled(true)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_search_filter_favorite, menu)
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        isFavorite(santo.favorite)
         return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_selected_santo)
-        setupToolbar()
-        (getIntentObject("santo") as Santo?)?.let {
-            setActionBarTitle(SantoUtils.formatterComemoracao.format(it.comemoracao))
-            setupViewPager(it)
-            if (it.imgurl != "") Picasso.with(this).load(it.imgurl).into(imgSanto)
+
+        santo = getIntentObject("santo") as Santo?
+                ?: throw CatolicoException("param santo is invalid")
+
+        
+            setupToolbar(SantoUtils.formatterComemoracao.format(santo.comemoracao))
+            setupViewPager(santo)
+            if (santo.imgurl != "") Picasso.with(this).load(santo.imgurl).into(imgSanto)
             return
-        }
-
-        throw CatolicoException("param santo is invalid")
-
+        
     }
 
 
@@ -56,7 +49,9 @@ class ActivitySelectedSanto : ActivityAbstract(), IFavoriteSanto, ISelectable {
     }
 
     override fun onFavoriteListener() {
-        /*getUser()?.let { onUpdateFavorite(santo, it) }*/
+        getUser()?.let {
+            onUpdateFavorite(santo, it)
+        }
     }
 
     override fun onShareListener() {
@@ -64,7 +59,7 @@ class ActivitySelectedSanto : ActivityAbstract(), IFavoriteSanto, ISelectable {
     }
 
     override fun onSucessUpdateFavorite(type: Santo) {
-        /*getParentActivity().isFavorite(type.favorite)*/
+        isFavorite(santo.favorite)
     }
 
 

@@ -28,7 +28,6 @@ import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
 import rz.com.catolico.interfaces.IFiltered
-import rz.com.catolico.interfaces.ISelectable
 import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.utils.Constantes.Companion.LITURGIA_FRAGMENT_TAG
 import rz.com.catolico.utils.Constantes.Companion.ORACAO_FRAGMENT_TAG
@@ -144,8 +143,8 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val fragment = getCurrentFragment()
         when (item?.itemId) {
-            R.id.ic_favorite -> if (fragment is ISelectable) fragment.onFavoriteListener()
-            R.id.ic_share -> if (fragment is ISelectable) fragment.onShareListener()
+           /* R.id.ic_favorite -> if (fragment is ISelectable) fragment.onFavoriteListener()
+            R.id.ic_share -> if (fragment is ISelectable) fragment.onShareListener()*/
             R.id.ic_order_by_category -> if (fragment is IFiltered) fragment.categoryFilterListener()
             R.id.ic_order_alfabetical -> if (fragment is IFiltered) fragment.alphabeticalFilterListener()
 
@@ -204,7 +203,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
     fun showIconsSelectedContent() {
         menuItemShare?.isVisible = true
-        if (getIntentUser(this) != null) {
+        if (getUser() != null) {
             menuItemFavoritar?.isVisible = true
         }
     }
@@ -226,7 +225,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_catolico_main_activity, menu)
+
         menuItemFavoritar = menu?.findItem(R.id.ic_favorite)
         menuItemShare = menu?.findItem(R.id.ic_share)
         menuItemFilter = menu?.findItem(R.id.ic_options_filter)
@@ -297,7 +296,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_catolico_main)
         Hawk.init(applicationContext).build()
-        usuario = getIntentUser(this)
+        usuario = getUser()
         setupToolbar()
         setupDrawerLayout()
         setupMenuItemDV()
@@ -347,7 +346,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         menuItemMinhasOracoesDV = menu?.findItem(R.id.menu_item_oracoes_favoritas)
         menuItemSugestaoDV = menu?.findItem(R.id.menu_item_sugerir_oracao)
         menuItemAutenticateDV = menu?.findItem(R.id.menu_item_autenticate)
-        if (getIntentUser(this) != null && intent.getBooleanExtra("drawer", false)) {
+        if (getUser() != null && intent.getBooleanExtra("drawer", false)) {
             drawer_layout.openDrawer(GravityCompat.START)
         }
     }

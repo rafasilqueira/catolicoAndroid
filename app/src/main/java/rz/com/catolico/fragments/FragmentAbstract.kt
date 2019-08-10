@@ -17,7 +17,7 @@ abstract class FragmentAbstract<A : ActivityBaseFragment> : Fragment() {
     abstract override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
 
     protected fun getParentActivity() = activity as A
-    protected fun getUser(): Usuario? = getParentActivity().getIntentUser(activity!!)
+    protected fun getUser(): Usuario? = getParentActivity().getUser()
     protected fun isUserLogged() = getUser() != null
     protected fun getSerialiableArgumentExtra(key: String): Serializable? = arguments?.getSerializable(key)
 

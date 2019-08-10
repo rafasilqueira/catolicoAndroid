@@ -166,7 +166,8 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
     override fun onItemClick(type: Santo) {
         startActivity(Intent(
                 getParentActivity(),
-                ActivitySelectedSanto::class.java).putExtra("santo", type))
+                ActivitySelectedSanto::class.java)
+                .putExtra("santo", type))
     }
 
 }

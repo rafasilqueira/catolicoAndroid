@@ -16,7 +16,7 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
     override fun doLoginSucess(usuario: Usuario) {
         startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java)
                 .putExtra(USER_KEY, usuario)
-                .putExtra("drawer", intent.getBooleanExtra("drawer",false))
+                .putExtra("drawer", intent.getBooleanExtra("drawer", false))
         )
         finish()
     }
@@ -27,10 +27,10 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Hawk.init(applicationContext).build()
-        println(intent.getBooleanExtra("drawer",false))
+        println(intent.getBooleanExtra("drawer", false))
         val handle = Handler()
         handle.postDelayed({
-            usuario = Hawk.get<Any>(USER_KEY) as Usuario?
+            usuario = Hawk.get<Usuario>(USER_KEY)
             //println(usuario)
             if (usuario != null) {
                 //println(Gson().toJson(usuario))

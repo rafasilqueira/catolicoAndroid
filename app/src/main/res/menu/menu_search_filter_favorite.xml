@@ -16,11 +16,4 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/ic_search"
-        android:icon="@drawable/ic_search_action_bar"
-        android:orderInCategory="3"
-        android:title="@string/buscar"
-        android:visible="false"
-        app:showAsAction="always" />
 </menu>
