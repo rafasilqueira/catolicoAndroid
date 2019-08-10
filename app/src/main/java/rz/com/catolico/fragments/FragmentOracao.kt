@@ -39,7 +39,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     override fun setupAdapter(mList: MutableList<Oracao>) {
         if (mList.isNotEmpty()) {
             recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-            recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),VERTICAL)
+            recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(), VERTICAL)
             val map = if (showByCategory) sortByCategory(mList) else sortAlphabeticalMap(mList)
             adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
             recyclerView?.adapter = adapter
@@ -64,12 +64,8 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         call.enqueue(object : CallBackFragment<MutableList<Oracao>>(this@FragmentOracao, R.layout.fragment_oracao) {
             override fun onResponse(call: Call<MutableList<Oracao>>, response: Response<MutableList<Oracao>>) {
                 super.onResponse(call, response)
-                onSucessLoadData()
                 if (response.isSuccessful) {
-                    this@FragmentOracao.mList = response.body() ?: ArrayList()
-                    if (mList.isNotEmpty()) {
-                        setupAdapter(mList)
-                    }
+                    onSucessLoadData(response.body() ?: ArrayList())
                 }
             }
 
@@ -84,9 +80,10 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
         getParentActivity().fragmentOracaoSavedInstance = this
     }
 
-    override fun onSucessLoadData() {
+    override fun onSucessLoadData(list: MutableList<Oracao>) {
         getParentActivity().setupFragmentIcons(this)
         saveInstance()
+        setupAdapter(list)
     }
 
     override fun alphabeticalFilterListener() {
@@ -97,6 +94,10 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     override fun categoryFilterListener() {
         showByCategory = true
         setupAdapter(mList)
+    }
+
+    override fun onItemClick(type: Oracao) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 

@@ -1,6 +1,7 @@
 package rz.com.catolico.fragments
 
 import android.app.Dialog
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.activiy.ActivitySelectedSanto
 import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
@@ -23,6 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IUpdatableFragment {
+
     private var adapterSanto: AdapterSanto? = null
 
     private var dialogDatePicker: Dialog? = null
@@ -55,9 +58,8 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
         call.enqueue(object : CallBackFragment<MutableList<Santo>>(this@FragmentSanto, R.layout.fragment_santo) {
             override fun onResponse(call: Call<MutableList<Santo>>, response: Response<MutableList<Santo>>) {
                 super.onResponse(call, response)
-                this@FragmentSanto.mList = response.body() ?: ArrayList()
-                onSucessLoadData()
-                setupAdapter(mList)
+                if (response.isSuccessful)
+                    onSucessLoadData(response.body() ?: ArrayList())
             }
 
             override fun onFailure(call: Call<MutableList<Santo>>, t: Throwable) {
@@ -71,14 +73,15 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
         getParentActivity().fragmentSantoSavedInstance = this
     }
 
-    override fun onSucessLoadData() {
+    override fun onSucessLoadData(list: MutableList<Santo>) {
         getParentActivity().setupFragmentIcons(this)
         saveInstance()
+        setupAdapter(list)
     }
 
     override fun setupAdapter(mList: MutableList<Santo>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),VERTICAL)
+        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(), VERTICAL)
         adapterSanto = AdapterSanto(getParentActivity(), this@FragmentSanto, mList)
         recyclerView?.adapter = adapterSanto
     }
@@ -158,6 +161,12 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
         }
         dialogDatePicker?.show()
         dialogDatePicker?.setCanceledOnTouchOutside(true)
+    }
+
+    override fun onItemClick(type: Santo) {
+        startActivity(Intent(
+                getParentActivity(),
+                ActivitySelectedSanto::class.java).putExtra("santo", type))
     }
 
 }

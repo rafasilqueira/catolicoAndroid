@@ -61,9 +61,9 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
                             it.swapFragment(FragmentSelectedOracao.instance(genericType), SELECTED_ORACAO_FRAGMENT_TAG)
                             (it as FragmentOracao).selectedAdapter = this@AdapterOracao
                         }
-                        is FragmentSantoRelated -> {
+                        /*is FragmentSantoRelated -> {
                             (it as FragmentSantoRelated).mudar(genericType)
-                        }
+                        }*/
                     }
                 }
             })

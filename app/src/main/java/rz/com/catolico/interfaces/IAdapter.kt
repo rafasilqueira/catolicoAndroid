@@ -14,9 +14,9 @@ interface IAdapter<T> {
 
     fun setupAdapter(mList: MutableList<T>)
     fun loadData()
-    fun onSucessLoadData() {}
+    fun onSucessLoadData(list: MutableList<T>)
     fun onErrorLoadData()
-    fun itemClickListener(type: T) {}
+    fun onItemClick(type: T)
 
     fun getLinearLayoutManager(context: Context,orientation: Int) = when (orientation) {
         HORIZONTAL -> LinearLayoutManager(context, HORIZONTAL, false)

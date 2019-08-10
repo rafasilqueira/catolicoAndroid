@@ -59,15 +59,6 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     var fragmentOracaoSavedInstance: FragmentOracao? = null
     var fragmentLiturgiaSavedInstace: FragmentLiturgia? = null
 
-    fun setActionBarTitle(title: String) {
-        supportActionBar?.title = title
-    }
-
-    /*override fun getIntentUser(): Usuario? {
-        intent.getSerializableExtra(USER_KEY)?.let { return it as Usuario }
-        return null
-    }*/
-
     private fun setupMenuItemDV() {
         if (usuario != null) {
             menuItemMeusDadosDV?.isVisible = true

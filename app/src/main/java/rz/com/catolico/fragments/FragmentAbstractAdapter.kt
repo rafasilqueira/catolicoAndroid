@@ -7,10 +7,7 @@ import rz.com.catolico.interfaces.IAdapter
 
 abstract class FragmentAbstractAdapter<T, A : ActivityBaseFragment> : FragmentAbstract<A>(), IAdapter<T> {
 
-
     protected var mList: MutableList<T> = ArrayList()
-
-    abstract fun onItemClick(type: T)
 
     override fun onErrorLoadData() {
         disableAllIcons()

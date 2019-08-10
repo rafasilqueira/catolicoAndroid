@@ -35,9 +35,9 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
         call.enqueue(object : CallBackFragment<MutableList<Liturgia>>(this@FragmentLiturgia, R.layout.fragment_liturgia) {
             override fun onResponse(call: Call<MutableList<Liturgia>>, response: Response<MutableList<Liturgia>>) {
                 super.onResponse(call, response)
-                onSucessLoadData()
+                onSucessLoadData(response.body() ?: ArrayList())
                 this@FragmentLiturgia.mList = response.body() ?: ArrayList()
-                setupAdapter(mList)
+
             }
 
             override fun onFailure(call: Call<MutableList<Liturgia>>, t: Throwable) {
@@ -51,9 +51,10 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
         getParentActivity().fragmentLiturgiaSavedInstace = this
     }
 
-    override fun onSucessLoadData() {
+    override fun onSucessLoadData(list: MutableList<Liturgia>) {
         getParentActivity().setupFragmentIcons(this)
         saveInstance()
+        setupAdapter(list)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,7 +72,7 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
 
     override fun setupAdapter(mList: MutableList<Liturgia>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(),HORIZONTAL)
+        recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(), HORIZONTAL)
         adapterLiturgia = AdapterLiturgia(getParentActivity(), mList, this)
         recyclerView?.adapter = adapterLiturgia
         setupViewPager()
@@ -80,10 +81,6 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    override fun itemClickListener(type: Liturgia) {
-        setLiturgiaViewPagerContent(type.leituras)
     }
 
     override fun setupViewPager() {
@@ -97,6 +94,10 @@ class FragmentLiturgia : FragmentAbstractViewPager<Liturgia, ActivityCatolicoMai
         viewPager.adapter = viewPagerAdapter
         tabLayout.setupWithViewPager(viewPager)
         viewPager.adapter!!.notifyDataSetChanged()
+    }
+
+    override fun onItemClick(type: Liturgia) {
+        setLiturgiaViewPagerContent(type.leituras)
     }
 
 

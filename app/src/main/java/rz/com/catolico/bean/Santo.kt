@@ -7,7 +7,7 @@ class Santo : BaseEntityFavorite(), Serializable, Cloneable {
 
      var comemoracao: Date? = null
      var imgurl: String? = null
-     var santoDia: Boolean = false
+     var santoDia = false
      var diasData: Int? = null
      var oracoes: MutableList<Oracao> = ArrayList()
 

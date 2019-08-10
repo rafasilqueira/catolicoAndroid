@@ -70,7 +70,7 @@ class AdapterLiturgia(context: Context, mItem: MutableList<Liturgia>, var fragme
 
             view.setOnClickListener(View.OnClickListener {
                 if (fragmentAbstract is FragmentLiturgia) {
-                    (fragmentAbstract as FragmentLiturgia).itemClickListener(genericType)
+                    (fragmentAbstract as FragmentLiturgia).onItemClick(genericType)
                 }
             })
         }

@@ -61,6 +61,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme_dev" />
             </intent-filter>
         </activity>
+        <activity android:name=".activiy.ActivitySelectedSanto" />
     </application>
 
 </manifest>
