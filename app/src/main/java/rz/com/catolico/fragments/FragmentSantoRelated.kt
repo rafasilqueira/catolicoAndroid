@@ -10,20 +10,14 @@ import rz.com.catolico.R
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Santo
+import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IAdapter
 import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.ISortOracao
-import rz.com.catolico.utils.Constantes
 
 class FragmentSantoRelated : Fragment(), ISortOracao, IAdapter<Oracao> {
 
     private lateinit var santo: Santo
-    var fragmentParent: FragmentSelectedSanto? = null
-
-
-    /*fun mudar(oracao: Oracao) {
-        fragmentParent?.swapFragment(FragmentSelectedOracao.instance(oracao), Constantes.SELECTED_ORACAO_FRAGMENT_TAG)
-    }*/
 
     companion object {
         fun instance(santo: Santo): FragmentSantoRelated {
@@ -49,23 +43,34 @@ class FragmentSantoRelated : Fragment(), ISortOracao, IAdapter<Oracao> {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        arguments?.getSerializable("santo").let { santo = (it as Santo) }
+        santo = arguments?.getSerializable("santo") as Santo?
+                ?: throw CatolicoException("param santo is invalid")
         loadData()
     }
 
     override fun loadData() {
         onSucessLoadData(santo.oracoes)
-        /*if (oracoes.isEmpty()) {
+        if (santo.oracoes.isEmpty()) {
             changeView(R.layout.fragment_santo_related_nothing)
             return
-        }*/
+        }
 
+    }
+
+    fun changeView(layout: Int) {
+        val mContainer = (view?.parent as ViewGroup)
+        val view = view as ViewGroup
+        val newView = layoutInflater?.inflate(layout, mContainer, false)
+        view.removeAllViews()
+        view.addView(newView)
     }
 
     override fun setupAdapter(mList: MutableList<Oracao>) {
         val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
         recyclerView?.layoutManager = getLinearLayoutManager(activity!!, VERTICAL)
-        val adapterOracao = AdapterOracao(activity!!, mList)
+        val adapterOracao = AdapterOracao(activity!!, mList, View.OnClickListener {
+
+        })
         recyclerView?.adapter = adapterOracao
     }
 

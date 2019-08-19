@@ -10,7 +10,7 @@
             android:title="@string/meus_dados">
             <!--<intent-->
                 <!--android:action="android.intent.action.VIEW"-->
-                <!--android:targetClass="rz.com.catolico.ActivitiesEnum.AcitivityInsertEditUser"-->
+                <!--android:targetClass="rz.com.catolico.FeatureCode.AcitivityInsertEditUser"-->
                 <!--android:targetPackage="rz.com.catolico" />-->
         </Preference>
         <Preference
@@ -19,7 +19,7 @@
             android:title="@string/senha">
             <!--<intent-->
                 <!--android:action="android.intent.action.VIEW"-->
-                <!--android:targetClass="rz.com.catolico.ActivitiesEnum.AcitivityInsertEditUser"-->
+                <!--android:targetClass="rz.com.catolico.FeatureCode.AcitivityInsertEditUser"-->
                 <!--android:targetPackage="rz.com.catolico" />-->
         </Preference>
         <Preference

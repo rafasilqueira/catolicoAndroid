@@ -14,7 +14,7 @@ import java.util.*
 class RetrofitConfig {
 
     private val BASE_URL: String = "http://52.67.31.101:8080/"
-    //private val BASE_URL: String = "http://192.168.0.100:8080/"
+//    private val BASE_URL: String = "http://192.168.0.101:8080/"
 
     var builder = setupGsonBuilder()
 

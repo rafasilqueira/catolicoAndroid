@@ -7,11 +7,11 @@ interface ISortOracao : ISort<Oracao> {
     fun sortByCategory(mItems: MutableList<Oracao>): Map<String, MutableList<Oracao>> {
         return mItems.map { it.categoriaOracao }
                 .distinct()
-                .sortedBy { it?.name }
+                .sortedBy { it.name }
                 .map {
-                    it!!.name to mItems
+                    it.name to mItems
                             .filter { oracao -> oracao.categoriaOracao == it }
-                            .sortedBy { it.name }
+                            .sortedBy { oracao ->  oracao.name }
                             .toMutableList()
                 }
                 .toMap()

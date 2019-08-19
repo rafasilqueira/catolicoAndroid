@@ -27,7 +27,6 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Hawk.init(applicationContext).build()
-        println(intent.getBooleanExtra("drawer", false))
         val handle = Handler()
         handle.postDelayed({
             usuario = Hawk.get<Usuario>(USER_KEY)

@@ -31,10 +31,10 @@ class ActivitySelectedSanto : ActivitySelectable(), IFavoriteSanto {
                 ?: throw CatolicoException("param santo is invalid")
 
         
-            setupToolbar(SantoUtils.formatterComemoracao.format(santo.comemoracao))
-            setupViewPager(santo)
-            if (santo.imgurl != "") Picasso.with(this).load(santo.imgurl).into(imgSanto)
-            return
+        setupToolbar(SantoUtils.formatterComemoracao.format(santo.comemoracao))
+        setupViewPager(santo)
+        if (santo.imgurl != "") Picasso.with(this).load(santo.imgurl).into(imgSanto)
+        return
         
     }
 

@@ -18,7 +18,7 @@ import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
 class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavoriteSanto {
 
-    private var fragmentAbstract: FragmentAbstractAdapter<Santo, ActivityCatolicoMain>? = null
+    private var fragmentAbstractAdapter: FragmentAbstractAdapter<Santo, ActivityCatolicoMain>? = null
 
     init {
         if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
@@ -27,7 +27,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     constructor(context: Context, fragmentAbstractAdapter: FragmentAbstractAdapter<Santo, ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
-        this.fragmentAbstract = fragmentAbstractAdapter
+        this.fragmentAbstractAdapter = fragmentAbstractAdapter
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -53,7 +53,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.onItemClick(genericType)
+                fragmentAbstractAdapter?.onItemClick(genericType)
                 //showSelectedSanto(genericType)
             })
 
@@ -76,7 +76,7 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
     }
 
     private fun showSelectedSanto(santo: Santo) {
-        fragmentAbstract?.swapFragment(FragmentSelectedSanto.instance(santo), SELECTED_SANTO_FRAGMENT_TAG)
+        fragmentAbstractAdapter?.swapFragment(FragmentSelectedSanto.instance(santo), SELECTED_SANTO_FRAGMENT_TAG)
     }
 
     private fun setupIcons(view: VHSanto, santo: Santo) {

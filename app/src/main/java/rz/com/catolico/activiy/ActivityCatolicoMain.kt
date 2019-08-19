@@ -23,7 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_catolico_main.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.enumeration.ActivitiesEnum
+import rz.com.catolico.enumeration.FeatureCode
 import rz.com.catolico.fragments.FragmentLiturgia
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.fragments.FragmentSanto
@@ -114,7 +114,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
-            R.id.menu_item_user_profile -> startActivityForResult(Intent(this, AcitivitySettings::class.java).putExtra(USER_KEY, usuario), ActivitiesEnum.SETTINGS.code)
+            R.id.menu_item_user_profile -> startActivityForResult(Intent(this, AcitivitySettings::class.java).putExtra(USER_KEY, usuario), FeatureCode.SETTINGS.code)
 
             R.id.menu_item_oracoes_favoritas -> {
             }
@@ -132,7 +132,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
                 if (usuario != null) {
                     endSession()
                 } else {
-                    startActivityForResult(Intent(this, AcitivityILoginScreen::class.java), ActivitiesEnum.LOGIN_SCREEN.code)
+                    startActivityForResult(Intent(this, AcitivityILoginScreen::class.java), FeatureCode.LOGIN_SCREEN.code)
                 }
             }
         }
@@ -276,13 +276,13 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
         when (resultCode) {
             RESULT_OK -> {
                 when (requestCode) {
-                    ActivitiesEnum.LOGIN_SCREEN.code -> {
+                    FeatureCode.LOGIN_SCREEN.code -> {
                         if (data?.getSerializableExtra(USER_KEY) != null) {
                             clearAllFlagsAndRestart(true)
                         }
                     }
 
-                    ActivitiesEnum.SETTINGS.code -> {
+                    FeatureCode.SETTINGS.code -> {
                         this.usuario = getIntentUser(data)
                         setupMenuItemDV()
                     }

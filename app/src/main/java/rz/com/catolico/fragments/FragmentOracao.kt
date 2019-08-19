@@ -1,5 +1,6 @@
 package rz.com.catolico.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,26 +10,29 @@ import retrofit2.Call
 import retrofit2.Response
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
+import rz.com.catolico.activiy.ActivitySelectedOracao
 import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.enumeration.FeatureCode.FRAGMENT_LITURGIA
+import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.IFiltered
 import rz.com.catolico.interfaces.ISortOracao
-import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 
 
-class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao, IUpdatableFragment, IFiltered {
+class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), ISortOracao, IFiltered {
 
     private var adapter: AdapterOracaoCategory? = null
     private var showByCategory = true
     var selectedAdapter: AdapterOracao? = null
-    private var recyclerView: RecyclerView? = null
+    private lateinit var recyclerView: RecyclerView
 
-    override fun update() {
-        recyclerView?.adapter?.notifyDataSetChanged()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        recyclerView.adapter?.notifyDataSetChanged()
         selectedAdapter?.notifyDataSetChanged()
     }
 
@@ -39,10 +43,11 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     override fun setupAdapter(mList: MutableList<Oracao>) {
         if (mList.isNotEmpty()) {
             recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerview)
-            recyclerView?.layoutManager = getLinearLayoutManager(getParentActivity(), VERTICAL)
+                    ?: throw CatolicoException("recycler view is null")
+            recyclerView.layoutManager = getLinearLayoutManager(getParentActivity(), VERTICAL)
             val map = if (showByCategory) sortByCategory(mList) else sortAlphabeticalMap(mList)
-            adapter = AdapterOracaoCategory(getParentActivity(), this@FragmentOracao, map)
-            recyclerView?.adapter = adapter
+            adapter = AdapterOracaoCategory(getParentActivity(), this, map)
+            recyclerView.adapter = adapter
         }
     }
 
@@ -97,7 +102,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     }
 
     override fun onItemClick(type: Oracao) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        startActivityForResult(Intent(activity, ActivitySelectedOracao::class.java).putExtra("oracao", type), FRAGMENT_LITURGIA.code)
     }
 
 

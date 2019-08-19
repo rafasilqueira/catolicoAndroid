@@ -3,7 +3,7 @@ package rz.com.catolico.bean
 import java.io.Serializable
 
 class Oracao : BaseEntityFavorite(), Serializable, Cloneable {
-    var categoriaOracao: CategoriaOracao? = CategoriaOracao()
+    var categoriaOracao = CategoriaOracao()
 
     public override fun clone(): Any {
         return try {

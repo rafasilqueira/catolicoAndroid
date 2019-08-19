@@ -7,27 +7,22 @@ import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHOracao
-import rz.com.catolico.adapter.ViewHolder.VHOracaoCategory
 import rz.com.catolico.bean.Oracao
-import rz.com.catolico.fragments.FragmentAbstract
+import rz.com.catolico.fragments.FragmentAbstractAdapter
 import rz.com.catolico.fragments.FragmentOracao
-import rz.com.catolico.fragments.FragmentSantoRelated
-import rz.com.catolico.fragments.FragmentSelectedOracao
 import rz.com.catolico.interfaces.IFavoriteOracao
-import rz.com.catolico.utils.Constantes.Companion.SELECTED_ORACAO_FRAGMENT_TAG
 
 class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavoriteOracao {
 
-    private var fragmentAbstract: FragmentAbstract<*>? = null
-    private var parentView: VHOracaoCategory? = null
+    private var fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>? = null
+    private var onClickListener: View.OnClickListener? = null
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>, parentVH: VHOracaoCategory) : this(context, mItems) {
-        this.fragmentAbstract = fragmentAbstract
-        this.parentView = parentVH
+    constructor(context: Context, mItems: MutableList<Oracao>, onClickListener: View.OnClickListener) : this(context, mItems) {
+        this.onClickListener = onClickListener
     }
 
-    constructor(context: Context, fragmentAbstract: FragmentAbstract<*>, mItems: MutableList<Oracao>) : this(context, mItems) {
-        this.fragmentAbstract = fragmentAbstract
+    constructor(context: Context, mItems: MutableList<Oracao>, fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>) : this(context, mItems) {
+        this.fragmentAbstractAdapter = fragmentAbstractAdapter
     }
 
     init {
@@ -38,6 +33,9 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.adapter_oracao, parent, false)
+        if (onClickListener != null) {
+            view.setOnClickListener(onClickListener)
+        }
         return VHOracao(context, view)
     }
 
@@ -46,7 +44,7 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         if (holder is VHOracao) {
             view = holder
             view.txtOracao.text = genericType.name
-            view.txtCategoria.text = genericType.categoriaOracao?.name
+            view.txtCategoria.text = genericType.categoriaOracao.name
 
             setupIcon(view, genericType)
 
@@ -55,17 +53,23 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
             }
 
             view.setOnClickListener(View.OnClickListener {
-                fragmentAbstract?.let {
-                    when (fragmentAbstract) {
+                fragmentAbstractAdapter?.let {
+                    if (fragmentAbstractAdapter is FragmentOracao) {
+                        (fragmentAbstractAdapter as FragmentOracao).selectedAdapter = this@AdapterOracao
+                        (fragmentAbstractAdapter as FragmentOracao).onItemClick(genericType)
+                        return@let
+                    }
+                }
+
+
+                /*fragmentAbstractAdapter?.let {
+                    when (fragmentAbstractAdapter) {
                         is FragmentOracao -> {
                             it.swapFragment(FragmentSelectedOracao.instance(genericType), SELECTED_ORACAO_FRAGMENT_TAG)
                             (it as FragmentOracao).selectedAdapter = this@AdapterOracao
                         }
-                        /*is FragmentSantoRelated -> {
-                            (it as FragmentSantoRelated).mudar(genericType)
-                        }*/
                     }
-                }
+                }*/
             })
         }
     }

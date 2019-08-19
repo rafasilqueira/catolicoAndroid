@@ -9,7 +9,7 @@ class Usuario : BaseEntityName(), Serializable, Cloneable {
     var password: String? = null
     var oldPassword: String? = null
     var newPassword: String? = null
-    var tipoUsuario: TipoUsuario? = null
+    var tipoUsuario = TipoUsuario()
     var oracoes: MutableList<Oracao> = ArrayList()
     var santos: MutableList<Santo> = ArrayList()
 

@@ -31,8 +31,6 @@ import java.util.*
 class AcitivityILoginScreen : AppCompatActivity(), ILogin {
 
     private var usuario: Usuario? = null
-
-
     private var callBackManager: CallbackManager? = null;
 
 
@@ -40,7 +38,7 @@ class AcitivityILoginScreen : AppCompatActivity(), ILogin {
     //private var validador = ValidaCampos();
 
     override fun doLoginSucess(usuario: Usuario) {
-        Hawk.put<Any>(USER_KEY, this.usuario)
+        Hawk.put(USER_KEY, usuario)
         setResult(Activity.RESULT_OK, Intent().putExtra(USER_KEY, usuario))
         finish()
     }
@@ -90,7 +88,7 @@ class AcitivityILoginScreen : AppCompatActivity(), ILogin {
         //printKeyHash(this)
 
         btn_login_user.setOnClickListener {
-            usuario = Usuario();
+            usuario = Usuario()
             if (isValidEmailAddress(edt_user_email) && isValidPassword(edt_password)) {
                 usuario?.email = edt_user_email.text.toString()
                 usuario?.password = Encrypts.criptografar(edt_password.text.toString(), Encrypts.CHAVE)

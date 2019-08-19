@@ -1,15 +1,16 @@
 package rz.com.catolico.adapter
 
-import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import com.orhanobut.hawk.Hawk
 import rz.com.catolico.bean.Usuario
-import rz.com.catolico.utils.Constantes
+import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 
 abstract class AdapterAbstract<T>(val context: Context, private var mItems: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as Usuario?
+    protected var usuario: Usuario? = Hawk.get(USER_KEY)
+//    protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as Usuario?
 
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     abstract fun onBindData(holder: RecyclerView.ViewHolder, genericType: T)

@@ -16,7 +16,7 @@ import rz.com.catolico.R
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.activiy.AcitivityInsertEditUser
 import rz.com.catolico.activiy.AcitivitySettings
-import rz.com.catolico.enumeration.ActivitiesEnum
+import rz.com.catolico.enumeration.FeatureCode
 import rz.com.catolico.utils.Constantes.Companion.USER_KEY
 
 class FragmetConfig : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -91,7 +91,7 @@ class FragmetConfig : PreferenceFragment(), SharedPreferences.OnSharedPreference
                     Intent(
                             activity,
                             AcitivityInsertEditUser::class.java).putExtra(USER_KEY, usuario),
-                    ActivitiesEnum.INSERT_EDIT_USER.code
+                    FeatureCode.INSERT_EDIT_USER.code
             )
             true
         }
@@ -103,7 +103,7 @@ class FragmetConfig : PreferenceFragment(), SharedPreferences.OnSharedPreference
                             AcitivityInsertEditUser::class.java)
                             .putExtra(USER_KEY, usuario)
                             .putExtra("passwordChange", true),
-                    ActivitiesEnum.INSERT_EDIT_USER.code
+                    FeatureCode.INSERT_EDIT_USER.code
             )
             true
         }
