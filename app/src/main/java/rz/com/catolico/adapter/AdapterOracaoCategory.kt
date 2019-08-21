@@ -15,7 +15,13 @@ import rz.com.catolico.interfaces.IMap
  * @author Rafael.Tupinamba 11/05/2019
  */
 
-class AdapterOracaoCategory(context: Context, private val fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>, private var map: Map<String, MutableList<Oracao>>) : AdapterAbstract<String>(context, map.keys.toMutableList()), IMap<Oracao> {
+class AdapterOracaoCategory(context: Context, private var map: Map<String, MutableList<Oracao>>) : AdapterAbstract<String>(context, map.keys.toMutableList()), IMap<Oracao> {
+
+    private var fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>? = null
+
+    constructor(context: Context, fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>, map: Map<String, MutableList<Oracao>>) : this(context, map) {
+        this.fragmentAbstractAdapter = fragmentAbstractAdapter
+    }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.adapter_oracao_a_z_category, parent, false)
@@ -29,8 +35,14 @@ class AdapterOracaoCategory(context: Context, private val fragmentAbstractAdapte
             view = holder
             view.txtName.text = key
             view.txtPrayQty.text = " %02d ".format(oracoes.size)
+
             if (view.recyclerView.adapter == null) {
-                val adapterOracao = AdapterOracao(context, oracoes, fragmentAbstractAdapter)
+                val adapterOracao =
+                        if (fragmentAbstractAdapter != null)
+                            AdapterOracao(context, oracoes, fragmentAbstractAdapter!!)
+                        else
+                            AdapterOracao(context, oracoes)
+
                 view.recyclerView.adapter = adapterOracao
             }
 

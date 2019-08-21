@@ -19,7 +19,7 @@
         <item
             android:id="@+id/menu_item_santo_favorites"
             android:icon="@drawable/ic_santo"
-            android:title="@string/minhas_oracoes" />
+            android:title="@string/meus_santos" />
 
         <item
             android:id="@+id/menu_item_sugerir_oracao"

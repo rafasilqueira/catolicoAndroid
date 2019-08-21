@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/ic_options_filter"
+        android:icon="@drawable/ic_filter_action_bar"
+        android:title="@string/filtro"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="3">
+        <menu>
+            <item
+                android:id="@+id/ic_order_alfabetical"
+                android:title="@string/a_z" />
+
+            <item
+                android:id="@+id/ic_order_by_category"
+                android:title="@string/categoria" />
+
+        </menu>
+    </item>
+</menu>

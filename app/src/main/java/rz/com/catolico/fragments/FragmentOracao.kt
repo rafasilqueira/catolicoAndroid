@@ -15,7 +15,7 @@ import rz.com.catolico.adapter.AdapterOracao
 import rz.com.catolico.adapter.AdapterOracaoCategory
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.callBack.CallBackFragment
-import rz.com.catolico.enumeration.FeatureCode.FRAGMENT_LITURGIA
+import rz.com.catolico.enumeration.FeatureCode.ACTIVITY_SELECTED_ORACAO
 import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
 import rz.com.catolico.interfaces.IFiltered
@@ -103,7 +103,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     }
 
     override fun onItemClick(type: Oracao) {
-        startActivityForResult(Intent(activity, ActivitySelectedOracao::class.java).putExtra("oracao", type), FRAGMENT_LITURGIA.code)
+        startActivityForResult(Intent(activity, ActivitySelectedOracao::class.java).putExtra("oracao", type), ACTIVITY_SELECTED_ORACAO.code)
     }
 
 

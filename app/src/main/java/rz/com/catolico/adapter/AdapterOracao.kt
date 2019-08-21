@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import rz.com.catolico.R
+import rz.com.catolico.activiy.ActivityMinhasOracoes
 import rz.com.catolico.adapter.ViewHolder.VHOracao
 import rz.com.catolico.bean.Oracao
 import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstractAdapter
 import rz.com.catolico.fragments.FragmentOracao
+import rz.com.catolico.interfaces.IAdapter
 import rz.com.catolico.interfaces.IFavoriteOracao
 
-class AdapterOracao(context: Context,private val mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavoriteOracao {
+class AdapterOracao(context: Context, private val mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavoriteOracao {
 
     private var fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>? = null
     private var onClickListener: View.OnClickListener? = null
@@ -26,10 +28,10 @@ class AdapterOracao(context: Context,private val mItems: MutableList<Oracao>) : 
         this.fragmentAbstractAdapter = fragmentAbstractAdapter
     }
 
-     fun syncronize() {
-         getUser()?.let {
-             syncronizeFavorites(mItems, it.oracoes)
-         }
+    fun syncronize() {
+        getUser()?.let {
+            syncronizeFavorites(mItems, it.oracoes)
+        }
     }
 
     init {
@@ -63,6 +65,13 @@ class AdapterOracao(context: Context,private val mItems: MutableList<Oracao>) : 
                         (fragmentAbstractAdapter as FragmentOracao).selectedAdapter = this@AdapterOracao
                         (fragmentAbstractAdapter as FragmentOracao).onItemClick(genericType)
                         return@let
+                    }
+                }
+
+                if (context is IAdapter<*>) {
+                    if (context is ActivityMinhasOracoes) {
+                        context.onItemClick(genericType)
+                        context.selectedAdapter = this
                     }
                 }
             })

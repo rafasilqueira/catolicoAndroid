@@ -116,8 +116,7 @@ class ActivityCatolicoMain : ActivityBaseFragment(), OnNavigationItemSelectedLis
 
             R.id.menu_item_user_profile -> startActivityForResult(Intent(this, AcitivitySettings::class.java).putExtra(USER_KEY, usuario), FeatureCode.SETTINGS.code)
 
-            R.id.menu_item_oracoes_favoritas -> {
-            }
+            R.id.menu_item_oracoes_favoritas -> startActivityForResult(Intent(this, ActivityMinhasOracoes::class.java), FeatureCode.MINHAS_ORACOES.code)
 
             R.id.menu_item_compartilhe -> {
             }
