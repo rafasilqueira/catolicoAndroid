@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import rz.com.catolico.R
 import rz.com.catolico.adapter.ViewHolder.VHOracao
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstractAdapter
 import rz.com.catolico.fragments.FragmentOracao
 import rz.com.catolico.interfaces.IFavoriteOracao
 
-class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavoriteOracao {
+class AdapterOracao(context: Context,private val mItems: MutableList<Oracao>) : AdapterAbstract<Oracao>(context, mItems), IFavoriteOracao {
 
     private var fragmentAbstractAdapter: FragmentAbstractAdapter<Oracao, *>? = null
     private var onClickListener: View.OnClickListener? = null
@@ -25,10 +26,14 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
         this.fragmentAbstractAdapter = fragmentAbstractAdapter
     }
 
+     fun syncronize() {
+         getUser()?.let {
+             syncronizeFavorites(mItems, it.oracoes)
+         }
+    }
+
     init {
-        if (usuario != null && usuario?.oracoes?.isNotEmpty()!!) {
-            syncronizeFavorites(mItems, usuario?.oracoes!!)
-        }
+        syncronize()
     }
 
     override fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -60,23 +65,18 @@ class AdapterOracao(context: Context, mItems: MutableList<Oracao>) : AdapterAbst
                         return@let
                     }
                 }
-
-
-                /*fragmentAbstractAdapter?.let {
-                    when (fragmentAbstractAdapter) {
-                        is FragmentOracao -> {
-                            it.swapFragment(FragmentSelectedOracao.instance(genericType), SELECTED_ORACAO_FRAGMENT_TAG)
-                            (it as FragmentOracao).selectedAdapter = this@AdapterOracao
-                        }
-                    }
-                }*/
             })
         }
     }
 
-    override fun onSucessUpdateFavorite(type: Oracao) {
+    override fun onSucessUpdateFavorite(type: Oracao, user: Usuario) {
+        super.onSucessUpdateFavorite(type, user)
         notifyDataSetChanged()
     }
+
+    /*override fun onSucessUpdateFavorite(type: Oracao) {
+        notifyDataSetChanged()
+    }*/
 
     private fun setupIcon(view: VHOracao, oracao: Oracao) {
         setupFavoriteIcon(view, oracao)

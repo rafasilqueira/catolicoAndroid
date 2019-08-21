@@ -12,6 +12,7 @@ abstract class AdapterAbstract<T>(val context: Context, private var mItems: Muta
     protected var usuario: Usuario? = Hawk.get(USER_KEY)
 //    protected var usuario = (context as Activity).intent.getSerializableExtra(Constantes.USER_KEY) as Usuario?
 
+    fun getUser(): Usuario? = Hawk.get(USER_KEY)
     abstract fun setupViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     abstract fun onBindData(holder: RecyclerView.ViewHolder, genericType: T)
 

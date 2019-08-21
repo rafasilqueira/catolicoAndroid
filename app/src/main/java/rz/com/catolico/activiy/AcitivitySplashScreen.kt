@@ -14,10 +14,12 @@ class AcitivitySplashScreen : AppCompatActivity(), ILogin {
 
 
     override fun doLoginSucess(usuario: Usuario) {
+        Hawk.put(USER_KEY,usuario)
         startActivity(Intent(this@AcitivitySplashScreen, ActivityCatolicoMain::class.java)
                 .putExtra(USER_KEY, usuario)
                 .putExtra("drawer", intent.getBooleanExtra("drawer", false))
         )
+
         finish()
     }
 

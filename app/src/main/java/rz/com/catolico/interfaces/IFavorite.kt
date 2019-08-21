@@ -14,11 +14,12 @@ interface IFavorite<T : BaseEntityFavorite> {
             return
         }
 
+        sourceList.forEach { it.favorite = false }
         sourceList.filter { sourceItem -> userList.any { it == sourceItem } }.forEach { it.favorite = true }
     }
 
     fun onUpdateFavorite(type: T, user: Usuario)
-    fun onSucessUpdateFavorite(type: T)
+    fun onSucessUpdateFavorite(type: T,user: Usuario)
     fun onErrorUpdateFavorite(type: T, user: Usuario)
 
     fun onSaveFavorite(type: T, user: Usuario) {
@@ -27,7 +28,7 @@ interface IFavorite<T : BaseEntityFavorite> {
             override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
                 if (response.isSuccessful) {
                     type.favorite = !type.favorite
-                    onSucessUpdateFavorite(type)
+                    onSucessUpdateFavorite(type,user)
                 } else {
                     onErrorUpdateFavorite(type, user)
                 }

@@ -10,20 +10,23 @@ import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.ViewHolder.VHSanto
 import rz.com.catolico.bean.Santo
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.fragments.FragmentAbstractAdapter
 import rz.com.catolico.fragments.FragmentSelectedSanto
 import rz.com.catolico.interfaces.IFavoriteSanto
 import rz.com.catolico.utils.Constantes.Companion.SELECTED_SANTO_FRAGMENT_TAG
 import rz.com.catolico.utils.SantoUtils.Companion.formatterComemoracao
 
-class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavoriteSanto {
+class AdapterSanto(context: Context, val mItems: MutableList<Santo>) : AdapterAbstract<Santo>(context, mItems), IFavoriteSanto {
 
     private var fragmentAbstractAdapter: FragmentAbstractAdapter<Santo, ActivityCatolicoMain>? = null
 
     init {
-        if (usuario != null && usuario?.santos?.isNotEmpty()!!) {
-            super.syncronizeFavorites(mItems, usuario?.santos!!)
-        }
+        syncronize()
+    }
+
+    fun syncronize() {
+        getUser()?.let { super.syncronizeFavorites(mItems, it.santos) }
     }
 
     constructor(context: Context, fragmentAbstractAdapter: FragmentAbstractAdapter<Santo, ActivityCatolicoMain>, mItems: MutableList<Santo>) : this(context, mItems) {
@@ -71,7 +74,8 @@ class AdapterSanto(context: Context, mItems: MutableList<Santo>) : AdapterAbstra
         }
     }
 
-    override fun onSucessUpdateFavorite(type: Santo) {
+    override fun onSucessUpdateFavorite(type: Santo, user: Usuario) {
+        super.onSucessUpdateFavorite(type,user)
         notifyDataSetChanged()
     }
 

@@ -13,6 +13,7 @@ import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.adapter.AdapterAbstractViewPager
 import rz.com.catolico.bean.Santo
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IFavoriteSanto
 import rz.com.catolico.interfaces.ISelectable
@@ -82,8 +83,7 @@ class FragmentSelectedSanto : FragmentAbstract<ActivityCatolicoMain>(), Serializ
         getUser()?.let { onUpdateFavorite(santo, it) }
     }
 
-
-    override fun onSucessUpdateFavorite(type: Santo) {
+    override fun onSucessUpdateFavorite(type: Santo, user: Usuario) {
         getParentActivity().isFavorite(type.favorite)
     }
 

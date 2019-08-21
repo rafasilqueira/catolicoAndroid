@@ -8,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_selected_santo.*
 import rz.com.catolico.R
 import rz.com.catolico.adapter.AdapterAbstractViewPager
 import rz.com.catolico.bean.Santo
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.fragments.FragmentSantoHistory
 import rz.com.catolico.fragments.FragmentSantoRelated
@@ -30,12 +31,12 @@ class ActivitySelectedSanto : ActivitySelectable(), IFavoriteSanto {
         santo = getIntentObject("santo") as Santo?
                 ?: throw CatolicoException("param santo is invalid")
 
-        
+
         setupToolbar(SantoUtils.formatterComemoracao.format(santo.comemoracao))
         setupViewPager(santo)
         if (santo.imgurl != "") Picasso.with(this).load(santo.imgurl).into(imgSanto)
         return
-        
+
     }
 
 
@@ -58,9 +59,9 @@ class ActivitySelectedSanto : ActivitySelectable(), IFavoriteSanto {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onSucessUpdateFavorite(type: Santo) {
+    override fun onSucessUpdateFavorite(type: Santo, user: Usuario) {
+        super.onSucessUpdateFavorite(type,user)
         isFavorite(santo.favorite)
     }
-
 
 }

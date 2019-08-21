@@ -8,6 +8,7 @@ import android.widget.TextView
 import rz.com.catolico.R
 import rz.com.catolico.activiy.ActivityCatolicoMain
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.interfaces.IFavoriteOracao
 import rz.com.catolico.interfaces.ISelectable
 
@@ -52,7 +53,8 @@ class FragmentSelectedOracao : FragmentAbstract<ActivityCatolicoMain>(), IFavori
         getUser()?.let { onUpdateFavorite(oracao, it) }
     }
 
-    override fun onSucessUpdateFavorite(type: Oracao) {
+    override fun onSucessUpdateFavorite(type: Oracao, user: Usuario) {
+        super.onSucessUpdateFavorite(type, user)
         getParentActivity().isFavorite(type.favorite)
     }
 

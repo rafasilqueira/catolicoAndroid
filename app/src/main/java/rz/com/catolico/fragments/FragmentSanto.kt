@@ -17,17 +17,16 @@ import rz.com.catolico.adapter.AdapterSanto
 import rz.com.catolico.bean.Santo
 import rz.com.catolico.callBack.CallBackDialog
 import rz.com.catolico.callBack.CallBackFragment
+import rz.com.catolico.enumeration.FeatureCode.FRAGMENT_SANTO
 import rz.com.catolico.interfaces.IAdapter.Companion.VERTICAL
-import rz.com.catolico.interfaces.IUpdatableFragment
 import rz.com.catolico.retrofit.RetrofitConfig
 import rz.com.catolico.utils.ToastMisc
 import java.util.*
 import kotlin.collections.ArrayList
 
-class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IUpdatableFragment {
+class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>() {
 
-    private var adapterSanto: AdapterSanto? = null
-
+    private lateinit var adapterSanto: AdapterSanto
     private var dialogDatePicker: Dialog? = null
 
     companion object {
@@ -36,8 +35,11 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
         }
     }
 
-    override fun update() {
-        adapterSanto?.notifyDataSetChanged()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        adapterSanto.syncronize()
+        adapterSanto.notifyDataSetChanged()
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -164,9 +166,7 @@ class FragmentSanto : FragmentAbstractAdapter<Santo, ActivityCatolicoMain>(), IU
     }
 
     override fun onItemClick(type: Santo) {
-        startActivity(
-                Intent(getParentActivity(), ActivitySelectedSanto::class.java)
-                        .putExtra("santo", type))
+        startActivityForResult(Intent(getParentActivity(), ActivitySelectedSanto::class.java).putExtra("santo", type), FRAGMENT_SANTO.code)
     }
 
 }

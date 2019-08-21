@@ -14,7 +14,11 @@ interface IFavoriteOracao : IFavorite<Oracao> {
 
     override fun onErrorUpdateFavorite(type: Oracao, user: Usuario) {
         if (type.favorite) user.addOracao(type) else user.removeOracao(type)
-        Hawk.put(USER_KEY,user)
+    }
+
+    override fun onSucessUpdateFavorite(type: Oracao, user: Usuario) {
+        if (type.favorite) user.addOracao(type) else user.removeOracao(type)
+        Hawk.put(USER_KEY, user)
     }
 
 }

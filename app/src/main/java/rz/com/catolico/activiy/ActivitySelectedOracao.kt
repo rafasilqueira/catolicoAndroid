@@ -2,13 +2,12 @@ package rz.com.catolico.activiy
 
 import android.os.Bundle
 import android.view.Menu
-import com.orhanobut.hawk.Hawk
 import kotlinx.android.synthetic.main.activity_selected_oracao.*
 import rz.com.catolico.R
 import rz.com.catolico.bean.Oracao
+import rz.com.catolico.bean.Usuario
 import rz.com.catolico.exception.CatolicoException
 import rz.com.catolico.interfaces.IFavoriteOracao
-import rz.com.catolico.utils.Constantes
 
 class ActivitySelectedOracao : ActivitySelectable(), IFavoriteOracao {
 
@@ -39,11 +38,9 @@ class ActivitySelectedOracao : ActivitySelectable(), IFavoriteOracao {
         getUser()?.let { onUpdateFavorite(oracao, it) }
     }
 
-    override fun onSucessUpdateFavorite(type: Oracao) {
-        getUser()?.let {
-            Hawk.put(Constantes.USER_KEY, it)
-        }
-
+    override fun onSucessUpdateFavorite(type: Oracao, user: Usuario) {
+        super.onSucessUpdateFavorite(type, user)
         isFavorite(type.favorite)
     }
+
 }

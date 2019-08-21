@@ -33,6 +33,7 @@ class FragmentOracao : FragmentAbstractAdapter<Oracao, ActivityCatolicoMain>(), 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         recyclerView.adapter?.notifyDataSetChanged()
+        selectedAdapter?.syncronize()
         selectedAdapter?.notifyDataSetChanged()
     }
 
